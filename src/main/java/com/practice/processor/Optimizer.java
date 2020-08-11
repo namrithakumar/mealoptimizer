@@ -1,10 +1,7 @@
 package com.practice.processor;
 
-import com.practice.TheDietProblem;
 import com.practice.domain.Meal;
 import com.practice.domain.Order;
-import org.ojalgo.OjAlgoUtils;
-import org.ojalgo.netio.BasicLogger;
 import org.ojalgo.optimisation.Expression;
 import org.ojalgo.optimisation.ExpressionsBasedModel;
 import org.ojalgo.optimisation.Optimisation;
@@ -29,12 +26,6 @@ public abstract class Optimizer {
         List<String> nutrientNames = new ArrayList<String>();
         nutrientNames.addAll(order.getMealList().get(0).getItem().getNutritionProfile().keySet());
         int i = 0,j = 0,k = 0,l = 0;
-
-/*        BasicLogger.debug();
-        BasicLogger.debug(TheDietProblem.class);
-        BasicLogger.debug(OjAlgoUtils.getTitle());
-        BasicLogger.debug(OjAlgoUtils.getDate());
-        BasicLogger.debug();*/
 
         // Create a new model.
         ExpressionsBasedModel model = new ExpressionsBasedModel();
@@ -67,23 +58,8 @@ public abstract class Optimizer {
             }
         }
 
-        // Solve again
+        // Solve
         Optimisation.Result result = model.minimise();
-
-        // Print the result, and the model
-/*        BasicLogger.debug();
-        BasicLogger.debug(result);
-        BasicLogger.debug("****************");
-        BasicLogger.debug("state ::: " + result.getState());
-        BasicLogger.debug("****************");
-        BasicLogger.debug("value :::" + result.getValue());
-        BasicLogger.debug("****************");
-        int size = result.getSolution(new NumberContext()).size();
-        for (l = 0; l < size; l++) {
-            BasicLogger.debug("solution::: " + result.getSolution(new NumberContext()).doubleValue(l));
-        }
-        BasicLogger.debug("****************");
-        BasicLogger.debug(model);*/
 
         int size = result.getSolution(new NumberContext()).size();
 
