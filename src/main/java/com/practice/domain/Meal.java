@@ -5,7 +5,7 @@ import java.util.Map;
 public class Meal {
     private long mealId;
     private Item item;
-    private int portion;
+    private double portion;
     private int smallCount;
     private int mediumCount;
     private int fullCount;
@@ -14,7 +14,7 @@ public class Meal {
 
     public Meal() {}
 
-    public Meal(long mealId, Item item, int portion, int smallCount, int mediumCount, int fullCount, int mealCost, Map<String, Float> mealNutrition) {
+    public Meal(long mealId, Item item, double portion, int smallCount, int mediumCount, int fullCount, int mealCost, Map<String, Float> mealNutrition) {
         this.mealId = mealId;
         this.item = item;
         this.portion = portion;
@@ -41,11 +41,11 @@ public class Meal {
         this.item = item;
     }
 
-    public int getPortion() {
+    public double getPortion() {
         return portion;
     }
 
-    public void setPortion(int portion) {
+    public void setPortion(double portion) {
         this.portion = portion;
     }
 

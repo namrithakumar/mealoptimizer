@@ -1,21 +1,19 @@
 package com.practice.domain;
 
-import com.practice.domain.Meal;
-
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 public class Order {
     private long orderId;
     private List<Meal> mealList;
-    private Date dateOfDelivery;
+    private LocalDate dateOfDelivery;
     private Map<String,Integer> nutrientMinLimits;
     private Map<String,Integer> nutrientMaxLimits;
 
     public Order() {}
 
-    public Order(long orderId, List<Meal> mealList, Date dateOfDelivery, Map<String,Integer> nutrientMinLimits, Map<String,Integer> nutrientMaxLimits) {
+    public Order(long orderId, List<Meal> mealList, LocalDate dateOfDelivery, Map<String,Integer> nutrientMinLimits, Map<String,Integer> nutrientMaxLimits) {
         this.orderId = orderId;
         this.mealList = mealList;
         this.dateOfDelivery = dateOfDelivery;
@@ -39,11 +37,11 @@ public class Order {
         this.mealList = mealList;
     }
 
-    public Date getDateOfDelivery() {
+    public LocalDate getDateOfDelivery() {
         return dateOfDelivery;
     }
 
-    public void setDateOfDelivery(Date dateOfDelivery) {
+    public void setDateOfDelivery(LocalDate dateOfDelivery) {
         this.dateOfDelivery = dateOfDelivery;
     }
 
