@@ -1,17 +1,18 @@
-package com.practice.processor;
+package com.practice.mealoptimizer.processor;
 
-import com.practice.domain.Meal;
-import com.practice.domain.Order;
+import com.practice.mealoptimizer.domain.Meal;
+import com.practice.mealoptimizer.domain.Order;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class CostOptimizer extends Optimizer {
+public class RewardOptimizer extends Optimizer {
     @Override
     public Map<String, Double> constructWeightMap(Order order) {
         Map<String, Double> weightMap = new HashMap<>();
 
         for(Meal meal: order.getMealList()) {
-            weightMap.put(meal.getItem().getItemName(), meal.getItem().getItemCost());
+            weightMap.put(meal.getItem().getItemName(), Double.valueOf(meal.getItem().getReward()));
         }
         return weightMap;
     }

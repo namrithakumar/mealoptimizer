@@ -1,4 +1,4 @@
-package com.practice.domain;
+package com.practice.mealoptimizer.domain;
 
 import java.util.Map;
 

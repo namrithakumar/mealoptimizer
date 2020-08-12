@@ -1,19 +1,37 @@
-package com.practice.setup;
+package com.practice.mealoptimizer.processor;
 
-import com.practice.domain.Item;
-import com.practice.domain.Meal;
-import com.practice.domain.Order;
+import com.practice.mealoptimizer.domain.Item;
+import com.practice.mealoptimizer.domain.Meal;
+import com.practice.mealoptimizer.domain.Order;
+import com.practice.mealoptimizer.processor.OptimizationType;
+import com.practice.mealoptimizer.processor.Optimizer;
+import com.practice.mealoptimizer.processor.OptimizerFactory;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+import org.ojalgo.optimisation.Optimisation;
 
-import java.util.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-//This class must be deleted once Spring is introduced.
-public class TestDataSetup {
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-    public static Order getDataSetup() {
+public class OptimizerTest {
+
+    Order order = null;
+
+    /*
+     * TODO: Replace Item object creation with reading object information from DB table once DB is introduced.
+     */
+    @BeforeEach
+    public void setup() {
         List categoryList = new ArrayList<Item.Category>();
         categoryList.add(Item.Category.ALL);
         List<Meal> mealList = new ArrayList<Meal>();
-        Order order = new Order();
+        order = new Order();
         Map<String, Integer> nutrientMinLimits = new HashMap<String, Integer>();
         nutrientMinLimits.put("Vit-A", 5000);
         nutrientMinLimits.put("Calories", 2000);
@@ -71,9 +89,22 @@ public class TestDataSetup {
         mealList.add(meal3);
 
         order.setMealList(mealList);
-//        order.setDateOfDelivery(new Date("2021-01-20"));
+        order.setDateOfDelivery(LocalDate.now().plusDays(7));
         order.setNutrientMaxLimits(nutrientMaxLimits);
         order.setNutrientMinLimits(nutrientMinLimits);
-        return order;
+    }
+
+    @Tag("DEV")
+    @Test
+    public void testOptimize() {
+        Map<String, Object> optimizedMealPlanMap = new HashMap<>();
+        optimizedMealPlanMap.put("STATE", Optimisation.State.OPTIMAL);
+        optimizedMealPlanMap.put("VALUE", 3.16);
+        optimizedMealPlanMap.put("bread", 10.0);
+        optimizedMealPlanMap.put("corn", 2.0);
+        optimizedMealPlanMap.put("milk", 10.0);
+        OptimizerFactory optimizerFactory = new OptimizerFactory();
+        Optimizer mealOptimizer = optimizerFactory.getOptimizerByType(OptimizationType.COST);
+        assertTrue(optimizedMealPlanMap.equals(mealOptimizer.optimizeByOptimizationType(order)));
     }
 }

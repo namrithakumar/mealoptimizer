@@ -1,12 +1,13 @@
-package com.practice;
+package com.practice.mealoptimizer;
 
-import com.practice.processor.OptimizationType;
-import com.practice.processor.Optimizer;
-import com.practice.processor.OptimizerFactory;
-import com.practice.setup.TestDataSetup;
+import com.practice.mealoptimizer.processor.OptimizationType;
+import com.practice.mealoptimizer.processor.Optimizer;
+import com.practice.mealoptimizer.processor.OptimizerFactory;
+import com.practice.mealoptimizer.setup.TestDataSetup;
 
-import java.util.Map;
-
+/*
+ *To be deleted, for reference only
+ */
 public class TheDietProblem {
 
     public static void main(final String[] args) {
