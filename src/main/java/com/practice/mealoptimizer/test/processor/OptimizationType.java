@@ -1,4 +1,4 @@
-package com.practice.mealoptimizer.processor;
+package com.practice.mealoptimizer.test.processor;
 
 public enum OptimizationType {
     COST, REWARD

@@ -1,4 +1,4 @@
-package com.practice.mealoptimizer.domain;
+package com.practice.mealoptimizer.test.domain;
 
 import java.time.LocalDate;
 import java.util.List;
