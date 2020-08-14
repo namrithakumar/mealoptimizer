@@ -1,9 +1,9 @@
-package com.practice.mealoptimizer.test;
+package com.practice.mealoptimizer;
 
-import com.practice.mealoptimizer.test.processor.OptimizationType;
-import com.practice.mealoptimizer.test.processor.Optimizer;
-import com.practice.mealoptimizer.test.processor.OptimizerFactory;
-import com.practice.mealoptimizer.test.setup.TestDataSetup;
+import com.practice.mealoptimizer.processor.OptimizationType;
+import com.practice.mealoptimizer.processor.Optimizer;
+import com.practice.mealoptimizer.processor.OptimizerFactory;
+import com.practice.mealoptimizer.setup.TestDataSetup;
 
 /*
  *To be deleted, for reference only

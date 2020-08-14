@@ -1,7 +1,7 @@
-package com.practice.mealoptimizer.test.processor;
+package com.practice.mealoptimizer.processor;
 
-import com.practice.mealoptimizer.test.domain.Meal;
-import com.practice.mealoptimizer.test.domain.Order;
+import com.practice.mealoptimizer.domain.Meal;
+import com.practice.mealoptimizer.domain.Order;
 import org.ojalgo.optimisation.Expression;
 import org.ojalgo.optimisation.ExpressionsBasedModel;
 import org.ojalgo.optimisation.Optimisation;
@@ -34,7 +34,7 @@ public abstract class Optimizer {
         for( Meal meal : order.getMealList() ) {
             meal.getItem().getMaxSafeConsumption();
             //variables[i] = model.addVariable(meal.getItem().getItemName()).lower(0).upper(meal.getItem().getMaxSafeConsumption()).weight(meal.getItem().getItemCost());
-            variables[i] = model.addVariable(meal.getItem().getItemName()).lower(0).upper(meal.getItem().getMaxSafeConsumption()).weight(weightMap.get(meal.getItem().getItemName()));
+            variables[i] = model.addVariable(meal.getItem().getItemName()).lower(1).upper(meal.getItem().getMaxSafeConsumption()).weight(weightMap.get(meal.getItem().getItemName()));
             variables[i].integer(true);
             i++;
         }
@@ -47,7 +47,7 @@ public abstract class Optimizer {
 
             // nutrient amount a serving of each of the foods contain.
             for(k=0;k< variables.length;k++) {
-                Map<String, Integer> itemNutrientsMap = null;
+                Map<String, Double> itemNutrientsMap = null;
                 for(Meal meal:order.getMealList()) {
                     if(meal.getItem().getItemName().equalsIgnoreCase(variables[k].getName())) {
                         itemNutrientsMap = meal.getItem().getNutritionProfile();
@@ -63,7 +63,7 @@ public abstract class Optimizer {
 
         int size = result.getSolution(new NumberContext()).size();
 
-        optimizedMealPlanMap.put("STATE", result.getState());
+        optimizedMealPlanMap.put("STATE", result.getState().toString());
         optimizedMealPlanMap.put("VALUE", result.getValue());
         for(l=0; l<size; l++) {
             optimizedMealPlanMap.put(variables[l].getName(), result.getSolution(new NumberContext()).doubleValue(l));

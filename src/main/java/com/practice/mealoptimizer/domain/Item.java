@@ -1,4 +1,4 @@
-package com.practice.mealoptimizer.test.domain;
+package com.practice.mealoptimizer.domain;
 
 import java.util.List;
 import java.util.Map;
@@ -7,7 +7,7 @@ public class Item {
 
     private Long itemId;
     private String itemName;
-    private Map<String, Integer> nutritionProfile;
+    private Map<String, Double> nutritionProfile;
     private double itemCost;
     private int reward;
     private int maxSafeConsumption;
@@ -17,7 +17,7 @@ public class Item {
      VEGAN, GLUTENFREE, DAIRYFREE, VEGETARIAN, FATFREE, ALL
     }
 
-    public Item(Long itemId, String itemName, Map<String, Integer> nutritionProfile, int itemCost, int reward, int maxSafeConsumption, List<Category> itemCategories) {
+    public Item(Long itemId, String itemName, double itemCost,  List<Category> itemCategories, int reward, Map<String, Double> nutritionProfile, int maxSafeConsumption) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.nutritionProfile = nutritionProfile;
@@ -45,11 +45,11 @@ public class Item {
         this.itemName = itemName;
     }
 
-    public Map<String, Integer> getNutritionProfile() {
+    public Map<String, Double> getNutritionProfile() {
         return nutritionProfile;
     }
 
-    public void setNutritionProfile(Map<String, Integer> nutritionProfile) {
+    public void setNutritionProfile(Map<String, Double> nutritionProfile) {
         this.nutritionProfile = nutritionProfile;
     }
 

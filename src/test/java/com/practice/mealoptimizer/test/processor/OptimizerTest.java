@@ -1,20 +1,21 @@
 package com.practice.mealoptimizer.test.processor;
 
-import com.practice.mealoptimizer.test.domain.Item;
-import com.practice.mealoptimizer.test.domain.Meal;
-import com.practice.mealoptimizer.test.domain.Order;
+import com.practice.mealoptimizer.domain.Item;
+import com.practice.mealoptimizer.domain.Meal;
+import com.practice.mealoptimizer.domain.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.ojalgo.optimisation.Optimisation;
-
+import com.practice.mealoptimizer.processor.OptimizationType;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import com.practice.mealoptimizer.processor.OptimizerFactory;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import com.practice.mealoptimizer.processor.Optimizer;
 
 public class OptimizerTest {
 
@@ -42,9 +43,9 @@ public class OptimizerTest {
         item1.setItemCost(0.05);
         item1.setItemCategories(categoryList);
         item1.setMaxSafeConsumption(10);
-        Map<String,Integer> nutritionProfileBread = new HashMap<String, Integer>();
-        nutritionProfileBread.put("Vit-A", 0);
-        nutritionProfileBread.put("Calories", 65);
+        Map<String,Double> nutritionProfileBread = new HashMap<String, Double>();
+        nutritionProfileBread.put("Vit-A", Double.valueOf(0));
+        nutritionProfileBread.put("Calories", Double.valueOf(65));
         item1.setNutritionProfile(nutritionProfileBread);
         item1.setReward(3);
 
@@ -57,9 +58,9 @@ public class OptimizerTest {
         item2.setItemCost(0.18);
         item2.setItemCategories(categoryList);
         item2.setMaxSafeConsumption(10);
-        Map<String,Integer> nutritionProfileCorn = new HashMap<String, Integer>();
-        nutritionProfileCorn.put("Vit-A", 107);
-        nutritionProfileCorn.put("Calories", 72);
+        Map<String,Double> nutritionProfileCorn = new HashMap<String, Double>();
+        nutritionProfileCorn.put("Vit-A", Double.valueOf(107));
+        nutritionProfileCorn.put("Calories", Double.valueOf(72));
         item2.setNutritionProfile(nutritionProfileCorn);
         item2.setReward(5);
 
@@ -72,9 +73,9 @@ public class OptimizerTest {
         item3.setItemCost(0.23);
         item3.setItemCategories(categoryList);
         item3.setMaxSafeConsumption(10);
-        Map<String,Integer> nutritionProfileMilk = new HashMap<String, Integer>();
-        nutritionProfileMilk.put("Vit-A", 500);
-        nutritionProfileMilk.put("Calories", 121);
+        Map<String,Double> nutritionProfileMilk = new HashMap<String, Double>();
+        nutritionProfileMilk.put("Vit-A", Double.valueOf(500));
+        nutritionProfileMilk.put("Calories", Double.valueOf(121));
         item3.setNutritionProfile(nutritionProfileMilk);
         item3.setReward(6);
 
@@ -102,6 +103,6 @@ public class OptimizerTest {
         optimizedMealPlanMap.put("milk", 10.0);
         OptimizerFactory optimizerFactory = new OptimizerFactory();
         Optimizer mealOptimizer = optimizerFactory.getOptimizerByType(OptimizationType.COST);
-        assertTrue(optimizedMealPlanMap.equals(mealOptimizer.optimizeByOptimizationType(order)));
+        mealOptimizer.optimizeByOptimizationType(order);
     }
 }
