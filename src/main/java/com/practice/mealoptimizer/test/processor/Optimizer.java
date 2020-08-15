@@ -47,7 +47,7 @@ public abstract class Optimizer {
 
             // nutrient amount a serving of each of the foods contain.
             for(k=0;k< variables.length;k++) {
-                Map<String, Integer> itemNutrientsMap = null;
+                Map<String, Double> itemNutrientsMap = null;
                 for(Meal meal:order.getMealList()) {
                     if(meal.getItem().getItemName().equalsIgnoreCase(variables[k].getName())) {
                         itemNutrientsMap = meal.getItem().getNutritionProfile();

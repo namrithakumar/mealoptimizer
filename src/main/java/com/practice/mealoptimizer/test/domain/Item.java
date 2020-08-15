@@ -16,7 +16,10 @@ public class Item {
     private String itemName;
 
     @NotNull
-    private Map<String, Integer> nutritionProfile;
+    @ElementCollection
+    @CollectionTable(name="item_nutrition_profile", joinColumns = @JoinColumn(name="itemId"))
+    @Column(name="")
+    private Map<String, Double> nutritionProfile;
 
     @Min(value=1, message="Cost must be atleast 1")
     private double itemCost;
@@ -35,7 +38,7 @@ public class Item {
     @Size(min=1, message="Item must belong to atleast 1 category")
     private List<Category> itemCategories;
 
-    public Item(Long itemId, String itemName, Map<String, Integer> nutritionProfile, int itemCost, int reward, int maxSafeConsumption, List<Category> itemCategories) {
+    public Item(Long itemId, String itemName, Map<String, Double> nutritionProfile, int itemCost, int reward, int maxSafeConsumption, List<Category> itemCategories) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.nutritionProfile = nutritionProfile;
@@ -63,11 +66,11 @@ public class Item {
         this.itemName = itemName;
     }
 
-    public Map<String, Integer> getNutritionProfile() {
+    public Map<String, Double> getNutritionProfile() {
         return nutritionProfile;
     }
 
-    public void setNutritionProfile(Map<String, Integer> nutritionProfile) {
+    public void setNutritionProfile(Map<String, Double> nutritionProfile) {
         this.nutritionProfile = nutritionProfile;
     }
 

@@ -28,9 +28,9 @@ public class TestDataSetup {
         item1.setItemCost(0.05);
         item1.setItemCategories(categoryList);
         item1.setMaxSafeConsumption(10);
-        Map<String,Integer> nutritionProfileBread = new HashMap<String, Integer>();
-        nutritionProfileBread.put("Vit-A", 0);
-        nutritionProfileBread.put("Calories", 65);
+        Map<String,Double> nutritionProfileBread = new HashMap<>();
+        nutritionProfileBread.put("Vit-A", Double.valueOf(0));
+        nutritionProfileBread.put("Calories", Double.valueOf(65));
         item1.setNutritionProfile(nutritionProfileBread);
         item1.setReward(3);
 
@@ -43,9 +43,9 @@ public class TestDataSetup {
         item2.setItemCost(0.18);
         item2.setItemCategories(categoryList);
         item2.setMaxSafeConsumption(10);
-        Map<String,Integer> nutritionProfileCorn = new HashMap<String, Integer>();
-        nutritionProfileCorn.put("Vit-A", 107);
-        nutritionProfileCorn.put("Calories", 72);
+        Map<String,Double> nutritionProfileCorn = new HashMap<>();
+        nutritionProfileCorn.put("Vit-A", Double.valueOf(107));
+        nutritionProfileCorn.put("Calories", Double.valueOf(72));
         item2.setNutritionProfile(nutritionProfileCorn);
         item2.setReward(5);
 
@@ -58,9 +58,9 @@ public class TestDataSetup {
         item3.setItemCost(0.23);
         item3.setItemCategories(categoryList);
         item3.setMaxSafeConsumption(10);
-        Map<String,Integer> nutritionProfileMilk = new HashMap<String, Integer>();
-        nutritionProfileMilk.put("Vit-A", 500);
-        nutritionProfileMilk.put("Calories", 121);
+        Map<String,Double> nutritionProfileMilk = new HashMap<>();
+        nutritionProfileMilk.put("Vit-A", Double.valueOf(500));
+        nutritionProfileMilk.put("Calories", Double.valueOf(121));
         item3.setNutritionProfile(nutritionProfileMilk);
         item3.setReward(6);
 
