@@ -1,0 +1,23 @@
+reward: Pizza : 1.0 , Lemon pudding : 1.0 , Green Salad : 2.0 , Egg Roll : 5.0 , STATE : OPTIMAL , VALUE : 132.0 ,
+cost: Pizza : 2.0 , Lemon pudding : 1.0 , Green Salad : 1.0 , Egg Roll : 3.0 , STATE : OPTIMAL , VALUE : 31.2 ,
+
+reward: Chicken Sandwich : 1.0 , Green Salad : 2.0 , Icecream : 1.0 , STATE : OPTIMAL , VALUE : 58.0 , Strawberry Milkshake : 1.0 ,
+cost: Chicken Sandwich : 1.0 , Green Salad : 1.0 , Icecream : 2.0 , STATE : OPTIMAL , VALUE : 26.58 , Strawberry Milkshake : 1.0 ,
+
+reward: Chicken Sandwich : 1.0 , Cheesecake : 1.0 , Green Salad : 2.0 , STATE : OPTIMAL , VALUE : 60.0 , Strawberry Milkshake : 1.0 ,
+cost: Chicken Sandwich : 1.0 , Cheesecake : 2.0 , Green Salad : 1.0 , STATE : OPTIMAL , VALUE : 26.18 , Strawberry Milkshake : 1.0 ,
+
+reward: Chicken Sandwich : 1.0 , Green Salad : 2.0 , Honey garlic salmon : 2.0 , STATE : OPTIMAL , VALUE : 93.0 , Strawberry Milkshake : 1.0 ,
+cost: Chicken Sandwich : 1.0 , Green Salad : 1.0 , Honey garlic salmon : 1.0 , STATE : OPTIMAL , VALUE : 35.87 , Strawberry Milkshake : 2.0 ,
+
+reward: Pizza : 1.0 , Green Salad : 2.0 , STATE : OPTIMAL , Pasta : 2.0 , VALUE : 66.0 , Strawberry Milkshake : 1.0 ,
+cost: Pizza : 1.0 , Green Salad : 1.0 , STATE : OPTIMAL , Pasta : 1.0 , VALUE : 31.21 , Strawberry Milkshake : 2.0 ,
+
+reward: Green Salad : 3.0 , Icecream : 1.0 , STATE : OPTIMAL , VALUE : 72.0 , Strawberry Milkshake : 1.0 , Garlic bread : 1.0 ,
+cost: Green Salad : 1.0 , Icecream : 1.0 , STATE : OPTIMAL , VALUE : 26.33 , Strawberry Milkshake : 2.0 , Garlic bread : 1.0 ,
+
+reward: Yogurt plain : 4.0 , Green Salad : 2.0 , STATE : OPTIMAL , Parfait : 1.0 , VALUE : 113.0 , Strawberry Milkshake : 1.0 ,
+cost: Yogurt plain : 1.0 , Green Salad : 1.0 , STATE : OPTIMAL , Parfait : 1.0 , VALUE : 22.88 , Strawberry Milkshake : 2.0 ,
+
+reward: Green Salad : 2.0 , STATE : OPTIMAL , Parfait : 2.0 , Kefir blueberry : 1.0 , VALUE : 76.0 , Strawberry Milkshake : 1.0 ,
+cost: Green Salad : 1.0 , STATE : OPTIMAL , Parfait : 1.0 , Kefir blueberry : 1.0 , VALUE : 25.82 , Strawberry Milkshake : 2.0 ,
