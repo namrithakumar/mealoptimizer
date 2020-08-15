@@ -17,8 +17,9 @@ public class Item {
 
     @NotNull
     @ElementCollection
-    @CollectionTable(name="item_nutrition_profile", joinColumns = @JoinColumn(name="itemId"))
-    @Column(name="")
+    @CollectionTable(name="item_nutrition_profile", joinColumns = {@JoinColumn(name="item_id", referencedColumnName = "itemId")})
+    @MapKeyJoinColumn(name="nutrient_name")
+    @Column(name="nutrient_content")
     private Map<String, Double> nutritionProfile;
 
     @Min(value=1, message="Cost must be atleast 1")
