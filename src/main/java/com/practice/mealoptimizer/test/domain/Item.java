@@ -39,7 +39,7 @@ public class Item {
     @Size(min=1, message="Item must belong to atleast 1 category")
     private List<Category> itemCategories;
 
-    public Item(Long itemId, String itemName, Map<String, Double> nutritionProfile, int itemCost, int reward, int maxSafeConsumption, List<Category> itemCategories) {
+    public Item(Long itemId, String itemName, double itemCost,  List<Category> itemCategories, int reward, Map<String, Double> nutritionProfile, int maxSafeConsumption) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.nutritionProfile = nutritionProfile;
