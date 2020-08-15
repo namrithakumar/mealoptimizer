@@ -1,5 +1,6 @@
 package com.practice.mealoptimizer.test.setup;
 
+import com.practice.mealoptimizer.test.domain.Category;
 import com.practice.mealoptimizer.test.domain.Item;
 import com.practice.mealoptimizer.test.domain.Meal;
 import com.practice.mealoptimizer.test.domain.Order;
@@ -10,8 +11,8 @@ import java.util.*;
 public class TestDataSetup {
 
     public static Order getDataSetup() {
-        List categoryList = new ArrayList<Item.Category>();
-        categoryList.add(Item.Category.ALL);
+        List categoryList = new ArrayList<Category>();
+        categoryList.add(Category.ALL);
         List<Meal> mealList = new ArrayList<Meal>();
         Order order = new Order();
         Map<String, Integer> nutrientMinLimits = new HashMap<String, Integer>();

@@ -1,21 +1,39 @@
 package com.practice.mealoptimizer.test.domain;
 
+import javax.persistence.*;
+import javax.validation.constraints.*;
+
 import java.util.List;
 import java.util.Map;
 
+@Entity
 public class Item {
 
+    @Id
     private Long itemId;
-    private String itemName;
-    private Map<String, Integer> nutritionProfile;
-    private double itemCost;
-    private int reward;
-    private int maxSafeConsumption;
-    private List<Category> itemCategories;
 
-    public static enum Category {
-     VEGAN, GLUTENFREE, DAIRYFREE, VEGETARIAN, FATFREE, ALL
-    }
+    @NotBlank
+    private String itemName;
+
+    @NotNull
+    private Map<String, Integer> nutritionProfile;
+
+    @Min(value=1, message="Cost must be atleast 1")
+    private double itemCost;
+
+    @Min(value=1, message="Reward must be atleast 1")
+    @Max(value=19, message="Reward must not exceed 19")
+    private int reward;
+
+    @Min(value=1, message="Max safe consumption should be atleast 1")
+    private int maxSafeConsumption;
+
+    @ElementCollection(targetClass = Category.class)
+    @CollectionTable(name ="item_category", joinColumns = @JoinColumn(name = "item_id"))
+    @Enumerated(EnumType.STRING)
+    @Column(name="category_name")
+    @Size(min=1, message="Item must belong to atleast 1 category")
+    private List<Category> itemCategories;
 
     public Item(Long itemId, String itemName, Map<String, Integer> nutritionProfile, int itemCost, int reward, int maxSafeConsumption, List<Category> itemCategories) {
         this.itemId = itemId;
