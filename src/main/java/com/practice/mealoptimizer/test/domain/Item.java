@@ -16,7 +16,7 @@ public class Item {
     private String itemName;
 
     @NotNull
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="item_nutrition_profile", joinColumns = {@JoinColumn(name="item_id", referencedColumnName = "itemId")})
     @MapKeyJoinColumn(name="nutrient_name")
     @Column(name="nutrient_content")
@@ -32,7 +32,7 @@ public class Item {
     @Min(value=1, message="Max safe consumption should be atleast 1")
     private int maxSafeConsumption;
 
-    @ElementCollection(targetClass = Category.class)
+    @ElementCollection(targetClass = Category.class, fetch=FetchType.EAGER)
     @CollectionTable(name ="item_category", joinColumns = @JoinColumn(name = "item_id"))
     @Enumerated(EnumType.STRING)
     @Column(name="category_name")

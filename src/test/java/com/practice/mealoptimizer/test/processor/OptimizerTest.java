@@ -1,13 +1,23 @@
 package com.practice.mealoptimizer.test.processor;
 
+import com.practice.mealoptimizer.test.data.ItemRepository;
 import com.practice.mealoptimizer.test.domain.Category;
-import com.practice.mealoptimizer.test.domain.Item;
 import com.practice.mealoptimizer.test.domain.Meal;
 import com.practice.mealoptimizer.test.domain.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.ojalgo.optimisation.Optimisation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.SqlGroup;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,14 +25,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+@SpringBootTest
 public class OptimizerTest {
+
+    @Autowired
+    private ItemRepository itemRepository;
 
     Order order = null;
 
+    String ITEM_NAME_1 = "Green Salad";
+    String ITEM_NAME_2 = "Icecream";
+    String ITEM_NAME_3 = "Strawberry Milkshake";
+    String ITEM_NAME_4 = "Garlic bread";
+
     /*
-     * TODO: Replace Item object creation with reading object information from DB table once DB is introduced.
+     * TODO: Get nutrient max, min info from User table, replace hardcoded string with values read from a file.
      */
     @BeforeEach
     public void setup() {
@@ -30,61 +50,41 @@ public class OptimizerTest {
         categoryList.add(Category.ALL);
         List<Meal> mealList = new ArrayList<Meal>();
         order = new Order();
-        Map<String, Integer> nutrientMinLimits = new HashMap<String, Integer>();
-        nutrientMinLimits.put("Vit-A", 5000);
-        nutrientMinLimits.put("Calories", 2000);
-        Map<String, Integer> nutrientMaxLimits = new HashMap<String, Integer>();
-        nutrientMaxLimits.put("Vit-A", 50000);
-        nutrientMaxLimits.put("Calories", 2250);
 
-        Item item1 = new Item();
-        item1.setItemId(1L);
-        item1.setItemName("bread");
-        item1.setItemCost(0.05);
-        item1.setItemCategories(categoryList);
-        item1.setMaxSafeConsumption(10);
-        Map<String,Double> nutritionProfileBread = new HashMap<>();
-        nutritionProfileBread.put("Vit-A", Double.valueOf(0));
-        nutritionProfileBread.put("Calories", Double.valueOf(65));
-        item1.setNutritionProfile(nutritionProfileBread);
-        item1.setReward(3);
+        //Setup min and max nutrient limits
+        Map<String, Integer> nutrientMinLimits = new HashMap<String, Integer>();
+        Map<String, Integer> nutrientMaxLimits = new HashMap<String, Integer>();
+
+        nutrientMinLimits.put("calories", 2000);
+        nutrientMinLimits.put("fat", 5);
+        nutrientMinLimits.put("sodium", 30);
+        nutrientMinLimits.put("carbs", 105);
+        nutrientMinLimits.put("protein", 20);
+        nutrientMinLimits.put("calcium", 100);
+
+        nutrientMaxLimits.put("calories", 2400);
+        nutrientMaxLimits.put("fat", 80);
+        nutrientMaxLimits.put("sodium", 5000);
+        nutrientMaxLimits.put("carbs", 500);
+        nutrientMaxLimits.put("protein", 200);
+        nutrientMaxLimits.put("calcium", 5000);
 
         Meal meal1 = new Meal();
-        meal1.setItem(item1);
-
-        Item item2 = new Item();
-        item2.setItemId(2L);
-        item2.setItemName("corn");
-        item2.setItemCost(0.18);
-        item2.setItemCategories(categoryList);
-        item2.setMaxSafeConsumption(10);
-        Map<String,Double> nutritionProfileCorn = new HashMap<>();
-        nutritionProfileCorn.put("Vit-A", Double.valueOf(107));
-        nutritionProfileCorn.put("Calories", Double.valueOf(72));
-        item2.setNutritionProfile(nutritionProfileCorn);
-        item2.setReward(5);
+        meal1.setItem(itemRepository.findByItemName(ITEM_NAME_1));
 
         Meal meal2 = new Meal();
-        meal2.setItem(item2);
-
-        Item item3 = new Item();
-        item3.setItemId(3L);
-        item3.setItemName("milk");
-        item3.setItemCost(0.23);
-        item3.setItemCategories(categoryList);
-        item3.setMaxSafeConsumption(10);
-        Map<String,Double> nutritionProfileMilk = new HashMap<>();
-        nutritionProfileMilk.put("Vit-A", Double.valueOf(500));
-        nutritionProfileMilk.put("Calories", Double.valueOf(121));
-        item3.setNutritionProfile(nutritionProfileMilk);
-        item3.setReward(6);
+        meal2.setItem(itemRepository.findByItemName(ITEM_NAME_2));
 
         Meal meal3 = new Meal();
-        meal3.setItem(item3);
+        meal3.setItem(itemRepository.findByItemName(ITEM_NAME_3));
+
+        Meal meal4 = new Meal();
+        meal4.setItem(itemRepository.findByItemName(ITEM_NAME_4));
 
         mealList.add(meal1);
         mealList.add(meal2);
         mealList.add(meal3);
+        mealList.add(meal4);
 
         order.setMealList(mealList);
         order.setDateOfDelivery(LocalDate.now().plusDays(7));
@@ -92,17 +92,17 @@ public class OptimizerTest {
         order.setNutrientMinLimits(nutrientMinLimits);
     }
 
-    @Tag("DEV")
     @Test
     public void testOptimize() {
-        Map<String, Object> optimizedMealPlanMap = new HashMap<>();
-        optimizedMealPlanMap.put("STATE", Optimisation.State.OPTIMAL);
-        optimizedMealPlanMap.put("VALUE", 3.16);
-        optimizedMealPlanMap.put("bread", 10.0);
-        optimizedMealPlanMap.put("corn", 2.0);
-        optimizedMealPlanMap.put("milk", 10.0);
+        Map<String, Object> expectedOptimizedMealPlanMap = new HashMap<>();
+        expectedOptimizedMealPlanMap.put("STATE", Optimisation.State.OPTIMAL);
+        expectedOptimizedMealPlanMap.put("VALUE", 26.33);
+        expectedOptimizedMealPlanMap.put(ITEM_NAME_1, 1.0);
+        expectedOptimizedMealPlanMap.put(ITEM_NAME_2, 1.0);
+        expectedOptimizedMealPlanMap.put(ITEM_NAME_3, 2.0);
+        expectedOptimizedMealPlanMap.put(ITEM_NAME_4, 1.0);
         OptimizerFactory optimizerFactory = new OptimizerFactory();
         Optimizer mealOptimizer = optimizerFactory.getOptimizerByType(OptimizationType.COST);
-        assertTrue(optimizedMealPlanMap.equals(mealOptimizer.optimizeByOptimizationType(order)));
+        assertTrue(expectedOptimizedMealPlanMap.equals(mealOptimizer.optimizeByOptimizationType(order)));
     }
 }
