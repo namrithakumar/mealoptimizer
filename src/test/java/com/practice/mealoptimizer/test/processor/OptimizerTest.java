@@ -5,19 +5,11 @@ import com.practice.mealoptimizer.test.domain.Category;
 import com.practice.mealoptimizer.test.domain.Meal;
 import com.practice.mealoptimizer.test.domain.Order;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.ojalgo.optimisation.Optimisation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.DirtiesContext;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.jdbc.Sql;
-import org.springframework.test.context.jdbc.SqlGroup;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -25,10 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
+@TestPropertySource(locations="classpath:test.properties")
 public class OptimizerTest {
 
     @Autowired
@@ -46,6 +38,7 @@ public class OptimizerTest {
      */
     @BeforeEach
     public void setup() {
+
         List categoryList = new ArrayList<Category>();
         categoryList.add(Category.ALL);
         List<Meal> mealList = new ArrayList<Meal>();
