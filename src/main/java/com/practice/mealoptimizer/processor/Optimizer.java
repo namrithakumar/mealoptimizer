@@ -1,7 +1,7 @@
-package com.practice.mealoptimizer.test.processor;
+package com.practice.mealoptimizer.processor;
 
-import com.practice.mealoptimizer.test.domain.Meal;
-import com.practice.mealoptimizer.test.domain.Order;
+import com.practice.mealoptimizer.domain.Meal;
+import com.practice.mealoptimizer.domain.Order;
 import org.ojalgo.optimisation.Expression;
 import org.ojalgo.optimisation.ExpressionsBasedModel;
 import org.ojalgo.optimisation.Optimisation;

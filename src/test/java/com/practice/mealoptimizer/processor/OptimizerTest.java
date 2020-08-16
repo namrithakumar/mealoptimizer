@@ -1,9 +1,9 @@
-package com.practice.mealoptimizer.test.processor;
+package com.practice.mealoptimizer.processor;
 
-import com.practice.mealoptimizer.test.data.ItemRepository;
-import com.practice.mealoptimizer.test.domain.Category;
-import com.practice.mealoptimizer.test.domain.Meal;
-import com.practice.mealoptimizer.test.domain.Order;
+import com.practice.mealoptimizer.data.ItemRepository;
+import com.practice.mealoptimizer.domain.Category;
+import com.practice.mealoptimizer.domain.Meal;
+import com.practice.mealoptimizer.domain.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.ojalgo.optimisation.Optimisation;

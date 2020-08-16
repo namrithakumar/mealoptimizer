@@ -1,4 +1,4 @@
-package com.practice.mealoptimizer.test.processor;
+package com.practice.mealoptimizer.processor;
 
 public class OptimizerFactory {
     public Optimizer getOptimizerByType(OptimizationType optimizationType) {

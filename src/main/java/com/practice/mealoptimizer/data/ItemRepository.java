@@ -1,6 +1,6 @@
-package com.practice.mealoptimizer.test.data;
+package com.practice.mealoptimizer.data;
 
-import com.practice.mealoptimizer.test.domain.Item;
+import com.practice.mealoptimizer.domain.Item;
 import org.springframework.data.repository.CrudRepository;
 
 /*
