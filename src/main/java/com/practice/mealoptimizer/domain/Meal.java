@@ -1,28 +1,41 @@
 package com.practice.mealoptimizer.domain;
 
-import java.util.Map;
+import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
+@Entity
 public class Meal {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long mealId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "orderId")
+    private Orders order;
+
+    @OneToOne
+    @NotNull
     private Item item;
+
+    @Digits(integer=3, fraction=30, message = "portion must be a decimal value")
+    @Min(value=1, message = "portion must be atleast 1")
     private double portion;
+
+    //NOT USED FOR NOW. Will be revisited later.
+    /*
     private int smallCount;
     private int mediumCount;
-    private int fullCount;
-    private int mealCost;
-    private Map<String, Float> mealNutrition;
+    private int fullCount;*/
 
     public Meal() {}
 
-    public Meal(long mealId, Item item, double portion, int smallCount, int mediumCount, int fullCount, int mealCost, Map<String, Float> mealNutrition) {
+    public Meal(long mealId, Item item, double portion) {
         this.mealId = mealId;
         this.item = item;
         this.portion = portion;
-        this.smallCount = smallCount;
-        this.mediumCount = mediumCount;
-        this.fullCount = fullCount;
-        this.mealCost = mealCost;
-        this.mealNutrition = mealNutrition;
     }
 
     public long getMealId() {
@@ -49,43 +62,8 @@ public class Meal {
         this.portion = portion;
     }
 
-    public int getSmallCount() {
-        return smallCount;
-    }
-
-    private void setSmallCount(int smallCount) {
-        this.smallCount = smallCount;
-    }
-
-    public int getMediumCount() {
-        return mediumCount;
-    }
-
-    private void setMediumCount(int mediumCount) {
-        this.mediumCount = mediumCount;
-    }
-
-    public int getFullCount() {
-        return fullCount;
-    }
-
-    private void setFullCount(int fullCount) {
-        this.fullCount = fullCount;
-    }
-
-    public int getMealCost() {
-        return mealCost;
-    }
-
-    public void setMealCost(int mealCost) {
-        this.mealCost = mealCost;
-    }
-
-    public Map<String, Float> getMealNutrition() {
-        return mealNutrition;
-    }
-
-    public void setMealNutrition(Map<String, Float> mealNutrition) {
-        this.mealNutrition = mealNutrition;
+    @Transient
+    public double getMealCost(){
+        return this.getPortion() * this.getItem().getItemCost();
     }
 }

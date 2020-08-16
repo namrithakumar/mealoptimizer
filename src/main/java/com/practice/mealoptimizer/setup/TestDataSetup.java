@@ -3,18 +3,18 @@ package com.practice.mealoptimizer.setup;
 import com.practice.mealoptimizer.domain.Category;
 import com.practice.mealoptimizer.domain.Item;
 import com.practice.mealoptimizer.domain.Meal;
-import com.practice.mealoptimizer.domain.Order;
+import com.practice.mealoptimizer.domain.Orders;
 
 import java.util.*;
 
 //This class must be deleted once Spring is introduced.
 public class TestDataSetup {
 
-    public static Order getDataSetup() {
+    public static Orders getDataSetup() {
         List categoryList = new ArrayList<Category>();
         categoryList.add(Category.ALL);
         List<Meal> mealList = new ArrayList<Meal>();
-        Order order = new Order();
+        Orders orders = new Orders();
         Map<String, Integer> nutrientMinLimits = new HashMap<String, Integer>();
         nutrientMinLimits.put("Vit-A", 5000);
         nutrientMinLimits.put("Calories", 2000);
@@ -71,10 +71,10 @@ public class TestDataSetup {
         mealList.add(meal2);
         mealList.add(meal3);
 
-        order.setMealList(mealList);
+        orders.setMealList(mealList);
 //        order.setDateOfDelivery(new Date("2021-01-20"));
-        order.setNutrientMaxLimits(nutrientMaxLimits);
-        order.setNutrientMinLimits(nutrientMinLimits);
-        return order;
+        orders.setNutrientMaxLimits(nutrientMaxLimits);
+        orders.setNutrientMinLimits(nutrientMinLimits);
+        return orders;
     }
 }

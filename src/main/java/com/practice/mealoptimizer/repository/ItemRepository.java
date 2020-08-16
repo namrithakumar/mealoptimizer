@@ -3,6 +3,7 @@ package com.practice.mealoptimizer.repository;
 import com.practice.mealoptimizer.domain.Category;
 import com.practice.mealoptimizer.domain.Item;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * Update junit test data as well by modifying item-test-data.sql.
  */
 
+@Repository
 public interface ItemRepository extends CrudRepository<Item, Long> {
 
     //Used only by JUnit.

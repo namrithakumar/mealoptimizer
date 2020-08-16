@@ -1,9 +1,9 @@
 package com.practice.mealoptimizer.processor;
 
+import com.practice.mealoptimizer.domain.Orders;
 import com.practice.mealoptimizer.repository.ItemRepository;
 import com.practice.mealoptimizer.domain.Category;
 import com.practice.mealoptimizer.domain.Meal;
-import com.practice.mealoptimizer.domain.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.ojalgo.optimisation.Optimisation;
@@ -27,7 +27,7 @@ public class OptimizerTest {
     @Autowired
     private ItemRepository itemRepository;
 
-    Order order = null;
+    Orders orders = null;
 
     String ITEM_NAME_1 = "Green Salad";
     String ITEM_NAME_2 = "Icecream";
@@ -47,7 +47,7 @@ public class OptimizerTest {
         List categoryList = new ArrayList<Category>();
         categoryList.add(Category.ALL);
         List<Meal> mealList = new ArrayList<Meal>();
-        order = new Order();
+        orders = new Orders();
 
         //Setup min and max nutrient limits
         Map<String, Integer> nutrientMinLimits = new HashMap<String, Integer>();
@@ -84,10 +84,10 @@ public class OptimizerTest {
         mealList.add(meal3);
         mealList.add(meal4);
 
-        order.setMealList(mealList);
-        order.setDateOfDelivery(LocalDate.now().plusDays(7));
-        order.setNutrientMaxLimits(nutrientMaxLimits);
-        order.setNutrientMinLimits(nutrientMinLimits);
+        orders.setMealList(mealList);
+        orders.setDateOfDelivery(LocalDate.now().plusDays(7));
+        orders.setNutrientMaxLimits(nutrientMaxLimits);
+        orders.setNutrientMinLimits(nutrientMinLimits);
     }
 
     @Test
@@ -101,6 +101,6 @@ public class OptimizerTest {
         expectedOptimizedMealPlanMap.put(ITEM_NAME_4, 1.0);
         OptimizerFactory optimizerFactory = new OptimizerFactory();
         Optimizer mealOptimizer = optimizerFactory.getOptimizerByType(OptimizationType.COST);
-        assertTrue(expectedOptimizedMealPlanMap.equals(mealOptimizer.optimizeByOptimizationType(order)));
+        assertTrue(expectedOptimizedMealPlanMap.equals(mealOptimizer.optimizeByOptimizationType(orders)));
     }
 }
