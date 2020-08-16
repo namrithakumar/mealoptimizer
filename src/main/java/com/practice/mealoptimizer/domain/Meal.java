@@ -12,11 +12,11 @@ public class Meal {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long mealId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "orderId")
-    private Orders order;
+    private Order order;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @NotNull
     private Item item;
 
