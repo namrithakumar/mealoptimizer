@@ -1,14 +1,15 @@
-package com.practice.mealoptimizer.processor;
+package com.practice.mealoptimizer.repository;
 
-import com.practice.mealoptimizer.domain.Order;
-import com.practice.mealoptimizer.repository.ItemRepository;
+
 import com.practice.mealoptimizer.domain.Category;
 import com.practice.mealoptimizer.domain.Meal;
+import com.practice.mealoptimizer.domain.Order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.ojalgo.optimisation.Optimisation;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
@@ -20,9 +21,12 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
+@DataJpaTest
 @TestPropertySource(locations="classpath:test.properties")
-public class OptimizerTest {
+public class OrderRepositoryTest {
+
+    @Autowired
+    private OrderRepository orderRepository;
 
     @Autowired
     private ItemRepository itemRepository;
@@ -34,10 +38,6 @@ public class OptimizerTest {
     String ITEM_NAME_3 = "Strawberry Milkshake";
     String ITEM_NAME_4 = "Garlic bread";
 
-    @Test
-    void injectedComponentsAreNotNull(){
-        assertThat(itemRepository).isNotNull();
-    }
     /*
      * TODO: Get nutrient max, min info from User table, replace hardcoded string with values read from a file.
      */
@@ -69,15 +69,19 @@ public class OptimizerTest {
 
         Meal meal1 = new Meal();
         meal1.setItem(itemRepository.findByItemName(ITEM_NAME_1));
+        meal1.setPortion(1.0);
 
         Meal meal2 = new Meal();
         meal2.setItem(itemRepository.findByItemName(ITEM_NAME_2));
+        meal2.setPortion(1.0);
 
         Meal meal3 = new Meal();
         meal3.setItem(itemRepository.findByItemName(ITEM_NAME_3));
+        meal3.setPortion(2.0);
 
         Meal meal4 = new Meal();
         meal4.setItem(itemRepository.findByItemName(ITEM_NAME_4));
+        meal4.setPortion(1.0);
 
         mealList.add(meal1);
         mealList.add(meal2);
@@ -91,16 +95,25 @@ public class OptimizerTest {
     }
 
     @Test
-    public void testOptimize() {
-        Map<String, Object> expectedOptimizedMealPlanMap = new HashMap<>();
-        expectedOptimizedMealPlanMap.put("STATE", Optimisation.State.OPTIMAL);
-        expectedOptimizedMealPlanMap.put("VALUE", 26.33);
-        expectedOptimizedMealPlanMap.put(ITEM_NAME_1, 1.0);
-        expectedOptimizedMealPlanMap.put(ITEM_NAME_2, 1.0);
-        expectedOptimizedMealPlanMap.put(ITEM_NAME_3, 2.0);
-        expectedOptimizedMealPlanMap.put(ITEM_NAME_4, 1.0);
-        OptimizerFactory optimizerFactory = new OptimizerFactory();
-        Optimizer mealOptimizer = optimizerFactory.getOptimizerByType(OptimizationType.COST);
-        assertTrue(expectedOptimizedMealPlanMap.equals(mealOptimizer.optimizeByOptimizationType(order)));
+    void injectedComponentsAreNotNull(){
+        assertThat(orderRepository).isNotNull();
+        assertThat(itemRepository).isNotNull();
+    }
+
+    @Test
+    void testSaveOrder() {
+    assertTrue(order!=null);
+    Order savedOrder = orderRepository.save(order);
+    assertThat(savedOrder).isEqualToComparingFieldByField(order);
+    }
+
+    @Test
+    void testFindAllOrderByPlacedAtDesc () {
+        Order savedOrder = orderRepository.save(order);
+        List<Order> savedOrdersExpected = new ArrayList<>();
+        savedOrdersExpected.add(savedOrder);
+
+        List<Order> savedOrdersActual = (List<Order>) orderRepository.findAllByOrderByPlacedAtAsc();
+        assertThat(savedOrdersActual).containsExactlyElementsOf(savedOrdersExpected);
     }
 }
