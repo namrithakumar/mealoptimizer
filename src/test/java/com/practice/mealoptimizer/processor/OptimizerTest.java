@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
@@ -33,6 +34,10 @@ public class OptimizerTest {
     String ITEM_NAME_3 = "Strawberry Milkshake";
     String ITEM_NAME_4 = "Garlic bread";
 
+    @Test
+    void injectedComponentsAreNotNull(){
+        assertThat(itemRepository).isNotNull();
+    }
     /*
      * TODO: Get nutrient max, min info from User table, replace hardcoded string with values read from a file.
      */
