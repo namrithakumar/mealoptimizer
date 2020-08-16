@@ -113,7 +113,7 @@ public class OrderRepositoryTest {
         List<Order> savedOrdersExpected = new ArrayList<>();
         savedOrdersExpected.add(savedOrder);
 
-        List<Order> savedOrdersActual = (List<Order>) orderRepository.findAll();
+        List<Order> savedOrdersActual = (List<Order>) orderRepository.findAllByOrderByPlacedAtAsc();
         assertThat(savedOrdersActual).containsExactlyElementsOf(savedOrdersExpected);
     }
 }
