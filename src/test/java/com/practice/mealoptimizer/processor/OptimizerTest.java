@@ -1,6 +1,6 @@
 package com.practice.mealoptimizer.processor;
 
-import com.practice.mealoptimizer.data.ItemRepository;
+import com.practice.mealoptimizer.repository.ItemRepository;
 import com.practice.mealoptimizer.domain.Category;
 import com.practice.mealoptimizer.domain.Meal;
 import com.practice.mealoptimizer.domain.Order;
