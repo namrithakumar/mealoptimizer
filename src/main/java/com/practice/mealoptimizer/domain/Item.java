@@ -1,4 +1,4 @@
-package com.practice.mealoptimizer.test.domain;
+package com.practice.mealoptimizer.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
