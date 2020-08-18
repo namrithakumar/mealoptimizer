@@ -1,12 +1,22 @@
 package com.practice.mealoptimizer.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import javax.validation.constraints.Future;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
-//OrderRequestDTO
 public class OrderDTO {
+    
+    @NotNull
+    @Size(min=4, max=4, message="select atleast 4 items")
     private List<String> itemNames;
 
+    @NotNull
+    @Future
+    @JsonFormat(pattern="MM/dd/yyyy")
     private LocalDate dateOfDelivery;
 
     public OrderDTO() {}
