@@ -17,7 +17,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long orderId;
 
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "order", orphanRemoval = true)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
     @Size(min=4, max=4, message="select atleast 4 meals")
     private List<Meal> mealList;
 

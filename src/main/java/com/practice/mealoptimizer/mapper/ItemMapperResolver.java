@@ -29,6 +29,7 @@ public class ItemMapperResolver {
             Meal meal = new Meal();
             Item item = itemRepository.findByItemName(itemName);
             meal.setItem(item);
+            //set order object inside meal
             mealList.add(meal);
         });
 
