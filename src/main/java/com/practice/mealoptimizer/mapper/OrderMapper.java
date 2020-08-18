@@ -8,8 +8,5 @@ import org.mapstruct.Mappings;
 
 @Mapper(componentModel = "spring", uses = { ItemMapperResolver.class })
 public interface OrderMapper {
-@Mappings(
-        @Mapping(target="dateOfDelivery", source="orderDTO.dateOfDelivery")
-)
     public Order orderDTOtoOrder(OrderDTO orderDTO);
 }
