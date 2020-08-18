@@ -36,7 +36,7 @@ public abstract class Optimizer {
         for( Meal meal : order.getMealList() ) {
             meal.getItem().getMaxSafeConsumption();
             //variables[i] = model.addVariable(meal.getItem().getItemName()).lower(0).upper(meal.getItem().getMaxSafeConsumption()).weight(meal.getItem().getItemCost());
-            variables[i] = model.addVariable(meal.getItem().getItemName()).lower(0).upper(meal.getItem().getMaxSafeConsumption()).weight(weightMap.get(meal.getItem().getItemName()));
+            variables[i] = model.addVariable(meal.getItem().getItemName()).lower(1).upper(meal.getItem().getMaxSafeConsumption()).weight(weightMap.get(meal.getItem().getItemName()));
             variables[i].integer(true);
             i++;
         }
