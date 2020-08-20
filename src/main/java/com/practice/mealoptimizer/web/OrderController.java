@@ -33,11 +33,12 @@ public class OrderController {
     private OrderService orderService;
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/handleOrder")
-    public ResponseEntity<Order> handleOrder(@RequestBody @Valid OrderDTO orderDTO) {
+    public ResponseEntity<OrderDTO> handleOrder(@RequestBody @Valid OrderDTO orderDTO) {
         Order order = orderMapper.orderDTOtoOrder(orderDTO);
         Optimizer optimizer = optimizerFactory.getOptimizerByType(OptimizationType.COST);
         Map<String, Object>  result = optimizer.optimizeByOptimizationType(order);
         order = resultMapper.mapResultToOrder(result, order);
-        return new ResponseEntity<Order>(orderService.saveOrder(order), HttpStatus.OK);
+        OrderDTO responseDTO = orderMapper.ordertoOrderDTO(orderService.saveOrder(order));
+        return new ResponseEntity<OrderDTO>(responseDTO, HttpStatus.OK);
     }
 }

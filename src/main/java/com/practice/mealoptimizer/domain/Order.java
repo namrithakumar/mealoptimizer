@@ -90,6 +90,14 @@ public class Order {
         this.nutrientMaxLimits = nutrientMaxLimits;
     }
 
+    public double getOrderCost() {
+        double orderCost = 0.0;
+        for(Meal meal: this.getMealList()) {
+            orderCost += meal.getMealCost();
+        }
+        return orderCost;
+    }
+
     @PrePersist
     void setPlacedAt() {
         this.placedAt = LocalDate.now();

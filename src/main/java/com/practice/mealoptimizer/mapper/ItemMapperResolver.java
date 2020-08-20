@@ -5,6 +5,7 @@ import com.practice.mealoptimizer.domain.Meal;
 import com.practice.mealoptimizer.domain.Order;
 import com.practice.mealoptimizer.dto.OrderDTO;
 import com.practice.mealoptimizer.repository.ItemRepository;
+import org.mapstruct.AfterMapping;
 import org.mapstruct.ObjectFactory;
 import org.mapstruct.TargetType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ItemMapperResolver {
             Meal meal = new Meal();
             Item item = itemRepository.findByItemName(itemName);
             meal.setItem(item);
-            //set order object inside meal
+            meal.setOrder(userOrder); // Use @AfterMapping to remove circular dependency
             mealList.add(meal);
         });
 
