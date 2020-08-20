@@ -18,7 +18,6 @@ import java.util.List;
 @Repository
 public interface ItemRepository extends CrudRepository<Item, Long> {
 
-    //Used only by JUnit.
     public Item findByItemName(String itemName);
 
     public List<Item> findByItemCategoriesContains(Category category);
