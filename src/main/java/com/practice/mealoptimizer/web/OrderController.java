@@ -17,7 +17,7 @@ import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/mealdelivery")
+@RequestMapping(path = "/mealoptimizer/orders")
 public class OrderController {
 
     @Autowired
@@ -32,13 +32,13 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/handleOrder")
+    @RequestMapping(method = RequestMethod.POST, consumes = "application/json", path = "/save")
     public ResponseEntity<OrderDTO> handleOrder(@RequestBody @Valid OrderDTO orderDTO) {
         Order order = orderMapper.orderDTOtoOrder(orderDTO);
         Optimizer optimizer = optimizerFactory.getOptimizerByType(OptimizationType.COST);
         Map<String, Object>  result = optimizer.optimizeByOptimizationType(order);
         order = resultMapper.mapResultToOrder(result, order);
         OrderDTO responseDTO = orderMapper.ordertoOrderDTO(orderService.saveOrder(order));
-        return new ResponseEntity<OrderDTO>(responseDTO, HttpStatus.OK);
+        return new ResponseEntity<OrderDTO>(responseDTO, HttpStatus.CREATED);
     }
 }
