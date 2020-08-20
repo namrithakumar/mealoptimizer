@@ -14,8 +14,12 @@ import java.util.List;
 @RequestMapping(path = "/mealoptimizer/items")
 public class ItemController {
 
-    @Autowired
     private ItemService itemService;
+
+    @Autowired
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
 
     @RequestMapping(method = RequestMethod.GET, path = "/find")
     public ResponseEntity<List<String>> findItemsByCategory(@RequestParam("category") Category category) {

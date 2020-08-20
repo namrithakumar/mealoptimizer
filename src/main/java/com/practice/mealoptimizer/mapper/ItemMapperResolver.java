@@ -5,7 +5,6 @@ import com.practice.mealoptimizer.domain.Meal;
 import com.practice.mealoptimizer.domain.Order;
 import com.practice.mealoptimizer.dto.OrderDTO;
 import com.practice.mealoptimizer.repository.ItemRepository;
-import org.mapstruct.AfterMapping;
 import org.mapstruct.ObjectFactory;
 import org.mapstruct.TargetType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +18,12 @@ import java.util.Map;
 @Component
 public class ItemMapperResolver {
 
-    @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    public ItemMapperResolver(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+    }
 
     @ObjectFactory
     public Order resolve(OrderDTO orderDTO, @TargetType Class<Order> order) {

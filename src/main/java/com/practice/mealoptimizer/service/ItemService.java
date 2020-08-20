@@ -11,8 +11,12 @@ import java.util.List;
 @Service
 public class ItemService {
 
-    @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    public ItemService(ItemRepository itemRepository) {
+        this.itemRepository = itemRepository;
+    }
 
     public List<Item> findByItemCategoriesContains(Category category){
         return itemRepository.findByItemCategoriesContains(category);

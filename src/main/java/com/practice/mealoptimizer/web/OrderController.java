@@ -20,17 +20,21 @@ import java.util.Map;
 @RequestMapping(path = "/mealoptimizer/orders")
 public class OrderController {
 
-    @Autowired
     private OrderMapper orderMapper;
 
-    @Autowired
     private ResultMapper resultMapper;
 
-    @Autowired
     private OptimizerFactory optimizerFactory;
 
-    @Autowired
     private OrderService orderService;
+
+    @Autowired
+    public OrderController(OrderMapper orderMapper, ResultMapper resultMapper, OptimizerFactory optimizerFactory, OrderService orderService) {
+        this.orderMapper = orderMapper;
+        this.resultMapper = resultMapper;
+        this.optimizerFactory = optimizerFactory;
+        this.orderService = orderService;
+    }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", path = "/save")
     public ResponseEntity<OrderDTO> save(@RequestBody @Valid OrderDTO orderDTO) {
