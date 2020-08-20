@@ -8,7 +8,6 @@ import org.mapstruct.*;
 
 import java.util.List;
 
-//https://www.baeldung.com/mapstruct-custom-mapper#:~:text=The%20MapStruct%20library%20is%20used,customize%20the%20default%20mapping%20methods.
 @Mapper(componentModel = "spring", uses = { ItemMapperResolver.class })
 public interface OrderMapper {
     public Order orderDTOtoOrder(OrderDTO orderDTO);
@@ -16,7 +15,6 @@ public interface OrderMapper {
     //Methods to map Entity (Order/Meal) to corresponding DTO objects(OrderDTO/MealDTO)
     @Named("MealtoMealDTO")
     @Mappings({
-            @Mapping(target="mealCost", source="mealCost"),
             @Mapping(target="itemName", source="meal.item.itemName")
     })
     public MealDTO mapMealToMealDTO(Meal meal);

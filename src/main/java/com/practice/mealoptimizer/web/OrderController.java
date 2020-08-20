@@ -33,7 +33,7 @@ public class OrderController {
     private OrderService orderService;
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", path = "/save")
-    public ResponseEntity<OrderDTO> handleOrder(@RequestBody @Valid OrderDTO orderDTO) {
+    public ResponseEntity<OrderDTO> save(@RequestBody @Valid OrderDTO orderDTO) {
         Order order = orderMapper.orderDTOtoOrder(orderDTO);
         Optimizer optimizer = optimizerFactory.getOptimizerByType(OptimizationType.COST);
         Map<String, Object>  result = optimizer.optimizeByOptimizationType(order);
