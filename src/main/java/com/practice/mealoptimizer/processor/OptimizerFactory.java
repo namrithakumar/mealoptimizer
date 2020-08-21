@@ -1,5 +1,8 @@
 package com.practice.mealoptimizer.processor;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class OptimizerFactory {
     public Optimizer getOptimizerByType(OptimizationType optimizationType) {
         switch(optimizationType) {

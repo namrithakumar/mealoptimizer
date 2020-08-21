@@ -3,7 +3,6 @@ package com.practice.mealoptimizer.domain;
 import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +16,7 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long orderId;
 
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL,mappedBy = "order", orphanRemoval = true)
+    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
     @Size(min=4, max=4, message="select atleast 4 meals")
     private List<Meal> mealList;
 
@@ -89,6 +88,14 @@ public class Order {
 
     public void setNutrientMaxLimits(Map<String, Integer> nutrientMaxLimits) {
         this.nutrientMaxLimits = nutrientMaxLimits;
+    }
+
+    public double getOrderCost() {
+        double orderCost = 0.0;
+        for(Meal meal: this.getMealList()) {
+            orderCost += meal.getMealCost();
+        }
+        return orderCost;
     }
 
     @PrePersist

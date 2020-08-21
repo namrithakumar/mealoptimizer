@@ -13,7 +13,7 @@ public class Meal {
     private long mealId;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "orderId")
+    @JoinColumn(name = "orderId", referencedColumnName = "orderId")
     private Order order;
 
     @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -32,10 +32,11 @@ public class Meal {
 
     public Meal() {}
 
-    public Meal(long mealId, Item item, double portion) {
+    public Meal(long mealId, Item item, double portion, Order order) {
         this.mealId = mealId;
         this.item = item;
         this.portion = portion;
+        this.order = order;
     }
 
     public long getMealId() {
@@ -60,6 +61,14 @@ public class Meal {
 
     public void setPortion(double portion) {
         this.portion = portion;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 
     @Transient

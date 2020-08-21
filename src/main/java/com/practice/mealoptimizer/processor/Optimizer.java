@@ -7,12 +7,14 @@ import org.ojalgo.optimisation.ExpressionsBasedModel;
 import org.ojalgo.optimisation.Optimisation;
 import org.ojalgo.optimisation.Variable;
 import org.ojalgo.type.context.NumberContext;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Component
 public abstract class Optimizer {
     
     public abstract Map<String, Double> constructWeightMap(Order order);
@@ -34,7 +36,7 @@ public abstract class Optimizer {
         for( Meal meal : order.getMealList() ) {
             meal.getItem().getMaxSafeConsumption();
             //variables[i] = model.addVariable(meal.getItem().getItemName()).lower(0).upper(meal.getItem().getMaxSafeConsumption()).weight(meal.getItem().getItemCost());
-            variables[i] = model.addVariable(meal.getItem().getItemName()).lower(0).upper(meal.getItem().getMaxSafeConsumption()).weight(weightMap.get(meal.getItem().getItemName()));
+            variables[i] = model.addVariable(meal.getItem().getItemName()).lower(1).upper(meal.getItem().getMaxSafeConsumption()).weight(weightMap.get(meal.getItem().getItemName()));
             variables[i].integer(true);
             i++;
         }
