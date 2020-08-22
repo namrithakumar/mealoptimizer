@@ -3,6 +3,7 @@ package com.practice.mealoptimizer.mapper;
 import com.practice.mealoptimizer.domain.Order;
 import com.practice.mealoptimizer.dto.OrderDTO;
 import org.junit.jupiter.api.Test;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
@@ -15,11 +16,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-@TestPropertySource(locations="classpath:test.properties")
 public class OrderMapperTest {
 
     @Autowired
-    OrderMapper orderMapper;
+    private OrderMapper orderMapper;
 
     @Test
     public void testOrderDTOtoOrder() {
