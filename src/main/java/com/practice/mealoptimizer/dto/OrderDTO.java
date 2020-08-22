@@ -11,7 +11,7 @@ public class OrderDTO {
     
     @NotNull
     @Size(min=4, max=4, message="select atleast 4 items")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    //@JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<String> itemNames;
 
     private long orderId;
