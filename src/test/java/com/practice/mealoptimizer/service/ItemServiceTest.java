@@ -43,6 +43,6 @@ class ItemServiceTest {
     void findByItemCategoriesContainsTest() {
         when(itemRepository.findByItemCategoriesContains(any(Category.class))).thenReturn(itemsWithCategoryAll);
         assertEquals(19, itemService.findByItemCategoriesContains(Category.ALL).size());
-        verify(itemRepository,times(1)).findByItemCategoriesContains(any(Category.class));
+        verify(itemRepository,times(1)).findByItemCategoriesContains(Category.ALL);
     }
 }
