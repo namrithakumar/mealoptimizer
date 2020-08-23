@@ -18,7 +18,7 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public List<Item> findByItemCategoriesContains(Category category){
+    public List<Item> findByItemCategoriesContains(Category category) {
         return itemRepository.findByItemCategoriesContains(category);
     }
 }

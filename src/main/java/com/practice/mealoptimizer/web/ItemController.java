@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,8 +24,12 @@ public class ItemController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/find")
     public ResponseEntity<List<String>> findItemsByCategory(@RequestParam("category") Category category) {
-        List<String> itemNames = new ArrayList<>();
-        itemService.findByItemCategoriesContains(category).forEach(item ->  itemNames.add(item.getItemName()));
-        return new ResponseEntity<List<String>>(itemNames, HttpStatus.OK);
+        try {
+            List<String> itemNames = new ArrayList<>();
+            itemService.findByItemCategoriesContains(category).forEach(item -> itemNames.add(item.getItemName()));
+            return new ResponseEntity<List<String>>(itemNames, HttpStatus.OK);
+        } catch (RuntimeException re) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, re.getMessage());
+        }
     }
 }

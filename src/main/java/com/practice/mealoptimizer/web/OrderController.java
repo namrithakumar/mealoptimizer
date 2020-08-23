@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.Map;
@@ -38,11 +39,15 @@ public class OrderController {
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", path = "/save")
     public ResponseEntity<OrderDTO> save(@RequestBody @Valid OrderDTO orderDTO) {
-        Order order = orderMapper.orderDTOtoOrder(orderDTO);
-        Optimizer optimizer = optimizerFactory.getOptimizerByType(OptimizationType.COST);
-        Map<String, Object>  result = optimizer.optimizeByOptimizationType(order);
-        order = resultMapper.mapResultToOrder(result, order);
-        OrderDTO responseDTO = orderMapper.ordertoOrderDTO(orderService.saveOrder(order));
-        return new ResponseEntity<OrderDTO>(responseDTO, HttpStatus.CREATED);
+        try {
+            Order order = orderMapper.orderDTOtoOrder(orderDTO);
+            Optimizer optimizer = optimizerFactory.getOptimizerByType(OptimizationType.COST);
+            Map<String, Object> result = optimizer.optimizeByOptimizationType(order);
+            order = resultMapper.mapResultToOrder(result, order);
+            OrderDTO responseDTO = orderMapper.ordertoOrderDTO(orderService.saveOrder(order));
+            return new ResponseEntity<OrderDTO>(responseDTO, HttpStatus.CREATED);
+        } catch (RuntimeException re) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, re.getMessage());
+        }
     }
 }
