@@ -1,5 +1,6 @@
 package com.practice.mealoptimizer.exception;
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,15 @@ import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+
 @RestControllerAdvice
 public class MealOptimizerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @Override
     protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
         if (body != null) {
-            return new ResponseEntity<>(body, status);
+            return new ResponseEntity<>(body, headers, status);
         } else {
             return super.handleExceptionInternal(ex, body, headers, status, request);
         }
@@ -52,7 +55,7 @@ public class MealOptimizerExceptionHandler extends ResponseEntityExceptionHandle
 
         // Handle custom exception
         return this.handleExceptionInternal(
-                ex, mealOptimizerError, headers, mealOptimizerError.status, request);
+                ex, mealOptimizerError, (headers.isEmpty())?getDefaultHeader():headers, mealOptimizerError.status, request);
     }
 
     /*
@@ -71,36 +74,36 @@ public class MealOptimizerExceptionHandler extends ResponseEntityExceptionHandle
                 new MealOptimizerErrorTechnical(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), errors);
 
         return this.handleExceptionInternal(
-                ex, mealOptimizerError, new HttpHeaders(), mealOptimizerError.status, request);
+                ex, mealOptimizerError, getDefaultHeader(), mealOptimizerError.status, request);
     }
 
     /*
-        MethodArgumentTypeMismatchException is thrown when method argument is not the expected type e.g. when you send id as String instead of int
+        MismatchedInputException is thrown when method argument is not the expected type e.g. when you send id as String instead of int
      */
-    @ExceptionHandler({MethodArgumentTypeMismatchException.class})
-    public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
-            MethodArgumentTypeMismatchException ex, WebRequest request) {
+    @ExceptionHandler({MismatchedInputException.class})
+    public ResponseEntity<Object> handleMisMatchedInputException(
+            MismatchedInputException ex, WebRequest request) {
         String error =
-                ex.getName() + " should be of type " + ex.getRequiredType().getName();
+                "Incorrect field type in request. Check the fields type is " + ex.getTargetType();
 
         MealOptimizerError mealOptimizerError =
                 new MealOptimizerErrorTechnical(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
         return this.handleExceptionInternal(
-                ex, mealOptimizerError, new HttpHeaders(), mealOptimizerError.status, request);
+                ex, mealOptimizerError, getDefaultHeader(), mealOptimizerError.status, request);
     }
 
     /*
-    HttpMessageNotReadableException is thrown when the request cannot be converted by Jackson. Usual errors are incorrect date format.
+    HttpMessageNotReadableException is thrown when the request cannot be converted by Jackson. Usual errors are itemNames passed as int[] instead of String[].
  */
     @Override
     public ResponseEntity<Object> handleHttpMessageNotReadable(
             HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
-        String error = "Malformed JSON request";
+        String error = "Malformed JSON request. Check data type of input fields";
 
         MealOptimizerError mealOptimizerError =
                 new MealOptimizerErrorTechnical(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
         return this.handleExceptionInternal(
-                ex, mealOptimizerError, new HttpHeaders(), mealOptimizerError.status, request);
+                ex, mealOptimizerError, (headers.isEmpty())?getDefaultHeader():headers , mealOptimizerError.status, request);
     }
 
     /*
@@ -116,7 +119,7 @@ MissingServletRequestParameter is thrown when a required parameter in the url is
         MealOptimizerError mealOptimizerError =
                 new MealOptimizerErrorTechnical(HttpStatus.BAD_REQUEST, ex.getLocalizedMessage(), error);
         return this.handleExceptionInternal(
-                ex, mealOptimizerError, new HttpHeaders(), mealOptimizerError.status, request);
+                ex, mealOptimizerError, (headers.isEmpty())?getDefaultHeader():headers, mealOptimizerError.status, request);
     }
 
     /*
@@ -137,7 +140,7 @@ MissingServletRequestParameter is thrown when a required parameter in the url is
         MealOptimizerError mealOptimizerError = new MealOptimizerErrorTechnical(HttpStatus.METHOD_NOT_ALLOWED,
                 ex.getLocalizedMessage(), builder.toString());
         return this.handleExceptionInternal(
-                ex, mealOptimizerError, new HttpHeaders(), mealOptimizerError.status, request);
+                ex, mealOptimizerError, (headers.isEmpty())?getDefaultHeader():headers, mealOptimizerError.status, request);
     }
 
     /*
@@ -155,23 +158,26 @@ HttpMediaTypeNotSupportedException occurs when you send a requested with an unsu
         ex.getSupportedMediaTypes().forEach(t -> builder.append(t + ", "));
 
         MealOptimizerError mealOptimizerError = new MealOptimizerErrorTechnical(HttpStatus.UNSUPPORTED_MEDIA_TYPE,
-                ex.getLocalizedMessage(), builder.substring(0, builder.length() - 2));
+                ex.getLocalizedMessage(), builder.substring(0, builder.length() - 1));
         return this.handleExceptionInternal(
-                ex, mealOptimizerError, new HttpHeaders(), mealOptimizerError.status, request);
+                ex, mealOptimizerError, (headers.isEmpty())?getDefaultHeader():headers, mealOptimizerError.status, request);
     }
 
     @ExceptionHandler({ResponseStatusException.class})
     protected ResponseEntity<Object> handleResponseStatusException(
             ResponseStatusException ex,
-            HttpHeaders headers,
-            HttpStatus status,
             WebRequest request) {
-        StringBuilder builder = new StringBuilder();
-        builder.append(ex.getMessage());
+        String error = ex.getReason();
 
         MealOptimizerError mealOptimizerError = new MealOptimizerErrorFunctional(ex.getStatus(),
-                ex.getLocalizedMessage(), builder.substring(0, builder.length() - 2));
+                ex.getMessage(), error);
         return this.handleExceptionInternal(
-                ex, mealOptimizerError, ex.getResponseHeaders(), mealOptimizerError.status, request);
+                ex, mealOptimizerError, getDefaultHeader(), mealOptimizerError.status, request);
+    }
+
+    private HttpHeaders getDefaultHeader() {
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE);
+        return httpHeaders;
     }
 }

@@ -47,7 +47,7 @@ public class OrderController {
             OrderDTO responseDTO = orderMapper.ordertoOrderDTO(orderService.saveOrder(order));
             return new ResponseEntity<OrderDTO>(responseDTO, HttpStatus.CREATED);
         } catch (RuntimeException re) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, re.getMessage());
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, re.getMessage());
         }
     }
 }
