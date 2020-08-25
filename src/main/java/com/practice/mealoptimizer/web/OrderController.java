@@ -40,12 +40,14 @@ public class OrderController {
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", path = "/save")
     public ResponseEntity<OrderDTO> save(@RequestBody @Valid OrderDTO orderDTO) {
         try {
+
             Order order = orderMapper.orderDTOtoOrder(orderDTO);
             Optimizer optimizer = optimizerFactory.getOptimizerByType(OptimizationType.COST);
             Map<String, Object> result = optimizer.optimizeByOptimizationType(order);
             order = resultMapper.mapResultToOrder(result, order);
             OrderDTO responseDTO = orderMapper.ordertoOrderDTO(orderService.saveOrder(order));
             return new ResponseEntity<OrderDTO>(responseDTO, HttpStatus.CREATED);
+
         } catch (RuntimeException re) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, re.getMessage());
         }
