@@ -6,6 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.practice.mealoptimizer.domain.Order;
 import com.practice.mealoptimizer.dto.OrderDTO;
+import com.practice.mealoptimizer.exception.MealOptimizerExceptionHandler;
 import com.practice.mealoptimizer.mapper.OrderMapper;
 import com.practice.mealoptimizer.mapper.ResultMapper;
 import com.practice.mealoptimizer.processor.OptimizationType;
@@ -28,11 +29,13 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.hamcrest.Matchers.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @ExtendWith(MockitoExtension.class)
 class OrderControllerTest {
@@ -52,6 +55,9 @@ class OrderControllerTest {
     @Mock
     private Optimizer optimizer;
 
+    @Mock
+    private ObjectMapper objectMapper;
+
     @InjectMocks
     private OrderController orderController;
 
@@ -65,12 +71,10 @@ class OrderControllerTest {
 
     private Map<String, Object> result;
 
-    private ObjectMapper objectMapper;
-
     @BeforeEach
     void setUp() {
 
-        mockMvc = MockMvcBuilders.standaloneSetup(orderController).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(orderController).setControllerAdvice(new MealOptimizerExceptionHandler()).build();
         requestDTO = new OrderDTO();
         requestDTO.setDateOfDelivery(LocalDate.now().plusDays(7));
         requestDTO.setItemNames(Arrays.asList(new String[] {"Egg Roll","Strawberry Milkshake","Green Salad","Chicken Sandwich"}));
@@ -97,6 +101,7 @@ class OrderControllerTest {
                 .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+
         verify(orderMapper, times(1)).orderDTOtoOrder(any(OrderDTO.class));
         verify(optimizerFactory, times(1)).getOptimizerByType(any(OptimizationType.class));
         verify(optimizer, times(1)).optimizeByOptimizationType(order);
@@ -110,12 +115,110 @@ class OrderControllerTest {
          mockMvc.perform(post("/mealoptimizer/orders/save")
                     .content(objectMapper.writeValueAsString(requestDTO)))
                     .andExpect(status().isUnsupportedMediaType());
-//                    .andExpect(result -> assertTrue(result instanceof java.lang.AssertionError));
+
         verifyNoInteractions(orderMapper);
         verifyNoInteractions(optimizerFactory);
         verifyNoInteractions(optimizer);
         verifyNoInteractions(resultMapper);
         verifyNoInteractions(orderService);
+    }
+
+    @Test
+    void saveTestRequestValidationFails() throws Exception {
+        requestDTO.setDateOfDelivery(LocalDate.now().minusMonths(1));
+
+        mockMvc.perform(post("/mealoptimizer/orders/save").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors", hasSize(1)))
+                .andExpect(jsonPath("$.errors[0]", is("dateOfDelivery: must be a future date")))
+                .andExpect(jsonPath("$.errorType", is("TECHNICAL")));
+
         verifyNoInteractions(orderMapper);
+        verifyNoInteractions(optimizerFactory);
+        verifyNoInteractions(optimizer);
+        verifyNoInteractions(resultMapper);
+        verifyNoInteractions(orderService);
+    }
+
+    @Test
+    void saveTestHttpMessageNotReadableException() throws Exception {
+
+        String request = "{\n" + "\"itemNames\": 1,\n" + "\"dateOfDelivery\":\"08/25/2020\"\n" + "}";
+
+        mockMvc.perform(post("/mealoptimizer/orders/save").contentType(MediaType.APPLICATION_JSON)
+                .content(request))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors", hasSize(1)))
+                .andExpect(jsonPath("$.errors[0]", is("Malformed JSON request. Check data type of input fields")))
+                .andExpect(jsonPath("$.errorType", is("TECHNICAL")));
+
+        verifyNoInteractions(orderMapper);
+        verifyNoInteractions(optimizerFactory);
+        verifyNoInteractions(optimizer);
+        verifyNoInteractions(resultMapper);
+        verifyNoInteractions(orderService);
+    }
+
+    @Test
+    void saveTestHttpRequestMethodNotSupportedException() throws Exception {
+
+        mockMvc.perform(delete("/mealoptimizer/orders/save").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isMethodNotAllowed())
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors", hasSize(1)))
+                .andExpect(jsonPath("$.errors[0]", containsString("method is not supported for this request. Supported methods are")))
+                .andExpect(jsonPath("$.errorType", is("TECHNICAL")));
+
+        verifyNoInteractions(orderMapper);
+        verifyNoInteractions(optimizerFactory);
+        verifyNoInteractions(optimizer);
+        verifyNoInteractions(resultMapper);
+        verifyNoInteractions(orderService);
+    }
+
+    @Test
+    void saveTestHttpMediaTypeNotSupported() throws Exception {
+
+        mockMvc.perform(post("/mealoptimizer/orders/save").contentType(MediaType.APPLICATION_XML)
+                .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isUnsupportedMediaType())
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors", hasSize(1)))
+                .andExpect(jsonPath("$.errors[0]", containsString("media type is not supported. Supported media types are")))
+                .andExpect(jsonPath("$.errorType", is("TECHNICAL")));
+
+        verifyNoInteractions(orderMapper);
+        verifyNoInteractions(optimizerFactory);
+        verifyNoInteractions(optimizer);
+        verifyNoInteractions(resultMapper);
+        verifyNoInteractions(orderService);
+    }
+
+    @Test
+    void saveTestResponseStatusException() throws Exception {
+        when(orderMapper.orderDTOtoOrder(any(OrderDTO.class))).thenReturn(order);
+        when(optimizerFactory.getOptimizerByType(any(OptimizationType.class))).thenReturn(optimizer);
+        when(optimizer.optimizeByOptimizationType(order)).thenReturn(result);
+        when(resultMapper.mapResultToOrder(result, order)).thenThrow(new RuntimeException("Error in mapping results"));
+
+        mockMvc.perform(post("/mealoptimizer/orders/save").contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(requestDTO)))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.errors").isArray())
+                .andExpect(jsonPath("$.errors", hasSize(1)))
+                .andExpect(jsonPath("$.errors[0]", is("Error in mapping results")))
+                .andExpect(jsonPath("$.errorType", is("FUNCTIONAL")));
+
+        verify(orderMapper, times(1)).orderDTOtoOrder(any(OrderDTO.class));
+        verify(optimizerFactory, times(1)).getOptimizerByType(any(OptimizationType.class));
+        verify(optimizer, times(1)).optimizeByOptimizationType(order);
+        verify(resultMapper, times(1)).mapResultToOrder(result, order);
+        verifyNoInteractions(orderService);
+        verifyNoMoreInteractions(orderMapper);
     }
 }
