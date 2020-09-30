@@ -32,11 +32,9 @@ public class Item {
     @Min(value=1, message="Max safe consumption should be atleast 1")
     private int maxSafeConsumption;
 
-    @ElementCollection(targetClass = Category.class, fetch=FetchType.EAGER)
-    @CollectionTable(name ="item_category", joinColumns = @JoinColumn(name = "item_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name="category_name")
-    @Size(min=1, message="Item must belong to atleast 1 category")
+    @ManyToMany
+    @JoinTable(name = "item_category", joinColumns=@JoinColumn(name="itemId"), inverseJoinColumns = @JoinColumn(name="categoryName"))
+    @Size(min=1, message="Item must belong to at least 1 category")
     private List<Category> itemCategories;
 
     public Item(Long itemId, String itemName, double itemCost,  List<Category> itemCategories, int reward, Map<String, Double> nutritionProfile, int maxSafeConsumption) {
