@@ -150,7 +150,6 @@ class OrderControllerTest {
             verifyNoInteractions(orderService);
         }
 
-        @Disabled
     @Test
     void saveTestHttpMessageNotReadableException() throws Exception {
 
