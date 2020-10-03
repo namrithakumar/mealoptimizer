@@ -1,85 +1,61 @@
 package com.practice.mealoptimizer.web;
 
-import com.practice.mealoptimizer.domain.Category;
-import com.practice.mealoptimizer.domain.Item;
 import com.practice.mealoptimizer.exception.MealOptimizerExceptionHandler;
-import com.practice.mealoptimizer.service.ItemService;
+import com.practice.mealoptimizer.service.CategoryService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.*;
 
-import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.*;
-import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
 class ItemControllerTest {
 
     @Mock
-    private ItemService itemService;
+    private CategoryService categoryService;
 
     @InjectMocks
     private ItemController itemController;
 
-    private List<Item> itemsWithCategoryAll;
+    private List<String> itemNamesWithCategoryFATFREE;
 
     private MockMvc mockMvc;
+
+    String categoryName = "FATFREE";
 
     @BeforeEach
     void setUp() {
 
-        itemsWithCategoryAll = new ArrayList<>(19);
-        for(int i=0;i<19;i++) {
-            itemsWithCategoryAll.add(new Item());
-        }
+        itemNamesWithCategoryFATFREE = new ArrayList<>();
+        itemNamesWithCategoryFATFREE.add("Green Salad");
+        itemNamesWithCategoryFATFREE.add("Rice cake");
+        itemNamesWithCategoryFATFREE.add("Quinoa bar");
 
         mockMvc = MockMvcBuilders.standaloneSetup(itemController).setControllerAdvice(new MealOptimizerExceptionHandler()).build();
     }
 
     @Test
-    void findItemsByCategoryALLTest() throws Exception {
-        when(itemService.findByItemCategoriesContains(Category.ALL)).thenReturn(itemsWithCategoryAll);
-
-        mockMvc.perform(get("/mealoptimizer/items/find?category=ALL"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-
-        verify(itemService, times(1)).findByItemCategoriesContains(Category.ALL);
-    }
-
-    @Test
-    void findItemsByCategoryVeganTest() throws Exception {
-        when(itemService.findByItemCategoriesContains(Category.VEGAN)).thenReturn(new ArrayList<Item>());
-
-        mockMvc.perform(get("/mealoptimizer/items/find?category=VEGAN"))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().json("[]"));
-
-        verify(itemService, times(1)).findByItemCategoriesContains(Category.VEGAN);
-    }
-
-    @Test
-    void findItemsByCategoryNoCategoryPassedInURL() throws Exception {
-        mockMvc.perform(get("/mealoptimizer/items/find"))
-                .andExpect(status().isBadRequest())
-                .andExpect(header().string(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE))
-                .andExpect(jsonPath("$.errors").isArray())
-                .andExpect(jsonPath("$.errors", hasSize(1)))
-                .andExpect(jsonPath("$.errors[0]", is("Required parameter category is missing in the URL")))
-                .andExpect(jsonPath("$.errorType", is("TECHNICAL")));
-
-        verifyNoInteractions(itemService);
+    void findItemsByCategoryTest() {
+        when(categoryService.findItemNamesByCategory(categoryName)).thenReturn(itemNamesWithCategoryFATFREE);
+        try {
+            mockMvc.perform(get("/mealoptimizer/items/find").queryParam("category", categoryName))
+                   .andExpect(status().isOk())
+                   .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+            }
+        catch(Exception e) {
+            fail(this.getClass().getName() + " failed with message: " + e.getMessage());
+        }
     }
 }

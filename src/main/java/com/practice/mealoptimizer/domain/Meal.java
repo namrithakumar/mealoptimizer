@@ -16,7 +16,7 @@ public class Meal {
     @JoinColumn(name = "orderId", referencedColumnName = "orderId")
     private Order order;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.    EAGER, cascade = CascadeType.ALL)
     @NotNull
     private Item item;
 

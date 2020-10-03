@@ -3,7 +3,7 @@ package com.practice.mealoptimizer.mapper;
 import com.practice.mealoptimizer.domain.Item;
 import com.practice.mealoptimizer.domain.Meal;
 import com.practice.mealoptimizer.domain.Order;
-import com.practice.mealoptimizer.dto.OrderDTO;
+import com.practice.mealoptimizer.dto.request.OrderRequestDTO;
 import com.practice.mealoptimizer.repository.ItemRepository;
 import org.mapstruct.ObjectFactory;
 import org.mapstruct.TargetType;
@@ -26,10 +26,10 @@ public class ItemMapperResolver {
     }
 
     @ObjectFactory
-    public Order resolve(OrderDTO orderDTO, @TargetType Class<Order> order) {
+    public Order resolve(OrderRequestDTO orderRequestDTO, @TargetType Class<Order> order) {
         Order userOrder = new Order();
         List<Meal> mealList = new ArrayList<>();
-        orderDTO.getItemNames().forEach(itemName -> {
+        orderRequestDTO.getItemNames().forEach(itemName -> {
             Meal meal = new Meal();
             Item item = itemRepository.findByItemName(itemName);
             meal.setItem(item);

@@ -3,6 +3,7 @@ package com.practice.mealoptimizer.domain;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -32,21 +33,18 @@ public class Item {
     @Min(value=1, message="Max safe consumption should be atleast 1")
     private int maxSafeConsumption;
 
-    @ElementCollection(targetClass = Category.class, fetch=FetchType.EAGER)
-    @CollectionTable(name ="item_category", joinColumns = @JoinColumn(name = "item_id"))
-    @Enumerated(EnumType.STRING)
-    @Column(name="category_name")
-    @Size(min=1, message="Item must belong to atleast 1 category")
-    private List<Category> itemCategories;
+    @ManyToMany
+    @JoinTable(name = "item_category", joinColumns=@JoinColumn(name="itemId"), inverseJoinColumns = @JoinColumn(name="categoryName"))
+    @Size(min=1, message="Item must belong to at least 1 category")
+    private List<Category> itemCategories = new ArrayList<>();
 
-    public Item(Long itemId, String itemName, double itemCost,  List<Category> itemCategories, int reward, Map<String, Double> nutritionProfile, int maxSafeConsumption) {
+    public Item(Long itemId, String itemName, double itemCost, int reward, Map<String, Double> nutritionProfile, int maxSafeConsumption) {
         this.itemId = itemId;
         this.itemName = itemName;
         this.nutritionProfile = nutritionProfile;
         this.itemCost = itemCost;
         this.reward = reward;
         this.maxSafeConsumption = maxSafeConsumption;
-        this.itemCategories = itemCategories;
     }
 
     public Item() { }

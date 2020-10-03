@@ -2,6 +2,7 @@ package com.practice.mealoptimizer.repository;
 
 
 import com.practice.mealoptimizer.domain.Category;
+import com.practice.mealoptimizer.domain.Item;
 import com.practice.mealoptimizer.domain.Meal;
 import com.practice.mealoptimizer.domain.Order;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,10 +45,10 @@ public class OrderRepositoryTest {
     @BeforeEach
     public void setup() {
 
-        List categoryList = new ArrayList<Category>();
-        categoryList.add(Category.ALL);
         List<Meal> mealList = new ArrayList<Meal>();
         order = new Order();
+        List categoryList = new ArrayList<Category>();
+        categoryList.add(new Category("GENERAL", "ALL"));
 
         //Setup min and max nutrient limits
         Map<String, Integer> nutrientMinLimits = new HashMap<String, Integer>();
