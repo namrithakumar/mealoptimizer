@@ -1,33 +1,29 @@
 package com.practice.mealoptimizer.web;
 
-import com.practice.mealoptimizer.domain.Category;
-import com.practice.mealoptimizer.service.ItemService;
+import com.practice.mealoptimizer.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping(path = "/mealoptimizer/items")
 public class ItemController {
 
-    private ItemService itemService;
+    private CategoryService categoryService;
 
     @Autowired
-    public ItemController(ItemService itemService) {
-        this.itemService = itemService;
+    public ItemController(CategoryService categoryService) {
+        this.categoryService = categoryService;
     }
 
     @RequestMapping(method = RequestMethod.GET, path = "/find")
-    public ResponseEntity<List<String>> findItemsByCategory(@RequestParam("category") Category category) {
+    public ResponseEntity<List<String>> findItemsByCategory(@RequestParam("category") String categoryName) {
         try {
-            List<String> itemNames = new ArrayList<>();
-            itemService.findByItemCategoriesContains(category).forEach(item -> itemNames.add(item.getItemName()));
-            return new ResponseEntity<List<String>>(itemNames, HttpStatus.OK);
+            return new ResponseEntity<List<String>>(categoryService.findItemNamesByCategory(categoryName), HttpStatus.OK);
         } catch (RuntimeException re) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, re.getMessage());
         }

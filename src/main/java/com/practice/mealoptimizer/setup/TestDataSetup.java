@@ -12,7 +12,7 @@ public class TestDataSetup {
 
     public static Order getDataSetup() {
         List categoryList = new ArrayList<Category>();
-        categoryList.add(new Category("GENERAL", "ALL", new ArrayList<Item>()));
+        categoryList.add(new Category("GENERAL", "ALL"));
         List<Meal> mealList = new ArrayList<Meal>();
         Order order = new Order();
         Map<String, Integer> nutrientMinLimits = new HashMap<String, Integer>();

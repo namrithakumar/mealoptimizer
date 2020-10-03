@@ -1,7 +1,8 @@
 package com.practice.mealoptimizer.web;
 
 import com.practice.mealoptimizer.domain.Order;
-import com.practice.mealoptimizer.dto.OrderDTO;
+import com.practice.mealoptimizer.dto.request.OrderRequestDTO;
+import com.practice.mealoptimizer.dto.response.OrderResponseDTO;
 import com.practice.mealoptimizer.mapper.OrderMapper;
 import com.practice.mealoptimizer.mapper.ResultMapper;
 import com.practice.mealoptimizer.processor.OptimizationType;
@@ -38,15 +39,15 @@ public class OrderController {
     }
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", path = "/save")
-    public ResponseEntity<OrderDTO> save(@RequestBody @Valid OrderDTO orderDTO) {
+    public ResponseEntity<OrderResponseDTO> save(@RequestBody @Valid OrderRequestDTO orderRequestDTO) {
         try {
 
-            Order order = orderMapper.orderDTOtoOrder(orderDTO);
+            Order order = orderMapper.orderDTOtoOrder(orderRequestDTO);
             Optimizer optimizer = optimizerFactory.getOptimizerByType(OptimizationType.COST);
             Map<String, Object> result = optimizer.optimizeByOptimizationType(order);
             order = resultMapper.mapResultToOrder(result, order);
-            OrderDTO responseDTO = orderMapper.ordertoOrderDTO(orderService.saveOrder(order));
-            return new ResponseEntity<OrderDTO>(responseDTO, HttpStatus.CREATED);
+            OrderResponseDTO responseDTO = orderMapper.ordertoOrderDTO(orderService.saveOrder(order));
+            return new ResponseEntity<OrderResponseDTO>(responseDTO, HttpStatus.CREATED);
 
         } catch (RuntimeException re) {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, re.getMessage());

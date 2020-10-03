@@ -1,12 +1,9 @@
 package com.practice.mealoptimizer.repository;
 
-import com.practice.mealoptimizer.domain.Category;
 import com.practice.mealoptimizer.domain.Item;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /*
  * Note: save(), findAll() methods in this repo will only be used when we create an admin screen for user to enter Item info.
@@ -20,5 +17,4 @@ public interface ItemRepository extends CrudRepository<Item, Long> {
 
     public Item findByItemName(String itemName);
 
-    public List<Item> findByItemCategoriesContains(Category category);
 }

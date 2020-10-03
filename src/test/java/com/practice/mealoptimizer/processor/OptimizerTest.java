@@ -44,7 +44,7 @@ public class OptimizerTest {
     public void setup() {
 
         List categoryList = new ArrayList<Category>();
-        categoryList.add(Category.ALL);
+        categoryList.add(new Category("GENERAL","ALL"));
         List<Meal> mealList = new ArrayList<Meal>();
         order = new Order();
 

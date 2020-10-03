@@ -1,6 +1,8 @@
 package com.practice.mealoptimizer.domain;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -13,12 +15,12 @@ public class Category {
     private String displayValue;
 
     @ManyToMany(mappedBy="itemCategories")
-    private List<Item> items;
+    @Size(min=1, message="Category must have at least 1 item")
+    private List<Item> item = new ArrayList<>();
 
-    public Category(String categoryName, String displayValue, List<Item> items) {
+    public Category(String categoryName, String displayValue) {
         this.categoryName = categoryName;
         this.displayValue = displayValue;
-        this.items = items;
     }
 
     public Category() {
@@ -40,11 +42,11 @@ public class Category {
         this.displayValue = displayValue;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public List<Item> getItem() {
+        return item;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setItemList(List<Item> item) {
+        this.item = item;
     }
 }

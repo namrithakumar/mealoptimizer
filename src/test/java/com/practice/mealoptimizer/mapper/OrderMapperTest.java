@@ -1,15 +1,12 @@
 package com.practice.mealoptimizer.mapper;
 
 import com.practice.mealoptimizer.domain.Order;
-import com.practice.mealoptimizer.dto.OrderDTO;
+import com.practice.mealoptimizer.dto.request.OrderRequestDTO;
 import org.junit.jupiter.api.Test;
-import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +32,10 @@ public class OrderMapperTest {
         itemNames.add(ITEM_NAME_3);
         itemNames.add(ITEM_NAME_4);
 
-        OrderDTO orderDTO = new OrderDTO(itemNames, LocalDate.now().plusDays(7));
-        Order order = orderMapper.orderDTOtoOrder(orderDTO);
+        OrderRequestDTO orderRequestDTO = new OrderRequestDTO(itemNames, LocalDate.now().plusDays(7));
+        Order order = orderMapper.orderDTOtoOrder(orderRequestDTO);
         assertEquals(order.getMealList().size(), itemNames.size());
         order.getMealList().forEach(meal -> assertNotNull(meal.getItem()));
-        assertEquals(orderDTO.getDateOfDelivery(), order.getDateOfDelivery());
+        assertEquals(orderRequestDTO.getDateOfDelivery(), order.getDateOfDelivery());
     }
 }
