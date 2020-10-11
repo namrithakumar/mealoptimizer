@@ -1,6 +1,5 @@
 package com.practice.mealoptimizer.service;
 
-import com.practice.mealoptimizer.domain.Category;
 import com.practice.mealoptimizer.projection.CategoryView;
 import com.practice.mealoptimizer.projection.ItemView;
 import com.practice.mealoptimizer.repository.CategoryRepository;

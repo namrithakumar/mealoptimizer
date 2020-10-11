@@ -1,6 +1,7 @@
 package com.practice.mealoptimizer.processor;
 
 import org.springframework.stereotype.Component;
+import com.practice.mealoptimizer.domain.OptimizationType;
 
 @Component
 public class OptimizerFactory {

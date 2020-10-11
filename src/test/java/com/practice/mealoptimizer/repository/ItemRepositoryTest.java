@@ -1,5 +1,6 @@
 package com.practice.mealoptimizer.repository;
 
+import com.practice.mealoptimizer.domain.Item;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -23,6 +24,8 @@ public class ItemRepositoryTest {
     @Test
     void testFindByItemName() {
         double expectedItemCost = Double.valueOf(4.19);
-        assertEquals(expectedItemCost, itemRepository.findByItemName("Strawberry Milkshake").getItemCost());
+        Item item = itemRepository.findByItemName("Strawberry Milkshake");
+        assertEquals(expectedItemCost, item.getItemCost());
+        assertEquals(2, item.getItemCategories().size());
     }
 }

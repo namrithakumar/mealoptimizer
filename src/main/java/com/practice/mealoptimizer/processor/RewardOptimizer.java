@@ -2,6 +2,9 @@ package com.practice.mealoptimizer.processor;
 
 import com.practice.mealoptimizer.domain.Meal;
 import com.practice.mealoptimizer.domain.Order;
+import org.ojalgo.optimisation.ExpressionsBasedModel;
+import org.ojalgo.optimisation.Optimisation;
+import org.ojalgo.optimisation.Variable;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -21,6 +24,10 @@ public class RewardOptimizer extends Optimizer {
 
     @Override
     public Map<String, Object> optimizeByOptimizationType(Order order) {
-        return super.optimize(order, this.constructWeightMap(order));
+        Variable[] variables = new Variable[order.getMealList().size()];
+        ExpressionsBasedModel model = super.constructModel(order, this.constructWeightMap(order));
+        // Solve
+        Optimisation.Result result = model.maximise();
+        return super.constructMealMap(result, model.getVariables().toArray(variables));
     }
 }

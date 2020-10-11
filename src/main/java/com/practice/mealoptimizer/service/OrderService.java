@@ -5,6 +5,8 @@ import com.practice.mealoptimizer.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class OrderService {
 
@@ -15,7 +17,9 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public Order saveOrder(Order order) {
-        return orderRepository.save(order);
+    public Iterable<Order> saveAll(List<Order> orders) {
+        return orderRepository.saveAll(orders);
     }
+
+    public long getCountOfOrders() { return orderRepository.count(); }
 }

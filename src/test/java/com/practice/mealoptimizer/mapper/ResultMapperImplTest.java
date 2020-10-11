@@ -3,18 +3,33 @@ package com.practice.mealoptimizer.mapper;
 import com.practice.mealoptimizer.domain.Item;
 import com.practice.mealoptimizer.domain.Meal;
 import com.practice.mealoptimizer.domain.Order;
+import com.practice.mealoptimizer.dto.request.OrderRequestDTO;
+import com.practice.mealoptimizer.dto.response.MealDTO;
+import com.practice.mealoptimizer.dto.response.OptimizedMealPlanDTO;
+import com.practice.mealoptimizer.dto.response.OrderResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 class ResultMapperImplTest {
 
-    private Map<String, Object> result;
+    @Mock
+    private OrderMapper orderMapper;
 
-    private ResultMapper resultMapper;
+    @InjectMocks
+    private ResultMapperImpl resultMapper;
+
+    private Map<String, Object> result;
 
     private Order order;
 
@@ -38,7 +53,7 @@ class ResultMapperImplTest {
         result.put(itemNames[2], 2.0);
         result.put(itemNames[3], 1.0);
 
-        resultMapper = new ResultMapperImpl();
+        //resultMapper = new ResultMapperImpl();
 
         order = new Order();
 
@@ -55,10 +70,24 @@ class ResultMapperImplTest {
     }
 
     @Test
-    void mapResultToOrderTest() {
+    void testMapResultToOrder() {
         order = resultMapper.mapResultToOrder(result, order);
         order.getMealList().forEach(meal -> {
             assertEquals(result.get(meal.getItem().getItemName()), meal.getPortion());
         });
+    }
+
+    @Test
+    void testMapOrderToOrderResponseDTO() {
+        OrderResponseDTO response = new OrderResponseDTO();
+        response.setOrderId(1L);
+        response.setDateOfDelivery(LocalDate.now().plusDays(7));
+        
+        OptimizedMealPlanDTO optimizedMealPlan = new OptimizedMealPlanDTO();
+        
+        when(orderMapper.orderToOrderResponseDTO(order)).thenReturn(response);
+        when(orderMapper.orderToOptimizedMealPlan(order)).thenReturn(optimizedMealPlan);
+        
+        assertEquals(2, resultMapper.mapOrderToOrderResponseDTO(Arrays.asList(order, order)).getMealPlan().size());
     }
 }

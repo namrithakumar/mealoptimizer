@@ -1,6 +1,7 @@
 package com.practice.mealoptimizer.processor;
 
 import com.practice.mealoptimizer.domain.Meal;
+import com.practice.mealoptimizer.domain.OptimizationType;
 import com.practice.mealoptimizer.domain.Order;
 import org.ojalgo.optimisation.Expression;
 import org.ojalgo.optimisation.ExpressionsBasedModel;
@@ -16,18 +17,18 @@ import java.util.Map;
 
 @Component
 public abstract class Optimizer {
-    
+
+    private OptimizationType optimizationType;
+
     public abstract Map<String, Double> constructWeightMap(Order order);
 
     public abstract Map<String, Object> optimizeByOptimizationType(Order order);
 
-    public Map<String, Object> optimize(Order order, Map<String, Double> weightMap) {
-
-        Map<String, Object> optimizedMealPlanMap = new HashMap<>();
+    public ExpressionsBasedModel constructModel(Order order, Map<String, Double> weightMap) {
 
         List<String> nutrientNames = new ArrayList<String>();
         nutrientNames.addAll(order.getMealList().get(0).getItem().getNutritionProfile().keySet());
-        int i = 0,j = 0,k = 0,l = 0;
+        int i = 0,j = 0,k = 0;
 
         // Create a new model.
         ExpressionsBasedModel model = new ExpressionsBasedModel();
@@ -59,17 +60,28 @@ public abstract class Optimizer {
                 expressions[j].set(variables[k], itemNutrientsMap.get(nutrientName));
             }
         }
+        return model;
+    }
 
-        // Solve
-        Optimisation.Result result = model.minimise();
+    public Map<String, Object> constructMealMap(Optimisation.Result result, Variable[] variables) {
+        Map<String, Object> optimizedMealPlanMap = new HashMap<>();
 
         int size = result.getSolution(new NumberContext()).size();
 
         optimizedMealPlanMap.put("STATE", result.getState());
         optimizedMealPlanMap.put("VALUE", result.getValue());
-        for(l=0; l<size; l++) {
+        optimizedMealPlanMap.put("OPTIMIZATION-TYPE", this.getOptimizationType());
+        for(int l=0; l<size; l++) {
             optimizedMealPlanMap.put(variables[l].getName(), result.getSolution(new NumberContext()).doubleValue(l));
         }
         return optimizedMealPlanMap;
+    }
+
+    public void setOptimizationType(OptimizationType optimizationType) {
+        this.optimizationType = optimizationType;
+    }
+
+    public OptimizationType getOptimizationType() {
+        return this.optimizationType;
     }
 }

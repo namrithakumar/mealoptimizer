@@ -9,6 +9,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
@@ -23,18 +28,32 @@ class OrderServiceTest {
     @InjectMocks
     private OrderService orderService;
 
-    private Order order;
+    private Order order1;
+    private Order order2;
+
+    private List<Order> ordersToBeSaved = new ArrayList<>();
 
     @BeforeEach
     void setUp() {
-        order = new Order();
-        order.setOrderId(1L);
+        order1 = new Order();
+        order1.setOrderId(1L);
+
+        order2 = new Order();
+        order2.setOrderId(1L);
+
+        ordersToBeSaved.add(order1);
+        ordersToBeSaved.add(order2);
     }
 
     @Test
-    void saveOrderTest() {
-        when(orderRepository.save(order)).thenReturn(order);
-        assertEquals(order, orderService.saveOrder(order));
-        verify(orderRepository, times(1)).save(order);
+    void testSaveAll() {
+        when(orderRepository.saveAll(ordersToBeSaved)).thenReturn(ordersToBeSaved);
+        List<Order> savedOrders = (List) orderService.saveAll(ordersToBeSaved);
+        AtomicInteger index = new AtomicInteger();
+        ordersToBeSaved.forEach(order -> {
+            assertThat(order).isEqualToComparingFieldByField(savedOrders.get(index.get()));
+        });
+        verify(orderRepository, times(1)).saveAll(ordersToBeSaved);
     }
+
 }

@@ -13,10 +13,13 @@ public class Meal {
     private long mealId;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "orderId", referencedColumnName = "orderId")
+    @JoinColumns({
+            @JoinColumn(name = "orderId", referencedColumnName = "orderId"),
+            @JoinColumn(name = "optimizationType", referencedColumnName = "optimizationType")
+    })
     private Order order;
 
-    @OneToOne(fetch = FetchType.    EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @NotNull
     private Item item;
 

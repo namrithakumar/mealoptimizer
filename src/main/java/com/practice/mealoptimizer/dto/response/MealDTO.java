@@ -1,4 +1,4 @@
-package com.practice.mealoptimizer.dto;
+package com.practice.mealoptimizer.dto.response;
 
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Min;
