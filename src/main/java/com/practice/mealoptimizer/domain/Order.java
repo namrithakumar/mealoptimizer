@@ -4,17 +4,22 @@ import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
 @Entity
 @Table(name="orders")
-public class Order {
+@IdClass(OrderId.class)
+public class Order implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private long orderId;
+
+    @Id
+    @Enumerated(EnumType.STRING)
+    private OptimizationType optimizationType;
 
     @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
     @Size(min=4, max=4, message="select atleast 4 meals")
@@ -26,14 +31,18 @@ public class Order {
 
     @NotNull
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name="orders_nutrient_min_limits", joinColumns = {@JoinColumn(name="order_id", referencedColumnName = "orderId")})
+    @CollectionTable(name="orders_nutrient_min_limits",
+            joinColumns = { @JoinColumn(name="order_id", referencedColumnName = "orderId"),
+                            @JoinColumn(name="optimizationType", referencedColumnName = "optimizationType")})
     @MapKeyJoinColumn(name="nutrient_name")
     @Column(name="nutrient_min_limit")
     private Map<String,Integer> nutrientMinLimits;
 
     @NotNull
     @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name="orders_nutrient_max_limits", joinColumns = {@JoinColumn(name="order_id", referencedColumnName = "orderId")})
+    @CollectionTable(name="orders_nutrient_max_limits",
+            joinColumns = { @JoinColumn(name="order_id", referencedColumnName = "orderId"),
+                            @JoinColumn(name="optimizationType", referencedColumnName = "optimizationType")})
     @MapKeyJoinColumn(name="nutrient_name")
     @Column(name="nutrient_max_limit")
     private Map<String,Integer> nutrientMaxLimits;
@@ -42,12 +51,12 @@ public class Order {
 
     public Order() {}
 
-    public Order(long orderId, List<Meal> mealList, LocalDate dateOfDelivery, Map<String,Integer> nutrientMinLimits, Map<String,Integer> nutrientMaxLimits) {
-        this.orderId = orderId;
+    public Order(List<Meal> mealList, LocalDate dateOfDelivery, Map<String,Integer> nutrientMinLimits, Map<String,Integer> nutrientMaxLimits, OptimizationType optimizationType) {
         this.mealList = mealList;
         this.dateOfDelivery = dateOfDelivery;
         this.nutrientMinLimits = nutrientMinLimits;
         this.nutrientMaxLimits = nutrientMaxLimits;
+        this.optimizationType = optimizationType;
     }
 
     public long getOrderId() {
@@ -96,6 +105,14 @@ public class Order {
             orderCost += meal.getMealCost();
         }
         return orderCost;
+    }
+
+    public OptimizationType getOptimizationType() {
+        return optimizationType;
+    }
+
+    public void setOptimizationType(OptimizationType optimizationType) {
+        this.optimizationType = optimizationType;
     }
 
     @PrePersist

@@ -1,16 +1,13 @@
 package com.practice.mealoptimizer.repository;
 
 
-import com.practice.mealoptimizer.domain.Category;
-import com.practice.mealoptimizer.domain.Item;
-import com.practice.mealoptimizer.domain.Meal;
-import com.practice.mealoptimizer.domain.Order;
+import com.practice.mealoptimizer.domain.*;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
@@ -18,8 +15,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @DataJpaTest
@@ -32,7 +31,10 @@ public class OrderRepositoryTest {
     @Autowired
     private ItemRepository itemRepository;
 
-    Order order = null;
+    private Order order1 = null;
+    private Order order2 = null;
+
+    List<Order> ordersToBeSaved = new ArrayList<>();
 
     String ITEM_NAME_1 = "Green Salad";
     String ITEM_NAME_2 = "Icecream";
@@ -46,7 +48,7 @@ public class OrderRepositoryTest {
     public void setup() {
 
         List<Meal> mealList = new ArrayList<Meal>();
-        order = new Order();
+        order1 = new Order();
         List categoryList = new ArrayList<Category>();
         categoryList.add(new Category("GENERAL", "ALL"));
 
@@ -89,10 +91,17 @@ public class OrderRepositoryTest {
         mealList.add(meal3);
         mealList.add(meal4);
 
-        order.setMealList(mealList);
-        order.setDateOfDelivery(LocalDate.now().plusDays(7));
-        order.setNutrientMaxLimits(nutrientMaxLimits);
-        order.setNutrientMinLimits(nutrientMinLimits);
+        order1.setMealList(mealList);
+        order1.setDateOfDelivery(LocalDate.now().plusDays(7));
+        order1.setNutrientMaxLimits(nutrientMaxLimits);
+        order1.setNutrientMinLimits(nutrientMinLimits);
+        order1.setOptimizationType(OptimizationType.COST);
+
+        order2 = order1;
+        order2.setOptimizationType(OptimizationType.REWARD);
+
+        ordersToBeSaved.add(order1);
+        ordersToBeSaved.add(order2);
     }
 
     @Test
@@ -102,18 +111,19 @@ public class OrderRepositoryTest {
     }
 
     @Test
-    void testSaveOrder() {
-    assertTrue(order!=null);
-    Order savedOrder = orderRepository.save(order);
-    assertThat(savedOrder).isEqualToComparingFieldByField(order);
+    void testSaveAll() {
+    assertTrue(!ordersToBeSaved.isEmpty());
+    List savedOrders = (List) orderRepository.saveAll(ordersToBeSaved);
+    //isEqualToComparingFieldByField(order);
+    assertEquals(ordersToBeSaved.size(), savedOrders.size());
     }
 
+    @Disabled
     @Test
     void testFindAllOrderByPlacedAtDesc () {
-        Order savedOrder = orderRepository.save(order);
+        List<Order> savedOrders = (List) orderRepository.saveAll(ordersToBeSaved);
         List<Order> savedOrdersExpected = new ArrayList<>();
-        savedOrdersExpected.add(savedOrder);
-
+        savedOrdersExpected.addAll(savedOrders);
         List<Order> savedOrdersActual = (List<Order>) orderRepository.findAllByOrderByPlacedAtAsc();
         assertThat(savedOrdersActual).containsExactlyElementsOf(savedOrdersExpected);
     }

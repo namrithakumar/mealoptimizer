@@ -1,10 +1,8 @@
 package com.practice.mealoptimizer.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.practice.mealoptimizer.dto.MealDTO;
 
 import javax.validation.constraints.Future;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
@@ -16,12 +14,8 @@ public class OrderResponseDTO {
     private long orderId;
 
     @NotNull
-    @Size(min=4, max=4, message="error in optimization, 4 meals not available")
-    private List<MealDTO> meals;
-
-    @NotNull
-    @Min(value=1, message="error in optimization, cost of Order must be atleast $1")
-    private double orderCost;
+    @Size(min=2, max=2, message="error in optimization, exactly 2 meal plans must be available")
+    private List<OptimizedMealPlanDTO> mealPlan;
 
     @NotNull
     @Future
@@ -29,12 +23,8 @@ public class OrderResponseDTO {
     private LocalDate dateOfDelivery;
 
     public OrderResponseDTO(@NotNull long orderId,
-                            @NotNull @Size(min=4, max=4, message="error in optimization, 4 meals not available") List<MealDTO> meals,
-                            @NotNull @Min(value=1, message="error in optimization, cost of Order must be atleast $1") double orderCost,
                             @NotNull @Future LocalDate dateOfDelivery) {
         this.orderId = orderId;
-        this.meals = meals;
-        this.orderCost = orderCost;
         this.dateOfDelivery = dateOfDelivery;
     }
 
@@ -48,22 +38,6 @@ public class OrderResponseDTO {
         this.orderId = orderId;
     }
 
-    public List<MealDTO> getMeals() {
-        return meals;
-    }
-
-    public void setMeals(List<MealDTO> meals) {
-        this.meals = meals;
-    }
-
-    public double getOrderCost() {
-        return orderCost;
-    }
-
-    public void setOrderCost(double orderCost) {
-        this.orderCost = orderCost;
-    }
-
     public LocalDate getDateOfDelivery() {
         return dateOfDelivery;
     }
@@ -72,4 +46,11 @@ public class OrderResponseDTO {
         this.dateOfDelivery = dateOfDelivery;
     }
 
+    public List<OptimizedMealPlanDTO> getMealPlan() {
+        return mealPlan;
+    }
+
+    public void setMealPlan(List<OptimizedMealPlanDTO> mealPlan) {
+        this.mealPlan = mealPlan;
+    }
 }

@@ -1,13 +1,11 @@
 package com.practice.mealoptimizer.processor;
 
-import com.practice.mealoptimizer.domain.Order;
-import com.practice.mealoptimizer.repository.ItemRepository;
 import com.practice.mealoptimizer.domain.Category;
 import com.practice.mealoptimizer.domain.Meal;
+import com.practice.mealoptimizer.domain.Order;
+import com.practice.mealoptimizer.repository.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.ojalgo.optimisation.ExpressionsBasedModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -21,9 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-public class OptimizerTest {
+public class RewardOptimizerTest {
 
-    private Optimizer optimizer;
+    @Autowired
+    private RewardOptimizer rewardOptimizer;
 
     @Autowired
     private ItemRepository itemRepository;
@@ -35,19 +34,14 @@ public class OptimizerTest {
     String ITEM_NAME_3 = "Strawberry Milkshake";
     String ITEM_NAME_4 = "Garlic bread";
 
-    Map<String, Double> weightMap = new HashMap<>();
+    Map<String, Double> expectedWeightMap = new HashMap<>();
 
-    @Test
-    void injectedComponentsAreNotNull(){
-        assertThat(itemRepository).isNotNull();
-    }
     /*
      * TODO: Get nutrient max, min info from User table, replace hardcoded string with values read from a file.
      */
     @BeforeEach
     public void setup() {
 
-        optimizer = Mockito.mock(Optimizer.class, Mockito.CALLS_REAL_METHODS);
         List categoryList = new ArrayList<Category>();
         categoryList.add(new Category("GENERAL","ALL"));
         List<Meal> mealList = new ArrayList<Meal>();
@@ -94,13 +88,21 @@ public class OptimizerTest {
         order.setNutrientMinLimits(nutrientMinLimits);
 
         for(Meal meal: order.getMealList()) {
-            weightMap.put(meal.getItem().getItemName(), meal.getItem().getItemCost());
+            expectedWeightMap.put(meal.getItem().getItemName(), Double.valueOf(meal.getItem().getReward()));
         }
     }
 
     @Test
-    public void testConstructModel() {
-        ExpressionsBasedModel model = optimizer.constructModel(order, weightMap);
-        assertEquals(order.getMealList().size(), model.countVariables());
+        void injectedComponentsAreNotNull(){
+        assertThat(itemRepository).isNotNull();
+        assertThat(rewardOptimizer).isNotNull();
+    }
+
+    @Test
+    void testConstructWeightMap() {
+        Map<String, Double> constructedWeightMap = rewardOptimizer.constructWeightMap(order);
+        constructedWeightMap.keySet().forEach((key) -> {
+            assertEquals(expectedWeightMap.get(key), constructedWeightMap.get(key));
+        });
     }
 }
