@@ -21,13 +21,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
-class ItemControllerTest {
+class MenuControllerTest {
 
     @Mock
     private CategoryService categoryService;
 
     @InjectMocks
-    private ItemController itemController;
+    private MenuController menuController;
 
     private List<String> itemNamesWithCategoryFATFREE;
 
@@ -43,14 +43,15 @@ class ItemControllerTest {
         itemNamesWithCategoryFATFREE.add("Rice cake");
         itemNamesWithCategoryFATFREE.add("Quinoa bar");
 
-        mockMvc = MockMvcBuilders.standaloneSetup(itemController).setControllerAdvice(new MealOptimizerExceptionHandler()).build();
+        mockMvc = MockMvcBuilders.standaloneSetup(menuController).setControllerAdvice(new MealOptimizerExceptionHandler()).build();
     }
 
     @Test
     void findItemsByCategoryTest() {
         when(categoryService.findItemNamesByCategory(categoryName)).thenReturn(itemNamesWithCategoryFATFREE);
         try {
-            mockMvc.perform(get("/mealoptimizer/items/find").queryParam("category", categoryName))
+            mockMvc.perform(get("/mealoptimizer/menu/find")
+                   .queryParam("category", categoryName))
                    .andExpect(status().isOk())
                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
             }
