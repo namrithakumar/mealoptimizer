@@ -10,13 +10,13 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/mealoptimizer/items")
-public class ItemController {
+@RequestMapping(path = "/mealoptimizer/menu")
+public class MenuController {
 
     private CategoryService categoryService;
 
     @Autowired
-    public ItemController(CategoryService categoryService) {
+    public MenuController(CategoryService categoryService) {
         this.categoryService = categoryService;
     }
 
