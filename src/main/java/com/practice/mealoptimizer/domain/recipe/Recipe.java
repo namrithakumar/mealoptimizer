@@ -21,8 +21,9 @@ public class Recipe {
     @NotNull
     private String tutorialPath;
 
-    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @Size(min=1, message="Recipe must have atleast 1 ingredient")
+    //Consider modifying to Approach 2:A join entity to combine Recipe, Ingredient and Quantity.
+    //Consider modifying to approach 3. ref: https://stackoverflow.com/questions/29757514/hibernate-hashmapentitya-entityb-annotation-mapping
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL)
     private List<Ingredient> ingredients;
 
     public Recipe(String name, @NotBlank String description, @NotNull String imageUrl, @NotNull String tutorialPath, List<Ingredient> ingredients) {

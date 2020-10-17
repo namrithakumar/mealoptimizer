@@ -1,5 +1,7 @@
 package com.practice.mealoptimizer.domain.recipe;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -8,19 +10,21 @@ import javax.validation.constraints.NotNull;
 public class Ingredient {
 
     @Id
-    private String name; //name is same as itemName. We do not lnk name to itemName for now since we do not use this link anywhere.
+    @GeneratedValue
+    private Integer id;
+
+    private String name;
 
     private String description;
 
-    @ManyToOne
-    @JoinColumn(name ="recipe_name", nullable = false)
+    @ManyToOne(cascade=CascadeType.ALL)
     private Recipe recipe;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "quantity_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "ingredient",cascade=CascadeType.ALL)
     private Quantity quantity;
 
-    public Ingredient(@NotBlank String name, @NotNull String description, @NotNull Quantity quantity, @NotNull Recipe recipe) {
+    public Ingredient(Integer id, @NotBlank String name, @NotNull String description, Recipe recipe, Quantity quantity) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.recipe = recipe;
@@ -30,7 +34,7 @@ public class Ingredient {
     public Ingredient() { }
 
     public String getName() {
-        return name;
+        return this.name;
     }
 
     public void setName(String name) {
@@ -45,6 +49,16 @@ public class Ingredient {
         this.description = description;
     }
 
+    @JsonIgnore
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    @JsonIgnore
     public Recipe getRecipe() {
         return recipe;
     }

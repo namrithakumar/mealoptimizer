@@ -1,8 +1,11 @@
 package com.practice.mealoptimizer.domain.recipe;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Entity
 public class Quantity {
@@ -17,7 +20,7 @@ public class Quantity {
     @NotBlank
     private String measure;
 
-    @OneToOne(mappedBy = "quantity")
+    @OneToOne(cascade=CascadeType.ALL)
     private Ingredient ingredient;
 
     public Quantity(Integer id, @DecimalMin(value = "0.25", message = "Value must be atleast 0.25") Double count, @NotBlank String measure, Ingredient ingredient) {
@@ -29,6 +32,7 @@ public class Quantity {
 
     public Quantity() { }
 
+    @JsonIgnore
     public Integer getId() {
         return id;
     }
@@ -53,6 +57,7 @@ public class Quantity {
         this.measure = measure;
     }
 
+    @JsonIgnore
     public Ingredient getIngredient() {
         return ingredient;
     }
