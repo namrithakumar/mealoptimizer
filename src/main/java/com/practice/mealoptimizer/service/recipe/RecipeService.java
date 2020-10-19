@@ -5,6 +5,9 @@ import com.practice.mealoptimizer.repository.recipe.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class RecipeService {
 
@@ -15,7 +18,8 @@ public class RecipeService {
         this.recipeRepo = recipeRepo;
     }
 
-    public Recipe findByName(String name) {
-        return recipeRepo.findByName(name);
+    public List<Recipe> findByNames(List<String> names) {
+        List<Recipe> recipes = recipeRepo.findByNameIn(names);
+        return recipes;
     }
 }

@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @Controller
 @RequestMapping(path = "/mealoptimizer/recipe")
-@ResponseBody
 public class RecipeController {
 
     private RecipeService recipeService;
@@ -27,7 +27,11 @@ public class RecipeController {
     }
 
     @RequestMapping(method = RequestMethod.GET, path="find")
-    public Recipe getRecipe(@RequestParam("name") String name) {
-        return recipeService.findByName(name);
+    public ResponseEntity<List<Recipe>> getRecipe(@RequestParam("names") List<String> names) {
+        try {
+            return new ResponseEntity<List<Recipe>>(recipeService.findByNames(names), HttpStatus.OK);
+        } catch(RuntimeException re) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, re.getMessage());
+        }
     }
 }
