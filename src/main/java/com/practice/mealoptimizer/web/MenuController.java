@@ -1,5 +1,6 @@
 package com.practice.mealoptimizer.web;
 
+import com.practice.mealoptimizer.TheDietProblem;
 import com.practice.mealoptimizer.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
