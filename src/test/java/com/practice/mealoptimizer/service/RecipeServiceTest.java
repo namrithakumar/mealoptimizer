@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -101,9 +102,9 @@ public class RecipeServiceTest {
     }
 
     @Test
-    public void testFindByName() {
-       // when(recipeRepository.findByName(itemName)).thenReturn(strawberryMilkShakeRecipe);
-       // assertThat(recipeService.findByName(itemName)).isEqualToComparingFieldByField(strawberryMilkShakeRecipe);
-       // verify(recipeRepository, times(1)).findByName(itemName);
+    public void testFindByNames() {
+        when(recipeRepository.findByNameIn(Arrays.asList(itemName))).thenReturn(Arrays.asList(strawberryMilkShakeRecipe));
+        assertThat(recipeService.findByNames(Arrays.asList(itemName))).hasSameElementsAs(Arrays.asList(strawberryMilkShakeRecipe));
+        verify(recipeRepository, times(1)).findByNameIn(Arrays.asList(itemName));
     }
 }

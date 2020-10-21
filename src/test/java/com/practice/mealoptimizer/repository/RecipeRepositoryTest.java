@@ -11,6 +11,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -96,8 +97,8 @@ public class RecipeRepositoryTest {
     }
 
     @Test
-    public void testFindByName() {
-        //Recipe actual = recipeRepository.findByName(itemName);
-        //assertThat(strawberryMilkShakeRecipe).isEqualToComparingFieldByField(strawberryMilkShakeRecipe);
+    public void testFindByNameIn() {
+        List<Recipe> actual = recipeRepository.findByNameIn(Arrays.asList(itemName));
+        assertThat(strawberryMilkShakeRecipe).isEqualToComparingFieldByField(strawberryMilkShakeRecipe);
     }
 }

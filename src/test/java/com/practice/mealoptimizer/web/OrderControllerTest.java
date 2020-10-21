@@ -18,6 +18,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.time.LocalDate;
@@ -106,10 +107,11 @@ class OrderControllerTest {
     @Test
     void saveTestHttpMessageNotReadableException() throws Exception {
 
-        String request = "{\n" + "\"itemNames\": 1,\n" + "\"dateOfDelivery\":\"08/25/2020\"\n" + "}";
+        String request = "{\n" + "\"mealSelected\": 1,\n" + "\"deliveryDate\":\"08/25/2020\"\n" + "}";
 
         mockMvc.perform(post("/mealoptimizer/orders/save").contentType(MediaType.APPLICATION_JSON)
                 .content(request))
+                //.andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors").isArray())
                 .andExpect(jsonPath("$.errors", hasSize(1)))

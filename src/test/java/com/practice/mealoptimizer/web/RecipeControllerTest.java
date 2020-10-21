@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.fail;
@@ -108,12 +109,12 @@ public class RecipeControllerTest {
 
     @Test
     public void testGetRecipe() {
-        //when(recipeService.findByName(itemName)).thenReturn(strawberryMilkShakeRecipe);
+        when(recipeService.findByNames(Arrays.asList(itemName))).thenReturn(Arrays.asList(strawberryMilkShakeRecipe));
         try {
-            mockMvc.perform(get("/mealoptimizer/recipe/find?name=" + itemName))
+            mockMvc.perform(get("/mealoptimizer/recipe/find?names=" + itemName))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-            //verify(recipeService, times(1)).findByName(itemName);
+            verify(recipeService, times(1)).findByNames(Arrays.asList(itemName));
         }
         catch(Exception e) {
             fail(this.getClass().getName() + " failed with message: " + e.getMessage());
