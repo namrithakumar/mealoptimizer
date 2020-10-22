@@ -1,6 +1,7 @@
 package com.practice.mealoptimizer.util;
 
 public enum RoleType {
+
     ROLE_ADMIN("ROLE_ADMIN"), ROLE_USER("ROLE_USER");
 
     private String value;
@@ -14,5 +15,4 @@ public enum RoleType {
     public void setValue(String value) {
         this.value = value;
     }
-
 }

@@ -7,8 +7,10 @@ import com.practice.mealoptimizer.repository.user.RoleRepository;
 import com.practice.mealoptimizer.repository.user.UserRepository;
 import com.practice.mealoptimizer.util.RoleType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.annotation.PostConstruct;
 import java.util.HashMap;
@@ -24,6 +26,10 @@ public class MealOptimizerApplication {
 
 	@Autowired
 	private RoleRepository roleRepo;
+
+	@Autowired
+	@Qualifier("bCryptPasswordEncoder")
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@PostConstruct
 	public void storeUserDetails() {
@@ -48,7 +54,7 @@ public class MealOptimizerApplication {
 		Set<Role> roles = new HashSet<Role>();
 		roles.add(role);
 		roleRepo.saveAll(roles);
-		User user = new User("hp", "password", "harry.potter@gmail.com", "VEGAN", nutrientMinLimits, nutrientMaxLimits, roles);
+		User user = new User("hp", bCryptPasswordEncoder.encode("password"), "harry.potter@gmail.com", "VEGAN", nutrientMinLimits, nutrientMaxLimits, roles);
 		userRepo.save(user);
 	}
 	public static void main(String[] args) { SpringApplication.run(MealOptimizerApplication.class, args); }
