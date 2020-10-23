@@ -1,5 +1,6 @@
 package com.practice.mealoptimizer.repository;
 
+import com.practice.mealoptimizer.config.MealOptimizerTestConfig;
 import com.practice.mealoptimizer.domain.recipe.Ingredient;
 import com.practice.mealoptimizer.domain.recipe.Quantity;
 import com.practice.mealoptimizer.domain.recipe.Recipe;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DataJpaTest
 @TestPropertySource(locations="classpath:test.properties")
+@Import(MealOptimizerTestConfig.class)
 public class RecipeRepositoryTest {
 
     private String itemName = "Strawberry milkshake";

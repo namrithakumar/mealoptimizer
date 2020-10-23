@@ -1,5 +1,6 @@
 package com.practice.mealoptimizer.repository;
 
+import com.practice.mealoptimizer.config.MealOptimizerTestConfig;
 import com.practice.mealoptimizer.domain.Item;
 import com.practice.mealoptimizer.projection.CategoryView;
 import com.practice.mealoptimizer.projection.ItemView;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.context.TestPropertySource;
 
 import java.util.HashMap;
@@ -18,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
 @TestPropertySource(locations="classpath:test.properties")
+@Import(MealOptimizerTestConfig.class)
 public class CategoryRepositoryTest {
 
     private String categoryName = "FATFREE";
