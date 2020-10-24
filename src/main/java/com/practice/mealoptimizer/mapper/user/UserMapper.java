@@ -7,5 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    public LoginResponseDTO mapUserToLoginResponse(User user, String token);
+    public LoginResponseDTO mapUserToLoginResponse(User user, String token, long tokenValidTime);
 }

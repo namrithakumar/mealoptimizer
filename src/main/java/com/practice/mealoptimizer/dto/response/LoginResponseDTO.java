@@ -11,10 +11,11 @@ public class LoginResponseDTO {
     private Map<String, Integer> nutrientMinLimits;
     private Map<String, Integer> nutrientMaxLimits;
     private String token;
+    public long tokenValidTime;
 
     public LoginResponseDTO() { }
 
-    public LoginResponseDTO(Integer id, String username, String email, String preferredDietType, Map<String, Integer> nutrientMinLimits, Map<String, Integer> nutrientMaxLimits, String token) {
+    public LoginResponseDTO(Integer id, String username, String email, String preferredDietType, Map<String, Integer> nutrientMinLimits, Map<String, Integer> nutrientMaxLimits, String token, long tokenValidationTime) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -22,6 +23,7 @@ public class LoginResponseDTO {
         this.nutrientMinLimits = nutrientMinLimits;
         this.nutrientMaxLimits = nutrientMaxLimits;
         this.token = token;
+        this.tokenValidTime = tokenValidationTime;
     }
 
     public Integer getId() {
@@ -78,5 +80,13 @@ public class LoginResponseDTO {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public long getTokenValidTime() {
+        return tokenValidTime;
+    }
+
+    public void setTokenValidationTime(long tokenValidTime) {
+        this.tokenValidTime = tokenValidTime;
     }
 }
