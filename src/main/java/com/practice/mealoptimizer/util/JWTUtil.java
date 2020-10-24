@@ -2,7 +2,6 @@ package com.practice.mealoptimizer.util;
 
 import com.practice.mealoptimizer.domain.user.CustomUserDetails;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
@@ -22,7 +21,7 @@ public class JWTUtil {
 
     private String secret = "mealoptimizersecret";
 
-    private long validityInMilliseconds = 36000000;
+    private long tokenValidTimeInMilliseconds = 36000000;
 
     public String getUsernameFromJWT(String token) {
         return Jwts.parser()
@@ -48,7 +47,7 @@ public class JWTUtil {
         Map<String, Object> roleMap = new ConcurrentHashMap<String, Object>();
 
         Date now = new Date();
-        Date expiryDate = new Date(now.getTime() + validityInMilliseconds);
+        Date expiryDate = new Date(now.getTime() + tokenValidTimeInMilliseconds);
         Claims claims = Jwts.claims().setSubject(userDetails.getUsername());
         claims.put("roles", roles);
 
@@ -63,6 +62,10 @@ public class JWTUtil {
     public boolean validateToken(String authToken) throws Exception {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(authToken);
             return true;
+    }
+
+    public long getTokenValidTimeInMilliseconds() {
+        return this.tokenValidTimeInMilliseconds;
     }
 
     /* FOR REFERENCE: For a simpler validateToken using username alone,
