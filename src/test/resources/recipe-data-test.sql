@@ -16,7 +16,7 @@ INSERT INTO "PUBLIC"."RECIPE" VALUES
 ('Garlic bread', 'Because your Pizza needs a friend', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTcQ57LqBqRz6Ck_HSaWJiz4bUPPSnXEI6bNA&usqp=CAU', 'https://www.youtube.com/watch?v=In6FrKPWedk'),
 ('Peach pie', 'Dessert? Count me in.', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSukmPEBXh98bK4Ca5u6J3PpLmEkUyA-akBLg&usqp=CAU', 'https://www.youtube.com/watch?v=E5OsLOFncdk'),
 ('Lemon pudding', 'Full on taste!', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQDo_T3uUv8k9OOpyqQ_Li-hGFPdlK9kftgqg&usqp=CAU', 'https://www.youtube.com/watch?v=FwksiY5ML1k'),
-('Honey garlic salmon	', 'Fish for protein - Fish for progress', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTBgE8MYsTtYEHljprKxDp_aPSjOaQdFQ5mdA&usqp=CAU', 'https://www.youtube.com/watch?v=P4xuyEq37nE'),
+('Honey garlic salmon', 'Fish for protein - Fish for progress', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTBgE8MYsTtYEHljprKxDp_aPSjOaQdFQ5mdA&usqp=CAU', 'https://www.youtube.com/watch?v=P4xuyEq37nE'),
 ('Parfait', 'The best thing you will ever taste', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTjfRRCWU_BANMahwp2VrQffxlTJwNF7-GNzw&usqp=CAU', 'https://www.youtube.com/watch?v=uaa2NqGsOzI');
 INSERT INTO "PUBLIC"."INGREDIENT" VALUES
 (2, 'A healthy way to meet your protein needs', 'egg', 'Egg Roll'),
@@ -151,15 +151,15 @@ INSERT INTO "PUBLIC"."INGREDIENT" VALUES
 (258, 'lemon juice', 'lemon juice', 'Lemon pudding'),
 (260, 'lemon zest', 'lemon zest', 'Lemon pudding'),
 (262, 'yogurt', 'yogurt', 'Lemon pudding'),
-(264, 'salmon', 'salmon', 'Honey garlic salmon	'),
-(266, 'melted butter', 'melted butter', 'Honey garlic salmon	'),
-(268, 'olive oil', 'olive oil', 'Honey garlic salmon	'),
-(270, 'soy sauce', 'soy sauce', 'Honey garlic salmon	'),
-(272, 'honey', 'honey', 'Honey garlic salmon	'),
-(274, 'chopped garlic', 'chopped garlic', 'Honey garlic salmon	'),
-(276, 'brown sugar', 'brown sugar', 'Honey garlic salmon	'),
-(278, 'dijon mustard', 'dijon mustard', 'Honey garlic salmon	'),
-(280, 'red pepper flakes', 'red pepper flakes', 'Honey garlic salmon	');
+(264, 'salmon', 'salmon', 'Honey garlic salmon'),
+(266, 'melted butter', 'melted butter', 'Honey garlic salmon'),
+(268, 'olive oil', 'olive oil', 'Honey garlic salmon'),
+(270, 'soy sauce', 'soy sauce', 'Honey garlic salmon'),
+(272, 'honey', 'honey', 'Honey garlic salmon'),
+(274, 'chopped garlic', 'chopped garlic', 'Honey garlic salmon'),
+(276, 'brown sugar', 'brown sugar', 'Honey garlic salmon'),
+(278, 'dijon mustard', 'dijon mustard', 'Honey garlic salmon'),
+(280, 'red pepper flakes', 'red pepper flakes', 'Honey garlic salmon');
 INSERT INTO "PUBLIC"."QUANTITY" VALUES
 (1, 2.0, 'no', 2),
 (3, 1.0, 'no', 4),
