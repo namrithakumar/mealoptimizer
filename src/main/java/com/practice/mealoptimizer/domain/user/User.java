@@ -1,8 +1,5 @@
 package com.practice.mealoptimizer.domain.user;
 
-import com.practice.mealoptimizer.domain.Category;
-import org.hibernate.annotations.NaturalId;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -15,8 +12,12 @@ public class User {
     @Id
     @GeneratedValue
     private Integer id;
+
+    @Column(unique=true)
     private String username;
     private String password;
+
+    @Column(unique=true)
     private String email;
     private String preferredDietType;
     @NotNull
@@ -34,7 +35,7 @@ public class User {
     @Column(name="nutrient_max_limit")
     private Map<String, Integer> nutrientMaxLimits;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

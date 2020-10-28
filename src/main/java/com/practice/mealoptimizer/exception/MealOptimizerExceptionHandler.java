@@ -175,6 +175,18 @@ HttpMediaTypeNotSupportedException occurs when you send a requested with an unsu
                 ex, mealOptimizerError, getDefaultHeader(), mealOptimizerError.status, request);
     }
 
+    @ExceptionHandler({UserException.class})
+    protected ResponseEntity<Object> handleUserException(
+            UserException ex,
+            WebRequest request) {
+        String error = ex.getMessage();
+
+        MealOptimizerError mealOptimizerError = new MealOptimizerErrorFunctional(HttpStatus.FOUND,
+                ex.getMessage(), error);
+        return this.handleExceptionInternal(
+                ex, mealOptimizerError, getDefaultHeader(), mealOptimizerError.status, request);
+    }
+
     private HttpHeaders getDefaultHeader() {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set(HttpHeaders.CONTENT_TYPE, APPLICATION_JSON_VALUE);
