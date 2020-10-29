@@ -1,5 +1,7 @@
 package com.practice.mealoptimizer.domain;
 
+import com.practice.mealoptimizer.domain.user.User;
+
 import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotNull;
@@ -29,34 +31,27 @@ public class Order implements Serializable {
     //@Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([1-3][0-9])(\\/)(20[1-3][0-9])", message="Date format MM/DD/YYYY")
     private LocalDate dateOfDelivery;
 
-    @NotNull
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name="orders_nutrient_min_limits",
-            joinColumns = { @JoinColumn(name="order_id", referencedColumnName = "orderId"),
-                            @JoinColumn(name="optimizationType", referencedColumnName = "optimizationType")})
-    @MapKeyJoinColumn(name="nutrient_name")
-    @Column(name="nutrient_min_limit")
+    @Transient
     private Map<String,Integer> nutrientMinLimits;
 
-    @NotNull
-    @ElementCollection(fetch = FetchType.EAGER)
-    @CollectionTable(name="orders_nutrient_max_limits",
-            joinColumns = { @JoinColumn(name="order_id", referencedColumnName = "orderId"),
-                            @JoinColumn(name="optimizationType", referencedColumnName = "optimizationType")})
-    @MapKeyJoinColumn(name="nutrient_name")
-    @Column(name="nutrient_max_limit")
+    @Transient
     private Map<String,Integer> nutrientMaxLimits;
 
     private LocalDate placedAt;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private User user;
+
     public Order() {}
 
-    public Order(List<Meal> mealList, LocalDate dateOfDelivery, Map<String,Integer> nutrientMinLimits, Map<String,Integer> nutrientMaxLimits, OptimizationType optimizationType) {
+    public Order(List<Meal> mealList, LocalDate dateOfDelivery, Map<String,Integer> nutrientMinLimits, Map<String,Integer> nutrientMaxLimits, OptimizationType optimizationType, User user) {
         this.mealList = mealList;
         this.dateOfDelivery = dateOfDelivery;
         this.nutrientMinLimits = nutrientMinLimits;
         this.nutrientMaxLimits = nutrientMaxLimits;
         this.optimizationType = optimizationType;
+        this.user = user;
     }
 
     public long getOrderId() {
@@ -113,6 +108,14 @@ public class Order implements Serializable {
 
     public void setOptimizationType(OptimizationType optimizationType) {
         this.optimizationType = optimizationType;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @PrePersist

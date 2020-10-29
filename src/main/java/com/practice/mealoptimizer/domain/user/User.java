@@ -1,5 +1,7 @@
 package com.practice.mealoptimizer.domain.user;
 
+import com.practice.mealoptimizer.domain.Order;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
@@ -41,7 +43,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User(String username, String password, String email, String preferredDietType, Map<String, Integer> nutrientMinLimits, Map<String, Integer> nutrientMaxLimits, Set<Role> roles) {
+    @OneToOne(mappedBy = "user")
+    private Order order;
+
+    public User(String username, String password, String email, String preferredDietType, Map<String, Integer> nutrientMinLimits, Map<String, Integer> nutrientMaxLimits, Set<Role> roles, Order order) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -49,6 +54,7 @@ public class User {
         this.nutrientMinLimits = nutrientMinLimits;
         this.nutrientMaxLimits = nutrientMaxLimits;
         this.roles = roles;
+        this.order = order;
     }
 
     public User() {
@@ -112,5 +118,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }
