@@ -1,7 +1,6 @@
 package com.practice.mealoptimizer.domain.user;
 
-import com.practice.mealoptimizer.domain.Category;
-import org.hibernate.annotations.NaturalId;
+import com.practice.mealoptimizer.domain.Order;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,8 +14,12 @@ public class User {
     @Id
     @GeneratedValue
     private Integer id;
+
+    @Column(unique=true)
     private String username;
     private String password;
+
+    @Column(unique=true)
     private String email;
     private String preferredDietType;
     @NotNull
@@ -34,13 +37,16 @@ public class User {
     @Column(name="nutrient_max_limit")
     private Map<String, Integer> nutrientMaxLimits;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public User(String username, String password, String email, String preferredDietType, Map<String, Integer> nutrientMinLimits, Map<String, Integer> nutrientMaxLimits, Set<Role> roles) {
+    @OneToOne(mappedBy = "user")
+    private Order order;
+
+    public User(String username, String password, String email, String preferredDietType, Map<String, Integer> nutrientMinLimits, Map<String, Integer> nutrientMaxLimits, Set<Role> roles, Order order) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -48,6 +54,7 @@ public class User {
         this.nutrientMinLimits = nutrientMinLimits;
         this.nutrientMaxLimits = nutrientMaxLimits;
         this.roles = roles;
+        this.order = order;
     }
 
     public User() {
@@ -111,5 +118,13 @@ public class User {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
     }
 }

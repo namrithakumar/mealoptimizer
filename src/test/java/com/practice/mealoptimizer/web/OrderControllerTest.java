@@ -64,6 +64,7 @@ class OrderControllerTest {
         requestDTO.setDateOfDelivery(LocalDate.now().plusDays(7));
         requestDTO.setItemNames(Arrays.asList(new String[] {"Egg Roll","Strawberry Milkshake","Green Salad","Chicken Sandwich"}));
         requestDTO.setOptimizationTypes(Arrays.asList(new OptimizationType[] { OptimizationType.COST, OptimizationType.REWARD}));
+        requestDTO.setUsername("existentuser");
 
         order = new Order();
         order.setOrderId(1L);

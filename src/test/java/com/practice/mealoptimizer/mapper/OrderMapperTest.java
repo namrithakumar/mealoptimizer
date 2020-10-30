@@ -11,7 +11,9 @@ import com.practice.mealoptimizer.dto.response.OrderResponseDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@TestPropertySource(locations="classpath:test.properties")
 public class OrderMapperTest {
 
     @Autowired
@@ -79,7 +82,7 @@ public class OrderMapperTest {
         optimizationTypes.add(OptimizationType.COST);
         optimizationTypes.add(OptimizationType.REWARD);
 
-        OrderRequestDTO orderRequestDTO = new OrderRequestDTO(itemNames, LocalDate.now().plusDays(7), optimizationTypes);
+        OrderRequestDTO orderRequestDTO = new OrderRequestDTO(itemNames, LocalDate.now().plusDays(7), optimizationTypes, "existentuser");
         Order order = orderMapper.orderRequestDTOtoOrder(orderRequestDTO);
         assertEquals(order.getMealList().size(), itemNames.size());
         order.getMealList().forEach(meal -> assertNotNull(meal.getItem()));

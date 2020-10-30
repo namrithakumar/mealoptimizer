@@ -1,5 +1,7 @@
 package com.practice.mealoptimizer.web.user;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.practice.mealoptimizer.domain.user.User;
 import com.practice.mealoptimizer.dto.request.LoginRequestDTO;
 import com.practice.mealoptimizer.dto.response.LoginResponseDTO;
 import com.practice.mealoptimizer.mapper.user.UserMapper;
@@ -31,12 +33,15 @@ public class UserController {
 
     private UserService userService;
 
+    private ObjectMapper objectMapper;
+
     @Autowired
-    public UserController(JWTUtil jwtUtil, AuthenticationManager authenticationManager, UserMapper userMapper, UserService userService) {
+    public UserController(JWTUtil jwtUtil, AuthenticationManager authenticationManager, UserMapper userMapper, UserService userService, ObjectMapper objectMapper) {
         this.jwtutil = jwtUtil;
         this.authenticationManager = authenticationManager;
         this.userMapper = userMapper;
         this.userService = userService;
+        this.objectMapper = objectMapper;
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/login")
@@ -52,5 +57,13 @@ public class UserController {
 
         String token = jwtutil.generateToken(authentication);
         return new ResponseEntity<LoginResponseDTO>(userMapper.mapUserToLoginResponse(userService.findByUsername(loginRequest.getUsername()), token, jwtutil.getTokenValidTimeInMilliseconds()), HttpStatus.FOUND);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "/register")
+    public ResponseEntity<LoginResponseDTO> register(@RequestBody @Valid User user) throws Exception {
+        String password = user.getPassword();
+        User savedUser = userService.saveUser(user);
+        //User is registered and also logged in immediately. Hence return a login response with jwt.
+        return this.login(new LoginRequestDTO(user.getUsername(), password));
     }
 }
