@@ -56,7 +56,7 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = jwtutil.generateToken(authentication);
-        return new ResponseEntity<LoginResponseDTO>(userMapper.mapUserToLoginResponse(userService.findByUsername(loginRequest.getUsername()), token, jwtutil.getTokenValidTimeInMilliseconds()), HttpStatus.FOUND);
+        return new ResponseEntity<LoginResponseDTO>(userMapper.mapUserToLoginResponse(userService.findByUsername(loginRequest.getUsername()), token, jwtutil.getTokenValidTimeInMilliseconds()), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST, path = "/register")
