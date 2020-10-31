@@ -41,6 +41,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable().authorizeRequests()
                 .antMatchers("/mealoptimizer/user/register").permitAll()
                 .antMatchers("/mealoptimizer/user/login").permitAll()
+                .antMatchers("/mealoptimizer/user/fetchAllUsernames").permitAll()
                 .anyRequest().authenticated();
     }
 

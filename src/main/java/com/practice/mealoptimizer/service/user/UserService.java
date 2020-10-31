@@ -41,4 +41,8 @@ public class UserService {
         user.setRoles(defaultRoles);
         return userRepo.save(user);
     }
+
+    public Set<String> fetchAllUsernames() {
+        return userRepo.fetchAllUsernames();
+    }
 }

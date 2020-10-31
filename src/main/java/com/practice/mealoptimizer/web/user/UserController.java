@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/mealoptimizer/user")
@@ -65,5 +66,10 @@ public class UserController {
         User savedUser = userService.saveUser(user);
         //User is registered and also logged in immediately. Hence return a login response with jwt.
         return this.login(new LoginRequestDTO(user.getUsername(), password));
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "/fetchAllUsernames")
+    public ResponseEntity<Set<String>> fetchAllUsernames() throws Exception {
+        return new ResponseEntity<>(userService.fetchAllUsernames(), HttpStatus.OK);
     }
 }
