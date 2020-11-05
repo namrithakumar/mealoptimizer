@@ -35,6 +35,7 @@ public class UserService {
         }
         if(userRepo.findByEmail(user.getEmail()) !=null)
             throw new UserException("Email already exists");
+
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Set<Role> defaultRoles = new HashSet<Role>();
         defaultRoles.add(new Role(RoleType.ROLE_USER));
