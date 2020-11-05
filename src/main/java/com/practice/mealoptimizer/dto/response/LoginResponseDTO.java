@@ -1,5 +1,6 @@
 package com.practice.mealoptimizer.dto.response;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 public class LoginResponseDTO {
@@ -15,7 +16,7 @@ public class LoginResponseDTO {
 
     public LoginResponseDTO() { }
 
-    public LoginResponseDTO(Integer id, String username, String email, String preferredDietType, Map<String, Integer> nutrientMinLimits, Map<String, Integer> nutrientMaxLimits, String token, long tokenValidationTime) {
+    public LoginResponseDTO(Integer id, String username, String email, String preferredDietType, Map<String, Integer> nutrientMinLimits, Map<String, Integer> nutrientMaxLimits, String token, long tokenValidTime) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -23,7 +24,7 @@ public class LoginResponseDTO {
         this.nutrientMinLimits = nutrientMinLimits;
         this.nutrientMaxLimits = nutrientMaxLimits;
         this.token = token;
-        this.tokenValidTime = tokenValidationTime;
+        this.tokenValidTime = tokenValidTime;
     }
 
     public Integer getId() {
@@ -86,7 +87,7 @@ public class LoginResponseDTO {
         return tokenValidTime;
     }
 
-    public void setTokenValidationTime(long tokenValidTime) {
+    public void setTokenValidTime(long tokenValidTime) {
         this.tokenValidTime = tokenValidTime;
     }
 }

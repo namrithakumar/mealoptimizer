@@ -42,6 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mealoptimizer/user/register").permitAll()
                 .antMatchers("/mealoptimizer/user/login").permitAll()
                 .antMatchers("/mealoptimizer/user/fetchAllUsernames").permitAll()
+                .antMatchers("/mealoptimizer/categories/fetchAll").permitAll()
                 .anyRequest().authenticated();
     }
 
