@@ -1,6 +1,5 @@
 package com.practice.mealoptimizer.dto.response;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 
 public class LoginResponseDTO {
@@ -9,6 +8,9 @@ public class LoginResponseDTO {
     private String username;
     private String email;
     private String preferredDietType;
+    private String firstName;
+    private String lastName;
+    private String address;
     private Map<String, Integer> nutrientMinLimits;
     private Map<String, Integer> nutrientMaxLimits;
     private String token;
@@ -16,11 +18,14 @@ public class LoginResponseDTO {
 
     public LoginResponseDTO() { }
 
-    public LoginResponseDTO(Integer id, String username, String email, String preferredDietType, Map<String, Integer> nutrientMinLimits, Map<String, Integer> nutrientMaxLimits, String token, long tokenValidTime) {
+    public LoginResponseDTO(Integer id, String username, String email, String preferredDietType, String firstName, String lastName, String address, Map<String, Integer> nutrientMinLimits, Map<String, Integer> nutrientMaxLimits, String token, long tokenValidTime) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.preferredDietType = preferredDietType;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
         this.nutrientMinLimits = nutrientMinLimits;
         this.nutrientMaxLimits = nutrientMaxLimits;
         this.token = token;
@@ -57,6 +62,30 @@ public class LoginResponseDTO {
 
     public void setPreferredDietType(String preferredDietType) {
         this.preferredDietType = preferredDietType;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Map<String, Integer> getNutrientMinLimits() {
