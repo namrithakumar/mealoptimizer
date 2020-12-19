@@ -4,7 +4,6 @@ import com.practice.mealoptimizer.domain.user.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;

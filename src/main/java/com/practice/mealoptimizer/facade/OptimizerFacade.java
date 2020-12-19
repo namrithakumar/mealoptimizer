@@ -7,4 +7,5 @@ import org.springframework.stereotype.Component;
 @Component
 public interface OptimizerFacade {
     public OrderResponseDTO optimizeByOptimizationTypes(OrderRequestDTO orderRequest);
+
 }

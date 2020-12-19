@@ -1,7 +1,7 @@
 INSERT INTO "PUBLIC"."ROLE" VALUES
 (1, 'ROLE_USER');         
 INSERT INTO "PUBLIC"."USER" VALUES
-(2, 'harry.potter@gmail.com', '$2a$10$NLmSXlaQiQQfPoVgSPda6O5uYqjWlXheL5Ui09TgyIyApNIIwSDVC', 'VEGAN', 'hp');             
+(2, 'harry.potter@gmail.com', '$2a$10$uyrPNYEZ2x7lsWSkzFtmRugA3ylG8c8oONz/N70FhffVBAd72.qj6', 'VEGAN', 'hp');
 INSERT INTO "PUBLIC"."USER_NUTRIENT_MAX_LIMITS" VALUES
 (2, 5000, 'sodium'),
 (2, 5000, 'calcium'),
