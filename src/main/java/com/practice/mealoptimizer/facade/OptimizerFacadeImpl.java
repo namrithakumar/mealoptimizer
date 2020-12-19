@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class OptimizerFacadeImpl {
+public class OptimizerFacadeImpl implements  OptimizerFacade {
 
     @Autowired
     private OptimizerFactory optimizerFactory;
