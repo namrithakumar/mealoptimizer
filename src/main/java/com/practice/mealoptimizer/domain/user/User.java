@@ -17,11 +17,20 @@ public class User {
 
     @Column(unique=true)
     private String username;
+
     private String password;
 
     @Column(unique=true)
     private String email;
+
     private String preferredDietType;
+
+    private String firstName;
+
+    private String lastName;
+
+    private String address;
+
     @NotNull
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="user_nutrient_min_limits",
@@ -46,11 +55,14 @@ public class User {
     @OneToOne(mappedBy = "user")
     private Order order;
 
-    public User(String username, String password, String email, String preferredDietType, Map<String, Integer> nutrientMinLimits, Map<String, Integer> nutrientMaxLimits, Set<Role> roles, Order order) {
+    public User(String username, String password, String email, String preferredDietType, String firstName, String lastName, String address, Map<String, Integer> nutrientMinLimits, Map<String, Integer> nutrientMaxLimits, Set<Role> roles, Order order) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.preferredDietType = preferredDietType;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
         this.nutrientMinLimits = nutrientMinLimits;
         this.nutrientMaxLimits = nutrientMaxLimits;
         this.roles = roles;
@@ -94,6 +106,30 @@ public class User {
 
     public void setPreferredDietType(String preferredDietType) {
         this.preferredDietType = preferredDietType;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public Map<String, Integer> getNutrientMinLimits() {
