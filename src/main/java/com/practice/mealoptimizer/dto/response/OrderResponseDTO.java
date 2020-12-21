@@ -22,10 +22,15 @@ public class OrderResponseDTO {
     @JsonFormat(pattern="MM/dd/yyyy")
     private LocalDate dateOfDelivery;
 
+    @NotNull
+    private String optimizationState;
+
     public OrderResponseDTO(@NotNull long orderId,
-                            @NotNull @Future LocalDate dateOfDelivery) {
+                            @NotNull @Future LocalDate dateOfDelivery,
+                            @NotNull String optimizationState) {
         this.orderId = orderId;
         this.dateOfDelivery = dateOfDelivery;
+        this.optimizationState = optimizationState;
     }
 
     public OrderResponseDTO() {}
@@ -53,4 +58,8 @@ public class OrderResponseDTO {
     public void setMealPlan(List<OptimizedMealPlanDTO> mealPlan) {
         this.mealPlan = mealPlan;
     }
+
+    public String getOptimizationState() { return optimizationState; }
+
+    public void setOptimizationState(String optimizationState) { this.optimizationState = optimizationState; }
 }

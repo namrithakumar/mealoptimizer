@@ -3,6 +3,7 @@ package com.practice.mealoptimizer.mapper;
 import com.practice.mealoptimizer.domain.Order;
 import com.practice.mealoptimizer.dto.response.OptimizedMealPlanDTO;
 import com.practice.mealoptimizer.dto.response.OrderResponseDTO;
+import org.ojalgo.optimisation.Optimisation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,15 +26,30 @@ public class ResultMapperImpl implements ResultMapper {
     }
 
     @Override
-    public OrderResponseDTO mapOrderToOrderResponseDTO(List<Order> orders) {
+    public OrderResponseDTO mapOrderAndStateToOrderResponseDTO(List<Order> orders, String optimizationState) {
         OrderResponseDTO response = orderMapper.orderToOrderResponseDTO(orders.get(0));
 
+        //Map Orders -> ResponseDTO
         List<OptimizedMealPlanDTO> optimizedMealPlan = new ArrayList<>(2);
         orders.forEach(savedOrder -> {
             optimizedMealPlan.add(orderMapper.orderToOptimizedMealPlan(savedOrder));
         });
 
         response.setMealPlan(optimizedMealPlan);
+
+        //Map State -> ResponseDTO
+        if(optimizationState == null) {
+            response.setOptimizationState(Optimisation.State.FAILED.name());
+        }
+        else {
+            switch(optimizationState) {
+                case "OPTIMAL"  : response.setOptimizationState(optimizationState);
+                                  break;
+                case "FEASIBLE" : response.setOptimizationState(optimizationState);
+                                  break;
+                default : response.setOptimizationState(Optimisation.State.INFEASIBLE.name());
+            }
+        }
         return response;
     }
 }

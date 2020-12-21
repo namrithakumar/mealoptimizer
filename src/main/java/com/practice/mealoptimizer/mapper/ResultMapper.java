@@ -11,5 +11,5 @@ import java.util.Map;
 @Component
 public interface ResultMapper {
     public Order mapResultToOrder(Map<String, Object> result, Order order);
-    public OrderResponseDTO mapOrderToOrderResponseDTO(List<Order> orders);
+    public OrderResponseDTO mapOrderAndStateToOrderResponseDTO(List<Order> orders, String optimizationState);
 }

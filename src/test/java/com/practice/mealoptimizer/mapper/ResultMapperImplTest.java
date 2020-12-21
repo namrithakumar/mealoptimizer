@@ -78,16 +78,48 @@ class ResultMapperImplTest {
     }
 
     @Test
-    void testMapOrderToOrderResponseDTO() {
+    void testMapOrderAndStateToOrderResponseDTO() {
         OrderResponseDTO response = new OrderResponseDTO();
         response.setOrderId(1L);
         response.setDateOfDelivery(LocalDate.now().plusDays(7));
-        
+
         OptimizedMealPlanDTO optimizedMealPlan = new OptimizedMealPlanDTO();
-        
+
         when(orderMapper.orderToOrderResponseDTO(order)).thenReturn(response);
         when(orderMapper.orderToOptimizedMealPlan(order)).thenReturn(optimizedMealPlan);
-        
-        assertEquals(2, resultMapper.mapOrderToOrderResponseDTO(Arrays.asList(order, order)).getMealPlan().size());
+
+        assertEquals(2, resultMapper.mapOrderAndStateToOrderResponseDTO(Arrays.asList(order, order), "FEASIBLE").getMealPlan().size());
+    }
+
+    @Test
+    void testMapOrderAndStateToOrderResponseDTOStateFeasible() {
+        String expectedState = "FEASIBLE";
+
+        this.testMapOrderAndStateToOrderResponseDTO();
+        assertTrue(expectedState.equalsIgnoreCase(resultMapper.mapOrderAndStateToOrderResponseDTO(Arrays.asList(order, order), "FEASIBLE").getOptimizationState()));
+    }
+
+    @Test
+    void testMapOrderAndStateToOrderResponseDTOStateOptimal() {
+        String expectedState = "OPTIMAL";
+
+        this.testMapOrderAndStateToOrderResponseDTO();
+        assertTrue(expectedState.equalsIgnoreCase(resultMapper.mapOrderAndStateToOrderResponseDTO(Arrays.asList(order, order), "OPTIMAL").getOptimizationState()));
+    }
+
+    @Test
+    void testMapOrderAndStateToOrderResponseDTOStateInvalid() {
+        String expectedState = "INFEASIBLE";
+
+        this.testMapOrderAndStateToOrderResponseDTO();
+        assertTrue(expectedState.equalsIgnoreCase(resultMapper.mapOrderAndStateToOrderResponseDTO(Arrays.asList(order, order), "INVALID").getOptimizationState()));
+    }
+
+    @Test
+    void testMapOrderAndStateToOrderResponseDTOStateError() {
+        String expectedState = "FAILED";
+
+        this.testMapOrderAndStateToOrderResponseDTO();
+        assertTrue(expectedState.equalsIgnoreCase(resultMapper.mapOrderAndStateToOrderResponseDTO(Arrays.asList(order, order), null).getOptimizationState()));
     }
 }
