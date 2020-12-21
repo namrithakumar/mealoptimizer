@@ -42,13 +42,7 @@ public class ResultMapperImpl implements ResultMapper {
             response.setOptimizationState(Optimisation.State.FAILED.name());
         }
         else {
-            switch(optimizationState) {
-                case "OPTIMAL"  : response.setOptimizationState(optimizationState);
-                                  break;
-                case "FEASIBLE" : response.setOptimizationState(optimizationState);
-                                  break;
-                default : response.setOptimizationState(Optimisation.State.INFEASIBLE.name());
-            }
+            response.setOptimizationState(optimizationState);
         }
         return response;
     }
