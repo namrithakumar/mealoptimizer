@@ -10,6 +10,7 @@ import com.practice.mealoptimizer.mapper.ResultMapper;
 import com.practice.mealoptimizer.processor.Optimizer;
 import com.practice.mealoptimizer.processor.OptimizerFactory;
 import com.practice.mealoptimizer.service.OrderService;
+import org.ojalgo.optimisation.Optimisation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -37,18 +38,21 @@ public class OptimizerFacadeImpl implements  OptimizerFacade {
 
     public OrderResponseDTO optimizeByOptimizationTypes(OrderRequestDTO orderRequest) {
         Long generatedOrderID = orderIdGenerator.generateId();
-
+        Map<String, Object> result = null;
         List<Order> ordersToSave = new ArrayList<>(2);
+
         for(OptimizationType optimizationType : orderRequest.getOptimizationTypes()) {
             Order order = orderMapper.orderRequestDTOtoOrder(orderRequest);
             order.setOptimizationType(optimizationType);
             Optimizer optimizer = optimizerFactory.getOptimizerByType(order.getOptimizationType());
-            Map<String, Object> result = optimizer.optimizeByOptimizationType(order);
+            result = optimizer.optimizeByOptimizationType(order);
             order = resultMapper.mapResultToOrder(result, order);
             order.setOrderId(generatedOrderID);
             ordersToSave.add(order);
         };
-        List<Order> savedOrders = (List<Order>) orderService.saveAll(ordersToSave);
-        return resultMapper.mapOrderToOrderResponseDTO(savedOrders);
+
+        //If the Optimization State is either FEASIBLE or OPTIMAL, save to DB. Otherwise do not save to the DB.
+        List<Order> savedOrders = (((Optimisation.State) (result.get("STATE"))).name().equalsIgnoreCase("FEASIBLE") || ((Optimisation.State) (result.get("STATE"))).name().equalsIgnoreCase("OPTIMAL"))?(List<Order>) orderService.saveAll(ordersToSave):ordersToSave;
+        return resultMapper.mapOrderAndStateToOrderResponseDTO(savedOrders, ((Optimisation.State) (result.get("STATE"))).name());
     }
 }
