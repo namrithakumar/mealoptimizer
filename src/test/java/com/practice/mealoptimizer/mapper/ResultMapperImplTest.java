@@ -109,7 +109,7 @@ class ResultMapperImplTest {
 
     @Test
     void testMapOrderAndStateToOrderResponseDTOStateInvalid() {
-        String expectedState = "INFEASIBLE";
+        String expectedState = "INVALID";
 
         this.testMapOrderAndStateToOrderResponseDTO();
         assertTrue(expectedState.equalsIgnoreCase(resultMapper.mapOrderAndStateToOrderResponseDTO(Arrays.asList(order, order), "INVALID").getOptimizationState()));
