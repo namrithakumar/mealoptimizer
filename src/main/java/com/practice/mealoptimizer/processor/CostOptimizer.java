@@ -13,6 +13,7 @@ import java.util.Map;
 @Component
 public class CostOptimizer extends Optimizer {
 
+    //Template design pattern - weight map constructed based on Cost.
     @Override
     public Map<String, Double> constructWeightMap(Order order) {
         Map<String, Double> weightMap = new HashMap<>();
@@ -23,12 +24,9 @@ public class CostOptimizer extends Optimizer {
         return weightMap;
     }
 
+    //Optimize by minimizing cost
     @Override
-    public Map<String, Object> optimizeByOptimizationType(Order order) {
-        Variable[] variables = new Variable[order.getMealList().size()];
-        ExpressionsBasedModel model = super.constructModel(order, this.constructWeightMap(order));
-        // Solve
-        Optimisation.Result result = model.minimise();
-        return super.constructMealMap(result, model.getVariables().toArray(variables));
+    public Optimisation.Result optimize(ExpressionsBasedModel model) {
+        return model.minimise();
     }
 }
