@@ -12,6 +12,8 @@ import java.util.Map;
 
 @Component
 public class RewardOptimizer extends Optimizer {
+
+    //Template design pattern - weight map constructed based on Reward.
     @Override
     public Map<String, Double> constructWeightMap(Order order) {
         Map<String, Double> weightMap = new HashMap<>();
@@ -22,12 +24,9 @@ public class RewardOptimizer extends Optimizer {
         return weightMap;
     }
 
+    //Optimize by maximising reward.
     @Override
-    public Map<String, Object> optimizeByOptimizationType(Order order) {
-        Variable[] variables = new Variable[order.getMealList().size()];
-        ExpressionsBasedModel model = super.constructModel(order, this.constructWeightMap(order));
-        // Solve
-        Optimisation.Result result = model.maximise();
-        return super.constructMealMap(result, model.getVariables().toArray(variables));
+    public Optimisation.Result optimize(ExpressionsBasedModel model) {
+        return model.maximise();
     }
 }

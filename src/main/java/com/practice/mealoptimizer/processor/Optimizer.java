@@ -22,7 +22,16 @@ public abstract class Optimizer {
 
     public abstract Map<String, Double> constructWeightMap(Order order);
 
-    public abstract Map<String, Object> optimizeByOptimizationType(Order order);
+    public abstract Optimisation.Result optimize(ExpressionsBasedModel model);
+
+    //Template design pattern - The subclasses RewardOptimizer and CostOptimizer decide how to implement constructWeightMap() and optimize().
+    public Map<String, Object> optimizeByOptimizationType(Order order) {
+        Variable[] variables = new Variable[order.getMealList().size()];
+        ExpressionsBasedModel model = this.constructModel(order, constructWeightMap(order));
+        // Solve
+        Optimisation.Result result = optimize(model);
+        return this.constructMealMap(result, model.getVariables().toArray(variables));
+    }
 
     public ExpressionsBasedModel constructModel(Order order, Map<String, Double> weightMap) {
 
