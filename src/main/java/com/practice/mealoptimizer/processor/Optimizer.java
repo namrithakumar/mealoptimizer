@@ -18,7 +18,7 @@ import java.util.Map;
 @Component
 public abstract class Optimizer {
 
-    private OptimizationType optimizationType;
+    //private OptimizationType optimizationType;
 
     public abstract Map<String, Double> constructWeightMap(Order order);
 
@@ -79,18 +79,18 @@ public abstract class Optimizer {
 
         optimizedMealPlanMap.put("STATE", result.getState());
         optimizedMealPlanMap.put("VALUE", result.getValue());
-        optimizedMealPlanMap.put("OPTIMIZATION-TYPE", this.getOptimizationType());
+        //optimizedMealPlanMap.put("OPTIMIZATION-TYPE", this.getOptimizationType());
         for(int l=0; l<size; l++) {
             optimizedMealPlanMap.put(variables[l].getName(), result.getSolution(new NumberContext()).doubleValue(l));
         }
         return optimizedMealPlanMap;
     }
 
-    public void setOptimizationType(OptimizationType optimizationType) {
+    /* public void setOptimizationType(OptimizationType optimizationType) {
         this.optimizationType = optimizationType;
-    }
+    }*/
 
-    public OptimizationType getOptimizationType() {
+    /*public OptimizationType getOptimizationType() {
         return this.optimizationType;
-    }
+    }*/
 }
