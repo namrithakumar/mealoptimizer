@@ -1,27 +1,15 @@
 package com.practice.mealoptimizer.web;
 
-import com.practice.mealoptimizer.domain.Order;
 import com.practice.mealoptimizer.dto.request.OrderRequestDTO;
 import com.practice.mealoptimizer.dto.response.OrderResponseDTO;
-import com.practice.mealoptimizer.facade.OptimizerFacade;
 import com.practice.mealoptimizer.facade.OptimizerFacadeImpl;
-import com.practice.mealoptimizer.mapper.OrderMapper;
-import com.practice.mealoptimizer.mapper.ResultMapper;
-import com.practice.mealoptimizer.processor.OptimizerFactory;
-import com.practice.mealoptimizer.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(path = "/mealoptimizer/orders")
@@ -39,6 +27,7 @@ public class OrderController {
         try {
             return new ResponseEntity<OrderResponseDTO>(optimizerFacade.optimizeByOptimizationTypes(orderRequestDTO), HttpStatus.CREATED);
         } catch (RuntimeException re) {
+            re.printStackTrace();
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, re.getMessage());
         }
     }

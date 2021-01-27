@@ -8,9 +8,12 @@ import com.practice.mealoptimizer.dto.response.OptimizedMealPlanDTO;
 import com.practice.mealoptimizer.dto.response.OrderResponseDTO;
 import org.mapstruct.*;
 
+import java.util.Optional;
+
 @Mapper(componentModel = "spring", uses = { ItemMapperResolver.class })
 public interface OrderMapper {
 
+    //@Mapping(source = "orderId", target = "orderId", qualifiedByName = "unwrap")
     public Order orderRequestDTOtoOrder(OrderRequestDTO orderRequest);
 
     @Named("MapMealToMealDTO")
@@ -28,4 +31,7 @@ public interface OrderMapper {
 
     //MealPlan is not mapped here, it is mapped separately in ResultMapper. Only ID and DateOfDelivery are mapped here.
     public OrderResponseDTO orderToOrderResponseDTO(Order order);
+
+    @Named("unwrap")
+    default <T> T unwrap(Optional<T> optional) { return optional.orElse(null); }
 }

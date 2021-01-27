@@ -37,17 +37,18 @@ public class OptimizerFacadeImpl implements  OptimizerFacade {
     private OrderIdGenerator orderIdGenerator;
 
     public OrderResponseDTO optimizeByOptimizationTypes(OrderRequestDTO orderRequest) {
-        Long generatedOrderID = orderIdGenerator.generateId();
+        Long orderID = (orderRequest.getOrderId() != null)?orderRequest.getOrderId():orderIdGenerator.generateId();
         Map<String, Object> result = null;
         List<Order> ordersToSave = new ArrayList<>(2);
 
+        System.out.println("Order ID : " + orderID);
         for(OptimizationType optimizationType : orderRequest.getOptimizationTypes()) {
             Order order = orderMapper.orderRequestDTOtoOrder(orderRequest);
             order.setOptimizationType(optimizationType);
             Optimizer optimizer = optimizerFactory.getOptimizerByType(order.getOptimizationType());
             result = optimizer.optimizeByOptimizationType(order);
             order = resultMapper.mapResultToOrder(result, order);
-            order.setOrderId(generatedOrderID);
+            order.setOrderId(orderID);
             ordersToSave.add(order);
         };
 
