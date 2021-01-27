@@ -3,7 +3,7 @@ package com.practice.mealoptimizer.domain;
 import com.practice.mealoptimizer.domain.user.User;
 
 import javax.persistence.*;
-import javax.validation.constraints.Future;
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -26,7 +26,7 @@ public class Order implements Serializable {
     @Size(min=4, max=4, message="select atleast 4 meals")
     private List<Meal> mealList;
 
-    @Future(message = "delivery date must be in the future")
+    @FutureOrPresent(message = "delivery date must be today or in the future")
     //@Pattern(regexp = "^(0[1-9]|1[0-2])([\\/])([1-3][0-9])(\\/)(20[1-3][0-9])", message="Date format MM/DD/YYYY")
     private LocalDate dateOfDelivery;
 
