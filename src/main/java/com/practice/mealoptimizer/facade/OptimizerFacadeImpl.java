@@ -41,7 +41,6 @@ public class OptimizerFacadeImpl implements  OptimizerFacade {
         Map<String, Object> result = null;
         List<Order> ordersToSave = new ArrayList<>(2);
 
-        System.out.println("Order ID : " + orderID);
         for(OptimizationType optimizationType : orderRequest.getOptimizationTypes()) {
             Order order = orderMapper.orderRequestDTOtoOrder(orderRequest);
             order.setOptimizationType(optimizationType);

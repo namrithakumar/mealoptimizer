@@ -19,8 +19,8 @@ public class Meal {
     })
     private Order order;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "itemId", referencedColumnName = "itemId")
     private Item item;
 
     @Digits(integer=3, fraction=30, message = "portion must be a decimal value")
