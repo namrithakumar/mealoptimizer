@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 public class OptimizerFacadeTest {
@@ -76,7 +77,7 @@ public class OptimizerFacadeTest {
     }
 
     @Test
-    void testOptimizeByOptimizationTypesOptimizationStateOPTIMAL() {
+    void testOptimizeByOptimizationTypesOptimizationStateOPTIMALForCreate() {
         try {
             when(orderIdGenerator.generateId()).thenReturn(1L);
             when(orderMapper.orderRequestDTOtoOrder(orderRequestDTO)).thenReturn(order);
@@ -147,6 +148,28 @@ public class OptimizerFacadeTest {
 
             OrderResponseDTO orderResponse = optimizerFacade.optimizeByOptimizationTypes(orderRequestDTO);
             verify(orderService, times(0)).saveAll(anyList());
+        } catch(Exception e) {
+            fail("OptimizerFacadeImpl.optimizeByOptimizationTypes() failed with an unexpected exception");
+            e.printStackTrace();
+        }
+    }
+    @Test
+    void testOptimizeByOptimizationTypesOptimizationStateOPTIMALForUpdate() {
+        try {
+            Long savedOrderId = 5L;
+            orderRequestDTO.setOrderId(savedOrderId);
+            orderResponseDTO.setOrderId(savedOrderId);
+            when(orderMapper.orderRequestDTOtoOrder(orderRequestDTO)).thenReturn(order);
+            when(optimizerFactory.getOptimizerByType(any(OptimizationType.class))).thenReturn(optimizer);
+            result.put("STATE", Optimisation.State.OPTIMAL);
+            when(optimizer.optimizeByOptimizationType(order)).thenReturn(result);
+            when(resultMapper.mapResultToOrder(result, order)).thenReturn(order);
+            when(orderService.saveAll(anyList())).thenReturn(savedOrders);
+            when(resultMapper.mapOrderAndStateToOrderResponseDTO(savedOrders, ((Optimisation.State) result.get("STATE")).name())).thenReturn(orderResponseDTO);
+
+            OrderResponseDTO orderResponse = optimizerFacade.optimizeByOptimizationTypes(orderRequestDTO);
+            assertEquals(orderResponse.getOrderId(), savedOrderId);
+            verify(orderService, times(1)).saveAll(anyList());
         } catch(Exception e) {
             fail("OptimizerFacadeImpl.optimizeByOptimizationTypes() failed with an unexpected exception");
             e.printStackTrace();

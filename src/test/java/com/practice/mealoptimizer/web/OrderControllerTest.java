@@ -161,7 +161,7 @@ class OrderControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.errors").isArray())
                 .andExpect(jsonPath("$.errors", hasSize(1)))
-                .andExpect(jsonPath("$.errors[0]", is("dateOfDelivery: must be a future date")))
+                .andExpect(jsonPath("$.errors[0]", is("dateOfDelivery: must be a date in the present or in the future")))
                 .andExpect(jsonPath("$.errorType", is("TECHNICAL")));
 
         verifyNoInteractions(optimizerFacade);

@@ -1,15 +1,18 @@
 package com.practice.mealoptimizer.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.*;
 import com.practice.mealoptimizer.domain.OptimizationType;
-import com.practice.mealoptimizer.domain.user.User;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 public class OrderRequestDTO {
+
+    //@JsonSetter(nulls= Nulls.SET) - Not required, leaving it here for future ref.
+    @JsonProperty("id")
+    private Long orderId;
 
     @NotNull
     @Size(min=4, max=4, message="select atleast 4 items")
@@ -17,7 +20,7 @@ public class OrderRequestDTO {
     private List<String> itemNames;
 
     @NotNull
-    @Future
+    @FutureOrPresent
     @JsonProperty("deliveryDate")
     @JsonFormat(pattern="MM/dd/yyyy")
     private LocalDate dateOfDelivery;
@@ -36,6 +39,12 @@ public class OrderRequestDTO {
     }
 
     public OrderRequestDTO() {}
+
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) { this.orderId = orderId; }
 
     public List<String> getItemNames() {
         return itemNames;
