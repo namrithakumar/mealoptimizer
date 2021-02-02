@@ -33,7 +33,7 @@ public class Item {
     @Min(value=1, message="Max safe consumption should be atleast 1")
     private int maxSafeConsumption;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "item_category", joinColumns=@JoinColumn(name="itemId"), inverseJoinColumns = @JoinColumn(name="categoryName"))
     @Size(min=1, message="Item must belong to at least 1 category")
     private List<Category> itemCategories = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.practice.mealoptimizer.repository;
 
 import com.practice.mealoptimizer.domain.Item;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

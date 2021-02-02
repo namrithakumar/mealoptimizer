@@ -7,13 +7,14 @@ import com.practice.mealoptimizer.dto.request.OrderRequestDTO;
 import com.practice.mealoptimizer.dto.response.OptimizedMealPlanDTO;
 import com.practice.mealoptimizer.dto.response.OrderResponseDTO;
 import org.mapstruct.*;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.Optional;
 
 @Mapper(componentModel = "spring", uses = { ItemMapperResolver.class })
 public interface OrderMapper {
 
-    //@Mapping(source = "orderId", target = "orderId", qualifiedByName = "unwrap")
+    @EntityGraph(value = "Order.mealList")
     public Order orderRequestDTOtoOrder(OrderRequestDTO orderRequest);
 
     @Named("MapMealToMealDTO")
@@ -27,9 +28,11 @@ public interface OrderMapper {
             @Mapping(target = "meals", source = "mealList", qualifiedByName = "MapMealToMealDTO"),
             @Mapping(target = "mealPlanCost", expression = "java(order.getOrderCost())")
     })
+    @EntityGraph(value = "Order.mealList")
     public OptimizedMealPlanDTO orderToOptimizedMealPlan(Order order);
 
     //MealPlan is not mapped here, it is mapped separately in ResultMapper. Only ID and DateOfDelivery are mapped here.
+    @EntityGraph(value = "Order.mealList")
     public OrderResponseDTO orderToOrderResponseDTO(Order order);
 
     @Named("unwrap")

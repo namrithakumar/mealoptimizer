@@ -7,6 +7,9 @@ import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
+@NamedEntityGraph(name = "Recipe.ingredients",
+        attributeNodes = @NamedAttributeNode("ingredients")
+)
 public class Recipe {
 
     @Id

@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@NamedEntityGraph(name = "Category.item",
+        attributeNodes = @NamedAttributeNode("item")
+)
 public class Category {
 
     @Id
