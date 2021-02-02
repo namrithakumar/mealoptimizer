@@ -9,6 +9,11 @@ import java.util.Map;
 import java.util.Set;
 
 @Entity
+@NamedEntityGraph(name = "User.roles",
+        attributeNodes = { @NamedAttributeNode("roles"),
+                           @NamedAttributeNode("nutrientMinLimits"),
+                           @NamedAttributeNode("nutrientMaxLimits") }
+)
 public class User {
 
     @Id
@@ -38,6 +43,7 @@ public class User {
     @MapKeyJoinColumn(name="nutrient_name")
     @Column(name="nutrient_min_limit")
     private Map<String, Integer> nutrientMinLimits;
+
     @NotNull
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name="user_nutrient_max_limits",
@@ -46,7 +52,7 @@ public class User {
     @Column(name="nutrient_max_limit")
     private Map<String, Integer> nutrientMaxLimits;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))

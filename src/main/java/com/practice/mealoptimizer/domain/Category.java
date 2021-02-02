@@ -2,10 +2,13 @@ package com.practice.mealoptimizer.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
+@NamedEntityGraph(name = "Category.item",
+        attributeNodes = @NamedAttributeNode("item")
+)
 public class Category {
 
     @Id
@@ -16,7 +19,7 @@ public class Category {
 
     @ManyToMany(mappedBy="itemCategories")
     @Size(min=1, message="Category must have at least 1 item")
-    private List<Item> item = new ArrayList<>();
+    private Set<Item> item = new HashSet<>();
 
     public Category(String categoryName, String displayValue) {
         this.categoryName = categoryName;
@@ -42,11 +45,11 @@ public class Category {
         this.displayValue = displayValue;
     }
 
-    public List<Item> getItem() {
+    public Set<Item> getItem() {
         return item;
     }
 
-    public void setItemList(List<Item> item) {
+    public void setItemList(Set<Item> item) {
         this.item = item;
     }
 }

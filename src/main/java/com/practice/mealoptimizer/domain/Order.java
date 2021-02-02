@@ -13,6 +13,9 @@ import java.util.Map;
 @Entity
 @Table(name="orders")
 @IdClass(OrderId.class)
+@NamedEntityGraph(name = "Order.mealList",
+        attributeNodes = @NamedAttributeNode("mealList")
+)
 public class Order implements Serializable {
 
     @Id
@@ -22,7 +25,7 @@ public class Order implements Serializable {
     @Enumerated(EnumType.STRING)
     private OptimizationType optimizationType;
 
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "order", orphanRemoval = true)
     @Size(min=4, max=4, message="select atleast 4 meals")
     private List<Meal> mealList;
 

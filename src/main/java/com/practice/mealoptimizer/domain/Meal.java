@@ -12,7 +12,7 @@ public class Meal {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long mealId;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumns({
             @JoinColumn(name = "orderId", referencedColumnName = "orderId"),
             @JoinColumn(name = "optimizationType", referencedColumnName = "optimizationType")
