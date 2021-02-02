@@ -3,9 +3,7 @@ package com.practice.mealoptimizer.domain;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Entity
 public class Item {
@@ -36,7 +34,7 @@ public class Item {
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "item_category", joinColumns=@JoinColumn(name="itemId"), inverseJoinColumns = @JoinColumn(name="categoryName"))
     @Size(min=1, message="Item must belong to at least 1 category")
-    private List<Category> itemCategories = new ArrayList<>();
+    private Set<Category> itemCategories = new HashSet<>();
 
     public Item(Long itemId, String itemName, double itemCost, int reward, Map<String, Double> nutritionProfile, int maxSafeConsumption) {
         this.itemId = itemId;
@@ -97,11 +95,11 @@ public class Item {
         this.maxSafeConsumption = maxSafeConsumption;
     }
 
-    public List<Category> getItemCategories() {
+    public Set<Category> getItemCategories() {
         return itemCategories;
     }
 
-    public void setItemCategories(List<Category> itemCategories) {
+    public void setItemCategories(Set<Category> itemCategories) {
         this.itemCategories = itemCategories;
     }
 }

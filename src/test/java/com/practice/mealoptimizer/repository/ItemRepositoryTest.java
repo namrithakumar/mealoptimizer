@@ -29,5 +29,6 @@ public class ItemRepositoryTest {
         double expectedItemCost = Double.valueOf(4.19);
         Item item = itemRepository.findByItemName("Strawberry Milkshake");
         assertEquals(expectedItemCost, item.getItemCost());
+        assertEquals(2, item.getItemCategories().size());
     }
 }
