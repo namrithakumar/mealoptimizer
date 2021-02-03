@@ -17,6 +17,6 @@ public interface UserRepository extends CrudRepository<User, String> {
     //We need not eagerly fetch user roles here - so not using EntityGraph
     public User findByEmail(String email);
 
-    @Query(value = "SELECT username FROM user", nativeQuery = true)
+    @Query(value = "SELECT username FROM users", nativeQuery = true)
     public Set<String> fetchAllUsernames();
 }

@@ -8,6 +8,8 @@ import com.practice.mealoptimizer.mapper.user.UserMapper;
 import com.practice.mealoptimizer.service.user.UserService;
 import com.practice.mealoptimizer.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -47,6 +49,7 @@ public class UserController {
 
     @RequestMapping(method = RequestMethod.POST, path = "/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
+
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         loginRequest.getUsername(),
