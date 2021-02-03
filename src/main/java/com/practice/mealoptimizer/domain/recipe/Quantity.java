@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
-import java.util.List;
 
 @Entity
 public class Quantity {
@@ -14,9 +13,8 @@ public class Quantity {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "countVal")
     @DecimalMin(value="0.25", message = "Value must be atleast 0.25")
-    private Double count;
+    private Double amount;
 
     @NotBlank
     private String measure;
@@ -24,9 +22,9 @@ public class Quantity {
     @OneToOne(cascade=CascadeType.ALL)
     private Ingredient ingredient;
 
-    public Quantity(Integer id, @DecimalMin(value = "0.25", message = "Value must be atleast 0.25") Double count, @NotBlank String measure, Ingredient ingredient) {
+    public Quantity(Integer id, @DecimalMin(value = "0.25", message = "Value must be atleast 0.25") Double amount, @NotBlank String measure, Ingredient ingredient) {
         this.id = id;
-        this.count = count;
+        this.amount = amount;
         this.measure = measure;
         this.ingredient = ingredient;
     }
@@ -42,12 +40,12 @@ public class Quantity {
         this.id = id;
     }
 
-    public Double getCount() {
-        return count;
+    public Double getAmount() {
+        return amount;
     }
 
-    public void setCount(Double count) {
-        this.count = count;
+    public void setAmount(Double amount) {
+        this.amount = amount;
     }
 
     public String getMeasure() {

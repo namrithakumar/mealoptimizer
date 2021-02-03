@@ -55,7 +55,7 @@ public class RecipeServiceTest {
         strawberries.setQuantity(strawberriesQ);
         ingredients.add(strawberries);
 
-        strawberriesQ.setCount(1.0);
+        strawberriesQ.setAmount(1.0);
         strawberriesQ.setMeasure("cup");
         strawberriesQ.setIngredient(strawberries);
 
@@ -68,7 +68,7 @@ public class RecipeServiceTest {
         milkpowder.setQuantity(milkpowderQ);
         ingredients.add(milkpowder);
 
-        milkpowderQ.setCount(3.0);
+        milkpowderQ.setAmount(3.0);
         milkpowderQ.setMeasure("tbsp");
         milkpowderQ.setIngredient(milkpowder);
 
@@ -81,7 +81,7 @@ public class RecipeServiceTest {
         milk.setQuantity(milkQ);
         ingredients.add(milk);
 
-        milkQ.setCount(0.75);
+        milkQ.setAmount(0.75);
         milkQ.setMeasure("cup");
         milkQ.setIngredient(milk);
 
@@ -94,7 +94,7 @@ public class RecipeServiceTest {
         vanillaIcecream.setQuantity(vanillaIcecreamQ);
         ingredients.add(vanillaIcecream);
 
-        vanillaIcecreamQ.setCount(3.0);
+        vanillaIcecreamQ.setAmount(3.0);
         vanillaIcecreamQ.setMeasure("scoop");
         vanillaIcecreamQ.setIngredient(vanillaIcecream);
 

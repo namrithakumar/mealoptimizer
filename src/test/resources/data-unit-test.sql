@@ -1,6 +1,5 @@
 -- Refer to https://stackoverflow.com/questions/41102406/h2-generate-insert-scripts-initialization-script to generate scripts.
-
-INSERT INTO CATEGORY VALUES
+INSERT INTO category VALUES
 ('VEGAN', 'VEGAN'),
 ('GLUTENFREE', 'GLUTEN FREE'),
 ('DAIRYFREE', 'DAIRY FREE'),
@@ -8,7 +7,7 @@ INSERT INTO CATEGORY VALUES
 ('FATFREE', 'FAT FREE'),
 ('GENERAL', 'ALL');
 
-INSERT INTO ITEM VALUES
+INSERT INTO item VALUES
 (1, 2.95, 'Egg Roll', 10, 16),
 (2, 4.19, 'Strawberry Milkshake', 2, 2),
 (3, 10.0, 'Green Salad', 8, 19),
@@ -29,7 +28,7 @@ INSERT INTO ITEM VALUES
 (18, 4.35, 'Lemon pudding', 2, 6),
 (19, 11.5, 'Honey garlic salmon', 8, 18);
 
-INSERT INTO ITEM_CATEGORY VALUES
+INSERT INTO item_category VALUES
 (1, 'GENERAL'),
 (1, 'DAIRYFREE'),
 (2, 'GENERAL'),
@@ -83,7 +82,7 @@ INSERT INTO ITEM_CATEGORY VALUES
 (19, 'GLUTENFREE'),
 (19, 'DAIRYFREE');
 
-INSERT INTO ITEM_NUTRITION_PROFILE VALUES
+INSERT INTO item_nutrition_profile VALUES
 (1, 438.0, 'sodium'),
 (1, 40.0, 'calcium'),
 (1, 25.0, 'carbs'),
@@ -199,7 +198,7 @@ INSERT INTO ITEM_NUTRITION_PROFILE VALUES
 (19, 11.0, 'fat'),
 (19, 196.0, 'calories');
 
-INSERT INTO RECIPE VALUES
+INSERT INTO recipe VALUES
 ('Egg Roll', 'A healthy way to meet your protein needs', 'https://images.indianexpress.com/2020/05/egg-roll-759.jpg', 'https://www.youtube.com/watch?v=4z36OcbxovQ'),
 ('Strawberry Milkshake', 'Delight in every sip', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRIhI9cZoZBjSKCWYFQHeMjulmAwHc9Q08nEg&usqp=CAU', 'https://www.youtube.com/watch?v=U17jQxLGZPo'),
 ('Green Salad', 'A healthy blend of veggies to provide your daily needs', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQBkR4iqnG2uDfxmJ0A-bSn4YSY0sMGBGncug&usqp=CAU', 'https://www.youtube.com/watch?v=N7qbUUD3klE'),
@@ -219,7 +218,7 @@ INSERT INTO RECIPE VALUES
 ('Lemon pudding', 'Full on taste!', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQDo_T3uUv8k9OOpyqQ_Li-hGFPdlK9kftgqg&usqp=CAU', 'https://www.youtube.com/watch?v=FwksiY5ML1k'),
 ('Honey garlic salmon', 'Fish for protein - Fish for progress', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTBgE8MYsTtYEHljprKxDp_aPSjOaQdFQ5mdA&usqp=CAU', 'https://www.youtube.com/watch?v=P4xuyEq37nE'),
 ('Parfait', 'The best thing you will ever taste', 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcTjfRRCWU_BANMahwp2VrQffxlTJwNF7-GNzw&usqp=CAU', 'https://www.youtube.com/watch?v=uaa2NqGsOzI');
-INSERT INTO INGREDIENT VALUES
+INSERT INTO ingredient VALUES
 (2, 'A healthy way to meet your protein needs', 'egg', 'Egg Roll'),
 (4, 'Keep your heart healthy', 'onion', 'Egg Roll'),
 (6, 'Keep your eyes healthy', 'carrot', 'Egg Roll'),
@@ -296,7 +295,7 @@ INSERT INTO INGREDIENT VALUES
 (148, 'oat flakes', 'oat flakes', 'Quinoa bar'),
 (150, 'walnuts', 'walnuts', 'Quinoa bar'),
 (152, 'raisins', 'raisins', 'Quinoa bar');
-INSERT INTO INGREDIENT VALUES
+INSERT INTO ingredient VALUES
 (154, 'melon seeds', 'melon seeds', 'Quinoa bar'),
 (156, 'pumpkin seeds', 'pumpkin seeds', 'Quinoa bar'),
 (158, 'honey', 'honey', 'Quinoa bar'),
@@ -361,7 +360,7 @@ INSERT INTO INGREDIENT VALUES
 (276, 'brown sugar', 'brown sugar', 'Honey garlic salmon'),
 (278, 'dijon mustard', 'dijon mustard', 'Honey garlic salmon'),
 (280, 'red pepper flakes', 'red pepper flakes', 'Honey garlic salmon');
-INSERT INTO QUANTITY VALUES
+INSERT INTO quantity VALUES
 (1, 2.0, 'no', 2),
 (3, 1.0, 'no', 4),
 (5, 0.25, 'cup', 6),
@@ -503,23 +502,23 @@ INSERT INTO QUANTITY VALUES
 (277, 2.0, 'tbsp', 278),
 (279, 0.25, 'tsp', 280);
 
-INSERT INTO ROLE VALUES
+INSERT INTO role VALUES
 (1, 'ROLE_USER');
-INSERT INTO USERS VALUES
+INSERT INTO users VALUES
 (2, 'Existent address', 'existent.user@gmail.com', 'existent', 'user', '$2a$10$NLmSXlaQiQQfPoVgSPda6O5uYqjWlXheL5Ui09TgyIyApNIIwSDVC', 'VEGAN', 'existentuser');
-INSERT INTO USER_NUTRIENT_MAX_LIMITS VALUES
+INSERT INTO user_nutrient_max_limits VALUES
 (2, 5000, 'sodium'),
 (2, 5000, 'calcium'),
 (2, 500, 'carbs'),
 (2, 200, 'protein'),
 (2, 80, 'fat'),
 (2, 2400, 'calories');
-INSERT INTO USER_NUTRIENT_MIN_LIMITS VALUES
+INSERT INTO user_nutrient_min_limits VALUES
 (2, 30, 'sodium'),
 (2, 100, 'calcium'),
 (2, 105, 'carbs'),
 (2, 20, 'protein'),
 (2, 5, 'fat'),
 (2, 2000, 'calories');
-INSERT INTO USER_ROLES VALUES
+INSERT INTO user_roles VALUES
 (2, 1);

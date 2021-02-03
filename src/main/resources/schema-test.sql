@@ -95,7 +95,7 @@ CREATE TABLE orders (
 DROP TABLE IF EXISTS quantity;
 CREATE TABLE quantity (
   id int(11) NOT NULL,
-  countVal double DEFAULT NULL,
+  amount double DEFAULT NULL,
   measure varchar(255) DEFAULT NULL,
   ingredient_id int(11) DEFAULT NULL,
   PRIMARY KEY (id),
