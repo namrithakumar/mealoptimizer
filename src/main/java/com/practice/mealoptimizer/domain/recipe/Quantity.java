@@ -14,6 +14,7 @@ public class Quantity {
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Integer id;
 
+    @Column(name = "countVal")
     @DecimalMin(value="0.25", message = "Value must be atleast 0.25")
     private Double count;
 

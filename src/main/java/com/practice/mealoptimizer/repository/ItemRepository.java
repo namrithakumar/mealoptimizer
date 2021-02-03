@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 
 /*
  * Note: save(), findAll() methods in this repo will only be used when we create an admin screen for user to enter Item info.
- * Since data is loaded only from item-data.sql file, save(), findAll() will not be used for now.
- * To add a new Item, directly modify item-data.sql.
+ * Since data is loaded only from data-test.sql file, save(), findAll() will not be used for now.
+ * To add a new Item, directly modify data-test.sql.
  * Update junit test data as well by modifying item-test-data.sql.
  */
 
