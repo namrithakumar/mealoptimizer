@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 @DataJpaTest
 @TestPropertySource(locations="classpath:test.properties")
@@ -101,7 +102,11 @@ public class RecipeRepositoryTest {
 
     @Test
     public void testFindByNameIn() {
-        List<Recipe> actual = recipeRepository.findByNameIn(Arrays.asList(itemName));
-        assertThat(strawberryMilkShakeRecipe).isEqualToComparingFieldByField(strawberryMilkShakeRecipe);
+        try {
+            List<Recipe> actual = recipeRepository.findByNameIn(Arrays.asList(itemName));
+            assertThat(strawberryMilkShakeRecipe).isEqualToComparingFieldByField(strawberryMilkShakeRecipe);
+        } catch(Exception e) {
+            fail("Unexpected error in RecipeRepositoryTest.testFindByNameIn");
+        }
     }
 }

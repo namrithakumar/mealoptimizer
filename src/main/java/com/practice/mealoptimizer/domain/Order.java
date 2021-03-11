@@ -1,7 +1,5 @@
 package com.practice.mealoptimizer.domain;
 
-import com.practice.mealoptimizer.domain.user.User;
-
 import javax.persistence.*;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.Size;
@@ -41,19 +39,17 @@ public class Order implements Serializable {
 
     private LocalDate placedAt;
 
-    @OneToOne
-    @JoinColumn(name="user_id", referencedColumnName = "id")
-    private User user;
+    private String username;
 
     public Order() {}
 
-    public Order(List<Meal> mealList, LocalDate dateOfDelivery, Map<String,Integer> nutrientMinLimits, Map<String,Integer> nutrientMaxLimits, OptimizationType optimizationType, User user) {
+    public Order(List<Meal> mealList, LocalDate dateOfDelivery, Map<String,Integer> nutrientMinLimits, Map<String,Integer> nutrientMaxLimits, OptimizationType optimizationType, String username) {
         this.mealList = mealList;
         this.dateOfDelivery = dateOfDelivery;
         this.nutrientMinLimits = nutrientMinLimits;
         this.nutrientMaxLimits = nutrientMaxLimits;
         this.optimizationType = optimizationType;
-        this.user = user;
+        this.username = username;
     }
 
     public long getOrderId() {
@@ -112,12 +108,12 @@ public class Order implements Serializable {
         this.optimizationType = optimizationType;
     }
 
-    public User getUser() {
-        return user;
+    public String getUsername() {
+        return this.username;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @PrePersist

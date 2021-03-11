@@ -5,7 +5,6 @@ import com.practice.mealoptimizer.domain.recipe.Quantity;
 import com.practice.mealoptimizer.domain.recipe.Recipe;
 import com.practice.mealoptimizer.exception.MealOptimizerExceptionHandler;
 import com.practice.mealoptimizer.service.recipe.RecipeService;
-import com.practice.mealoptimizer.web.recipe.RecipeController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -109,8 +108,8 @@ public class RecipeControllerTest {
 
     @Test
     public void testGetRecipe() {
-        when(recipeService.findByNames(Arrays.asList(itemName))).thenReturn(Arrays.asList(strawberryMilkShakeRecipe));
         try {
+            when(recipeService.findByNames(Arrays.asList(itemName))).thenReturn(Arrays.asList(strawberryMilkShakeRecipe));
             mockMvc.perform(get("/mealoptimizer/recipe/find?names=" + itemName))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON));
