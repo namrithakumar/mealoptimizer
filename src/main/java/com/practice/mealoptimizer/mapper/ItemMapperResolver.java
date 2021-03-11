@@ -1,33 +1,35 @@
 package com.practice.mealoptimizer.mapper;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.practice.mealoptimizer.domain.Item;
 import com.practice.mealoptimizer.domain.Meal;
 import com.practice.mealoptimizer.domain.Order;
-import com.practice.mealoptimizer.domain.user.User;
+import com.practice.mealoptimizer.domain.nutrient.NutrientMaxLimit;
+import com.practice.mealoptimizer.domain.nutrient.NutrientMinLimit;
 import com.practice.mealoptimizer.dto.request.OrderRequestDTO;
 import com.practice.mealoptimizer.repository.ItemRepository;
-import com.practice.mealoptimizer.repository.user.UserRepository;
+import com.practice.mealoptimizer.repository.NutrientsRepository;
 import org.mapstruct.ObjectFactory;
 import org.mapstruct.TargetType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class ItemMapperResolver {
 
     private ItemRepository itemRepository;
 
-    private UserRepository userRepository;
+    private NutrientsRepository nutrientsRepository;
 
     @Autowired
-    public ItemMapperResolver(ItemRepository itemRepository, UserRepository userRepository) {
+    public ItemMapperResolver(ItemRepository itemRepository, NutrientsRepository nutrientsRepository) {
         this.itemRepository = itemRepository;
-        this.userRepository = userRepository;
+        this.nutrientsRepository = nutrientsRepository;
     }
 
     @ObjectFactory
@@ -44,19 +46,14 @@ public class ItemMapperResolver {
 
         userOrder.setMealList(mealList);
 
-        /*
-            TODO: Move below code from Order to User.
-         */
         //Setup min and max nutrient limits
-        Map<String, Integer> nutrientMinLimits = this.userRepository.findByUsername(orderRequestDTO.getUsername()).getNutrientMinLimits();
-        Map<String, Integer> nutrientMaxLimits = this.userRepository.findByUsername(orderRequestDTO.getUsername()).getNutrientMaxLimits();
+        Map<String, Integer> nutrientMinLimits = this.nutrientsRepository.getNutrientMinLimits().stream().collect(Collectors.toMap(NutrientMinLimit::getNutrientName, NutrientMinLimit::getNutrientMinLimit));
+        Map<String, Integer> nutrientMaxLimits = this.nutrientsRepository.getNutrientMaxLimits().stream().collect(Collectors.toMap(NutrientMaxLimit::getNutrientName, NutrientMaxLimit::getNutrientMaxLimit));
 
         userOrder.setNutrientMaxLimits(nutrientMaxLimits);
         userOrder.setNutrientMinLimits(nutrientMinLimits);
 
-        User user = this.userRepository.findByUsername(orderRequestDTO.getUsername());
-
-        userOrder.setUser(user);
+        userOrder.setUsername(orderRequestDTO.getUsername());
 
         return userOrder;
     }

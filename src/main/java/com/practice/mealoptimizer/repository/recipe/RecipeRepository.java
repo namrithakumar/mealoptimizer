@@ -11,5 +11,5 @@ import java.util.List;
 public interface RecipeRepository extends CrudRepository<Recipe, String> {
 
     @EntityGraph(value = "Recipe.ingredients")
-    public List<Recipe> findByNameIn(List<String> names); //name refers to Recipe Name
+    public List<Recipe> findByNameIn(List<String> names) throws Exception; //name refers to Recipe Name
 }

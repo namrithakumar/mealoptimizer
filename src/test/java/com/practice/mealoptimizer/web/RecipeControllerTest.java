@@ -109,8 +109,8 @@ public class RecipeControllerTest {
 
     @Test
     public void testGetRecipe() {
-        when(recipeService.findByNames(Arrays.asList(itemName))).thenReturn(Arrays.asList(strawberryMilkShakeRecipe));
         try {
+            when(recipeService.findByNames(Arrays.asList(itemName))).thenReturn(Arrays.asList(strawberryMilkShakeRecipe));
             mockMvc.perform(get("/mealoptimizer/recipe/find?names=" + itemName))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON));

@@ -503,23 +503,10 @@ INSERT INTO quantity VALUES
 (277, 2.0, 'tbsp', 278),
 (279, 0.25, 'tsp', 280);
 
-INSERT INTO role VALUES
-(1, 'ROLE_USER');
-INSERT INTO users VALUES
-(2, '24 Privet Drive, London', 'harry.potter@gmail.com', 'Harry', 'Potter', '$2a$10$uyrPNYEZ2x7lsWSkzFtmRugA3ylG8c8oONz/N70FhffVBAd72.qj6', 'VEGAN', 'hp');
-INSERT INTO user_nutrient_max_limits VALUES
-(2, 5000, 'sodium'),
-(2, 5000, 'calcium'),
-(2, 500, 'carbs'),
-(2, 200, 'protein'),
-(2, 80, 'fat'),
-(2, 2400, 'calories');
-INSERT INTO user_nutrient_min_limits VALUES
-(2, 30, 'sodium'),
-(2, 100, 'calcium'),
-(2, 105, 'carbs'),
-(2, 20, 'protein'),
-(2, 5, 'fat'),
-(2, 2000, 'calories');
-INSERT INTO user_roles VALUES
-(2, 1);
+INSERT INTO nutrients VALUES
+(1, 5000, 30, 'sodium'),
+(2, 5000, 100, 'calcium'),
+(3, 500, 105, 'carbs'),
+(4, 200, 20, 'protein'),
+(5, 80, 5, 'fat'),
+(6, 2000, 2, 'calories');

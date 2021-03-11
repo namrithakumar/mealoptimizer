@@ -18,7 +18,7 @@ public class RecipeService {
         this.recipeRepo = recipeRepo;
     }
 
-    public List<Recipe> findByNames(List<String> names) {
+    public List<Recipe> findByNames(List<String> names) throws Exception {
         List<Recipe> recipes = recipeRepo.findByNameIn(names);
         return recipes;
     }

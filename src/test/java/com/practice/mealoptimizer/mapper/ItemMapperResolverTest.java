@@ -2,10 +2,10 @@ package com.practice.mealoptimizer.mapper;
 
 import com.practice.mealoptimizer.domain.Item;
 import com.practice.mealoptimizer.domain.Order;
-import com.practice.mealoptimizer.domain.user.User;
+//import com.practice.mealoptimizer.domain.user.User;
 import com.practice.mealoptimizer.dto.request.OrderRequestDTO;
 import com.practice.mealoptimizer.repository.ItemRepository;
-import com.practice.mealoptimizer.repository.user.UserRepository;
+//import com.practice.mealoptimizer.repository.user.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -24,7 +24,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ItemMapperResolverTest {
-
+/*
     @Mock
     private ItemRepository itemRepository;
 
@@ -77,5 +77,5 @@ class ItemMapperResolverTest {
         resolvedOrder.getMealList().forEach(meal -> assertNotNull(meal.getItem()));
 
         verify(itemRepository, times(4)).findByItemName(anyString());
-    }
+    }*/
 }

@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -103,8 +104,12 @@ public class RecipeServiceTest {
 
     @Test
     public void testFindByNames() {
-        when(recipeRepository.findByNameIn(Arrays.asList(itemName))).thenReturn(Arrays.asList(strawberryMilkShakeRecipe));
-        assertThat(recipeService.findByNames(Arrays.asList(itemName))).hasSameElementsAs(Arrays.asList(strawberryMilkShakeRecipe));
-        verify(recipeRepository, times(1)).findByNameIn(Arrays.asList(itemName));
-    }
+        try {
+            when(recipeRepository.findByNameIn(Arrays.asList(itemName))).thenReturn(Arrays.asList(strawberryMilkShakeRecipe));
+            assertThat(recipeService.findByNames(Arrays.asList(itemName))).hasSameElementsAs(Arrays.asList(strawberryMilkShakeRecipe));
+            verify(recipeRepository, times(1)).findByNameIn(Arrays.asList(itemName));
+        } catch(Exception e) {
+            fail("Unexpected exception in RecipeServiceTest.testFindByNames");
+        }
+        }
 }
