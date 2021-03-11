@@ -8,11 +8,11 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public interface NutrientsRepository extends CrudRepository<Nutrient, Long> {
 
+    //Query setup as per https://github.com/spring-projects/spring-data-jpa/issues/1349
     @Query("SELECT new com.practice.mealoptimizer.domain.nutrient.NutrientMinLimit(n.nutrientName, n.nutrientMinLimit) FROM Nutrient AS n")
     public List<NutrientMinLimit> getNutrientMinLimits();
 

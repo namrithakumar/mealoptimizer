@@ -5,7 +5,6 @@ import com.practice.mealoptimizer.domain.recipe.Quantity;
 import com.practice.mealoptimizer.domain.recipe.Recipe;
 import com.practice.mealoptimizer.exception.MealOptimizerExceptionHandler;
 import com.practice.mealoptimizer.service.recipe.RecipeService;
-import com.practice.mealoptimizer.web.recipe.RecipeController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

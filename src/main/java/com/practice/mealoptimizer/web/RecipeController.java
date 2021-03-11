@@ -1,4 +1,4 @@
-package com.practice.mealoptimizer.web.recipe;
+package com.practice.mealoptimizer.web;
 
 import com.practice.mealoptimizer.domain.recipe.Recipe;
 import com.practice.mealoptimizer.service.recipe.RecipeService;

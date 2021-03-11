@@ -16,9 +16,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable().authorizeRequests()
                 //.antMatchers(HttpMethod.POST, "/mealoptimizer/orders/user/save")
                 //.hasRole("user")
-                .antMatchers(HttpMethod.POST, "/mealoptimizer/orders/save").permitAll()
+                .antMatchers(HttpMethod.POST, "/mealoptimizer/orders/user/save").permitAll()
                 .antMatchers("/mealoptimizer/categories/fetchAll").permitAll()
-                .antMatchers("/mealoptimizer/orders/guest/save").permitAll()
+                .antMatchers("/mealoptimizer/orders/guest/compute").permitAll()
                 .antMatchers("/mealoptimizer/menu/find").permitAll()
                 .antMatchers("/mealoptimizer/recipe/find").permitAll()
                 .anyRequest().authenticated();
