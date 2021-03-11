@@ -2,10 +2,11 @@ package com.practice.mealoptimizer.mapper;
 
 import com.practice.mealoptimizer.domain.Item;
 import com.practice.mealoptimizer.domain.Order;
-//import com.practice.mealoptimizer.domain.user.User;
+import com.practice.mealoptimizer.domain.nutrient.NutrientMaxLimit;
+import com.practice.mealoptimizer.domain.nutrient.NutrientMinLimit;
 import com.practice.mealoptimizer.dto.request.OrderRequestDTO;
 import com.practice.mealoptimizer.repository.ItemRepository;
-//import com.practice.mealoptimizer.repository.user.UserRepository;
+import com.practice.mealoptimizer.repository.NutrientsRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,9 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -24,12 +23,12 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class ItemMapperResolverTest {
-/*
+
     @Mock
     private ItemRepository itemRepository;
 
     @Mock
-    private UserRepository userRepository;
+    private NutrientsRepository nutrientsRepository;
 
     @InjectMocks
     private ItemMapperResolver itemMapperResolver;
@@ -38,7 +37,8 @@ class ItemMapperResolverTest {
 
     private Order resolvedOrder;
 
-    private User user;
+    private List<NutrientMinLimit> nutrientMinLimits = new ArrayList<NutrientMinLimit>();
+    private List<NutrientMaxLimit> nutrientMaxLimits  = new ArrayList<NutrientMaxLimit>();
 
     @BeforeEach
     void setUp() {
@@ -46,36 +46,32 @@ class ItemMapperResolverTest {
         orderRequestDTO.setItemNames(Arrays.asList(new String[] {"Egg Roll","Strawberry Milkshake","Green Salad","Chicken Sandwich"}));
         orderRequestDTO.setUsername("existentuser");
 
-        user = new User();
-        Map<String, Integer> nutrientMinLimits = new HashMap<String, Integer>();
-        Map<String, Integer> nutrientMaxLimits = new HashMap<String, Integer>();
+        nutrientMinLimits.add(new NutrientMinLimit("calories", 2000));
+        nutrientMinLimits.add(new NutrientMinLimit("fat", 5));
+        nutrientMinLimits.add(new NutrientMinLimit("sodium", 30));
+        nutrientMinLimits.add(new NutrientMinLimit("carbs", 105));
+        nutrientMinLimits.add(new NutrientMinLimit("protein", 20));
+        nutrientMinLimits.add(new NutrientMinLimit("calcium", 100));
 
-        nutrientMinLimits.put("calories", 2000);
-        nutrientMinLimits.put("fat", 5);
-        nutrientMinLimits.put("sodium", 30);
-        nutrientMinLimits.put("carbs", 105);
-        nutrientMinLimits.put("protein", 20);
-        nutrientMinLimits.put("calcium", 100);
-
-        nutrientMaxLimits.put("calories", 2400);
-        nutrientMaxLimits.put("fat", 80);
-        nutrientMaxLimits.put("sodium", 5000);
-        nutrientMaxLimits.put("carbs", 500);
-        nutrientMaxLimits.put("protein", 200);
-        nutrientMaxLimits.put("calcium", 5000);
-
-        user.setNutrientMinLimits(nutrientMinLimits);
-        user.setNutrientMaxLimits(nutrientMaxLimits);
+        nutrientMaxLimits.add(new NutrientMaxLimit("calories", 2400));
+        nutrientMaxLimits.add(new NutrientMaxLimit("fat", 80));
+        nutrientMaxLimits.add(new NutrientMaxLimit("sodium", 5000));
+        nutrientMaxLimits.add(new NutrientMaxLimit("carbs", 500));
+        nutrientMaxLimits.add(new NutrientMaxLimit("protein", 200));
+        nutrientMaxLimits.add(new NutrientMaxLimit("calcium", 5000));
     }
 
     @Test
     void resolveTest() {
         when(itemRepository.findByItemName(anyString())).thenReturn(new Item());
-        when(userRepository.findByUsername(anyString())).thenReturn(user);
+        when(nutrientsRepository.getNutrientMaxLimits()).thenReturn(nutrientMaxLimits);
+        when(nutrientsRepository.getNutrientMinLimits()).thenReturn(nutrientMinLimits);
         resolvedOrder = itemMapperResolver.resolve(orderRequestDTO, Order.class);
         assertEquals(4, resolvedOrder.getMealList().size());
         resolvedOrder.getMealList().forEach(meal -> assertNotNull(meal.getItem()));
 
         verify(itemRepository, times(4)).findByItemName(anyString());
-    }*/
+        verify(nutrientsRepository, times(1)).getNutrientMaxLimits();
+        verify(nutrientsRepository, times(1)).getNutrientMinLimits();
+    }
 }

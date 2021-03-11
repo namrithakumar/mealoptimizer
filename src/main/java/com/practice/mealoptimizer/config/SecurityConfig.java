@@ -14,9 +14,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
-                //.antMatchers(HttpMethod.POST, "/mealoptimizer/orders/user/save")
-                //.hasRole("user")
-                .antMatchers(HttpMethod.POST, "/mealoptimizer/orders/user/save").permitAll()
+                .antMatchers(HttpMethod.POST, "/mealoptimizer/orders/user/save")
+                .hasRole("user")
                 .antMatchers("/mealoptimizer/categories/fetchAll").permitAll()
                 .antMatchers("/mealoptimizer/orders/guest/compute").permitAll()
                 .antMatchers("/mealoptimizer/menu/find").permitAll()

@@ -10,6 +10,8 @@ import com.practice.mealoptimizer.dto.request.OrderRequestDTO;
 import com.practice.mealoptimizer.dto.response.OrderResponseDTO;
 import com.practice.mealoptimizer.exception.MealOptimizerExceptionHandler;
 import com.practice.mealoptimizer.facade.OptimizerFacadeImpl;
+import com.practice.mealoptimizer.handler.GuestResultHandler;
+import com.practice.mealoptimizer.util.BeanFactoryDynamicAutowireService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -40,6 +42,9 @@ class OrderControllerTest {
 
     @Mock
     private OptimizerFacadeImpl optimizerFacade;
+
+    @Mock
+    private BeanFactoryDynamicAutowireService beanFactoryDynamicAutowireService;
 
     @InjectMocks
     private OrderController orderController;
@@ -82,10 +87,12 @@ class OrderControllerTest {
     @Test
     void saveTestHeaderContentTypeSetAsJson() {
         try {
+            when(beanFactoryDynamicAutowireService.getResultHandler("guestResultHandler"))
+                    .thenReturn(new GuestResultHandler());
             when(optimizerFacade.optimizeByOptimizationTypes(
                     org.mockito.ArgumentMatchers.any(OrderRequestDTO.class)))
                     .thenReturn(responseDTO);
-            mockMvc.perform(post("/mealoptimizer/orders/save")
+            mockMvc.perform(post("/mealoptimizer/orders/guest/compute")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(requestDTO)))
                     .andExpect(status().isCreated())
@@ -98,10 +105,11 @@ class OrderControllerTest {
 
     @Test
     void saveTestHeaderNotSet()  throws Exception {
-            mockMvc.perform(post("/mealoptimizer/orders/save")
+            mockMvc.perform(post("/mealoptimizer/orders/guest/compute")
                     .content(objectMapper.writeValueAsString(requestDTO)))
                     .andExpect(status().isUnsupportedMediaType());
 
+            verifyNoInteractions(beanFactoryDynamicAutowireService);
             verifyNoInteractions(optimizerFacade);
         }
 
@@ -110,7 +118,7 @@ class OrderControllerTest {
 
         String request = "{\n" + "\"mealSelected\": 1,\n" + "\"deliveryDate\":\"08/25/2020\"\n" + "}";
 
-        mockMvc.perform(post("/mealoptimizer/orders/save").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(post("/mealoptimizer/orders/guest/compute").contentType(MediaType.APPLICATION_JSON)
                 .content(request))
                 //.andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isBadRequest())
@@ -120,12 +128,13 @@ class OrderControllerTest {
                 .andExpect(jsonPath("$.errorType", is("TECHNICAL")));
 
         verifyNoInteractions(optimizerFacade);
+        verifyNoInteractions(beanFactoryDynamicAutowireService);
     }
 
     @Test
     void saveTestHttpRequestMethodNotSupportedException() throws Exception {
 
-        mockMvc.perform(delete("/mealoptimizer/orders/save").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(delete("/mealoptimizer/orders/guest/compute").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isMethodNotAllowed())
                 .andExpect(jsonPath("$.errors").isArray())
@@ -134,12 +143,13 @@ class OrderControllerTest {
                 .andExpect(jsonPath("$.errorType", is("TECHNICAL")));
 
         verifyNoInteractions(optimizerFacade);
+        verifyNoInteractions(beanFactoryDynamicAutowireService);
     }
 
     @Test
     void saveTestHttpMediaTypeNotSupported() throws Exception {
 
-        mockMvc.perform(post("/mealoptimizer/orders/save")
+        mockMvc.perform(post("/mealoptimizer/orders/guest/compute")
                 .contentType(MediaType.APPLICATION_XML)
                 .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isUnsupportedMediaType())
@@ -149,13 +159,14 @@ class OrderControllerTest {
                 .andExpect(jsonPath("$.errorType", is("TECHNICAL")));
 
         verifyNoInteractions(optimizerFacade);
+        verifyNoInteractions(beanFactoryDynamicAutowireService);
     }
 
     @Test
     void saveTestRequestValidationFails() throws Exception {
         requestDTO.setDateOfDelivery(LocalDate.now().minusMonths(1));
 
-        mockMvc.perform(post("/mealoptimizer/orders/save")
+        mockMvc.perform(post("/mealoptimizer/orders/guest/compute")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestDTO)))
                 .andExpect(status().isBadRequest())
@@ -165,5 +176,9 @@ class OrderControllerTest {
                 .andExpect(jsonPath("$.errorType", is("TECHNICAL")));
 
         verifyNoInteractions(optimizerFacade);
+        verifyNoInteractions(beanFactoryDynamicAutowireService);
     }
+
+    // Posting to /orders/user/save requires an access token. Consider using WireMock to stub the Keycloak server.
+    // https://stackoverflow.com/questions/51711268/how-to-test-keycloak-authentication-in-spring-boot-application
 }

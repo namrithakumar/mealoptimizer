@@ -6,6 +6,7 @@ import com.practice.mealoptimizer.domain.Order;
 import com.practice.mealoptimizer.domain.OrderIdGenerator;
 import com.practice.mealoptimizer.dto.request.OrderRequestDTO;
 import com.practice.mealoptimizer.dto.response.OrderResponseDTO;
+import com.practice.mealoptimizer.handler.ResultHandler;
 import com.practice.mealoptimizer.mapper.OrderMapper;
 import com.practice.mealoptimizer.mapper.ResultMapper;
 import com.practice.mealoptimizer.processor.Optimizer;
@@ -44,10 +45,10 @@ public class OptimizerFacadeTest {
     private OrderIdGenerator orderIdGenerator;
 
     @Mock
-    private OrderService orderService;
+    private Optimizer optimizer;
 
     @Mock
-    private Optimizer optimizer;
+    private ResultHandler resultHandler;;
 
     @InjectMocks
     private OptimizerFacadeImpl optimizerFacade;
@@ -85,11 +86,10 @@ public class OptimizerFacadeTest {
             result.put("STATE", Optimisation.State.OPTIMAL);
             when(optimizer.optimizeByOptimizationType(order)).thenReturn(result);
             when(resultMapper.mapResultToOrder(result, order)).thenReturn(order);
-            when(orderService.saveAll(anyList())).thenReturn(savedOrders);
+            when(resultHandler.handleResult(anyString(), anyList())).thenReturn(new ArrayList());
             when(resultMapper.mapOrderAndStateToOrderResponseDTO(savedOrders, ((Optimisation.State) result.get("STATE")).name())).thenReturn(orderResponseDTO);
 
             OrderResponseDTO orderResponse = optimizerFacade.optimizeByOptimizationTypes(orderRequestDTO);
-            verify(orderService, times(1)).saveAll(anyList());
         } catch(Exception e) {
             fail("OptimizerFacadeImpl.optimizeByOptimizationTypes() failed with an unexpected exception");
             e.printStackTrace();
@@ -105,11 +105,10 @@ public class OptimizerFacadeTest {
             result.put("STATE", Optimisation.State.FEASIBLE);
             when(optimizer.optimizeByOptimizationType(order)).thenReturn(result);
             when(resultMapper.mapResultToOrder(result, order)).thenReturn(order);
-            when(orderService.saveAll(anyList())).thenReturn(savedOrders);
+            when(resultHandler.handleResult(anyString(), anyList())).thenReturn(new ArrayList());
             when(resultMapper.mapOrderAndStateToOrderResponseDTO(savedOrders, ((Optimisation.State) result.get("STATE")).name())).thenReturn(orderResponseDTO);
 
             OrderResponseDTO orderResponse = optimizerFacade.optimizeByOptimizationTypes(orderRequestDTO);
-            verify(orderService, times(1)).saveAll(anyList());
         } catch(Exception e) {
             fail("OptimizerFacadeImpl.optimizeByOptimizationTypes() failed with an unexpected exception");
             e.printStackTrace();
@@ -125,10 +124,10 @@ public class OptimizerFacadeTest {
             result.put("STATE", Optimisation.State.INFEASIBLE);
             when(optimizer.optimizeByOptimizationType(order)).thenReturn(result);
             when(resultMapper.mapResultToOrder(result, order)).thenReturn(order);
+            when(resultHandler.handleResult(anyString(), anyList())).thenReturn(new ArrayList());
             when(resultMapper.mapOrderAndStateToOrderResponseDTO(anyList(), anyString())).thenReturn(orderResponseDTO);
 
             OrderResponseDTO orderResponse = optimizerFacade.optimizeByOptimizationTypes(orderRequestDTO);
-            verify(orderService, times(0)).saveAll(anyList());
         } catch(Exception e) {
             fail("OptimizerFacadeImpl.optimizeByOptimizationTypes() failed with an unexpected exception");
             e.printStackTrace();
@@ -144,10 +143,10 @@ public class OptimizerFacadeTest {
             result.put("STATE", Optimisation.State.FAILED);
             when(optimizer.optimizeByOptimizationType(order)).thenReturn(result);
             when(resultMapper.mapResultToOrder(result, order)).thenReturn(order);
+            when(resultHandler.handleResult(anyString(), anyList())).thenReturn(new ArrayList());
             when(resultMapper.mapOrderAndStateToOrderResponseDTO(anyList(), anyString())).thenReturn(orderResponseDTO);
 
             OrderResponseDTO orderResponse = optimizerFacade.optimizeByOptimizationTypes(orderRequestDTO);
-            verify(orderService, times(0)).saveAll(anyList());
         } catch(Exception e) {
             fail("OptimizerFacadeImpl.optimizeByOptimizationTypes() failed with an unexpected exception");
             e.printStackTrace();
@@ -164,12 +163,11 @@ public class OptimizerFacadeTest {
             result.put("STATE", Optimisation.State.OPTIMAL);
             when(optimizer.optimizeByOptimizationType(order)).thenReturn(result);
             when(resultMapper.mapResultToOrder(result, order)).thenReturn(order);
-            when(orderService.saveAll(anyList())).thenReturn(savedOrders);
+            when(resultHandler.handleResult(anyString(), anyList())).thenReturn(new ArrayList());
             when(resultMapper.mapOrderAndStateToOrderResponseDTO(savedOrders, ((Optimisation.State) result.get("STATE")).name())).thenReturn(orderResponseDTO);
 
             OrderResponseDTO orderResponse = optimizerFacade.optimizeByOptimizationTypes(orderRequestDTO);
             assertEquals(orderResponse.getOrderId(), savedOrderId);
-            verify(orderService, times(1)).saveAll(anyList());
         } catch(Exception e) {
             fail("OptimizerFacadeImpl.optimizeByOptimizationTypes() failed with an unexpected exception");
             e.printStackTrace();

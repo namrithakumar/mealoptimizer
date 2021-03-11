@@ -5,9 +5,4 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @TestConfiguration
-public class MealOptimizerTestConfig {
-    @Bean(name="bCryptPasswordEncoder")
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-}
+public class MealOptimizerTestConfig {}

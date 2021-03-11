@@ -507,9 +507,9 @@ INSERT INTO quantity VALUES
 (279, 0.25, 'tsp', 280);
 
 INSERT INTO nutrients VALUES
-(1, 'sodium', 30, 5000),
-(2, 'calcium', 100, 5000),
-(3, 'carbs', 105, 500),
-(4, 'protein', 20, 200),
-(5, 'fat', 5, 80),
-(6, 'calories', 2, 2000);
+(1, 5000, 30, 'sodium'),
+(2, 5000, 100, 'calcium'),
+(3, 500, 105, 'carbs'),
+(4, 200, 20, 'protein'),
+(5, 80, 5, 'fat'),
+(6, 2000, 2, 'calories');
