@@ -16,7 +16,6 @@ public class AuthorizedUserResultHandler implements ResultHandler {
     //If the Optimization State is either FEASIBLE or OPTIMAL, save to DB. Otherwise do not save to the DB.
     @Override
     public List<Order> handleResult(String optimisationState, List<Order> ordersToSave) {
-        System.out.println("Inside AuthorizedUserResultHandler.handleResult()");
         if(optimisationState.equalsIgnoreCase("OPTIMAL") || optimisationState.equalsIgnoreCase("FEASIBLE")) {
             return (List<Order>) orderService.saveAll(ordersToSave);
         }
