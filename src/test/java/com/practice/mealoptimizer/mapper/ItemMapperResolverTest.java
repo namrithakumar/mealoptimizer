@@ -1,5 +1,6 @@
 package com.practice.mealoptimizer.mapper;
 
+import com.practice.mealoptimizer.config.MealOptimizerTestConfig;
 import com.practice.mealoptimizer.domain.Item;
 import com.practice.mealoptimizer.domain.Order;
 import com.practice.mealoptimizer.domain.nutrient.NutrientMaxLimit;
@@ -13,15 +14,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
+@TestPropertySource(locations="classpath:application-junit.properties")
+@Import(MealOptimizerTestConfig.class)
 class ItemMapperResolverTest {
 
     @Mock

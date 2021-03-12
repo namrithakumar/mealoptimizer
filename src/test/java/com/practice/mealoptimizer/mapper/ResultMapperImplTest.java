@@ -1,5 +1,6 @@
 package com.practice.mealoptimizer.mapper;
 
+import com.practice.mealoptimizer.config.MealOptimizerTestConfig;
 import com.practice.mealoptimizer.domain.Item;
 import com.practice.mealoptimizer.domain.Meal;
 import com.practice.mealoptimizer.domain.Order;
@@ -13,6 +14,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -21,6 +24,8 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
+@TestPropertySource(locations="classpath:application-junit.properties")
+@Import(MealOptimizerTestConfig.class)
 class ResultMapperImplTest {
 
     @Mock

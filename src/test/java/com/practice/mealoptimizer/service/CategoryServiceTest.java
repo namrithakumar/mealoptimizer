@@ -1,5 +1,6 @@
 package com.practice.mealoptimizer.service;
 
+import com.practice.mealoptimizer.config.MealOptimizerTestConfig;
 import com.practice.mealoptimizer.domain.Item;
 import static org.mockito.Mockito.when;
 
@@ -13,12 +14,17 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.TestPropertySource;
+
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
+@TestPropertySource(locations="classpath:application-junit.properties")
+@Import(MealOptimizerTestConfig.class)
 public class CategoryServiceTest {
 
     @Mock
