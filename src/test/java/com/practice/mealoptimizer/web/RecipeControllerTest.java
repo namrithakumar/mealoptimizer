@@ -1,5 +1,6 @@
 package com.practice.mealoptimizer.web;
 
+import com.practice.mealoptimizer.config.MealOptimizerTestConfig;
 import com.practice.mealoptimizer.domain.recipe.Ingredient;
 import com.practice.mealoptimizer.domain.recipe.Quantity;
 import com.practice.mealoptimizer.domain.recipe.Recipe;
@@ -11,7 +12,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -26,6 +29,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(MockitoExtension.class)
+@TestPropertySource(locations="classpath:application-junit.properties")
+@Import(MealOptimizerTestConfig.class)
 public class RecipeControllerTest {
 
     private String itemName = "Strawberry milkshake";

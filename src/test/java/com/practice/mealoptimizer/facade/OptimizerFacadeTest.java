@@ -1,5 +1,6 @@
 package com.practice.mealoptimizer.facade;
 
+import com.practice.mealoptimizer.config.MealOptimizerTestConfig;
 import com.practice.mealoptimizer.domain.Meal;
 import com.practice.mealoptimizer.domain.OptimizationType;
 import com.practice.mealoptimizer.domain.Order;
@@ -19,6 +20,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.ojalgo.optimisation.Optimisation;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.TestPropertySource;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -30,6 +33,8 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
+@TestPropertySource(locations="classpath:application-junit.properties")
+@Import(MealOptimizerTestConfig.class)
 public class OptimizerFacadeTest {
 
     @Mock

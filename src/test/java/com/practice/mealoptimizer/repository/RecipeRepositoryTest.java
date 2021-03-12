@@ -20,7 +20,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.fail;
 
 @DataJpaTest
-@TestPropertySource(locations="classpath:test.properties")
+@TestPropertySource(locations="classpath:application-junit.properties")
 @Import(MealOptimizerTestConfig.class)
 public class RecipeRepositoryTest {
 
