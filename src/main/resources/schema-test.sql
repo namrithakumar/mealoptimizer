@@ -85,9 +85,9 @@ CREATE TABLE orders (
   order_id bigint(20) NOT NULL,
   date_of_delivery date DEFAULT NULL,
   placed_at date DEFAULT NULL,
-  user_id int(11) DEFAULT NULL,
+  username VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (optimization_type,order_id),
-  KEY FKel9kyl84ego2otj2accfd8mr7 (user_id)
+  KEY FKel9kyl84ego2otj2accfd8mr7 (username)
 );
 
 -- Table structure for table `quantity`
@@ -113,59 +113,14 @@ CREATE TABLE recipe (
   PRIMARY KEY (name)
 );
 
--- Table structure for table `role`
+-- Table structure for table `nutrients`
 
-DROP TABLE IF EXISTS role;
-CREATE TABLE role (
-  id int(11) NOT NULL,
-  type varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-);
-
--- Table structure for table `user`
-
-DROP TABLE IF EXISTS `users`;
-CREATE TABLE `users` (
-  id int(11) NOT NULL,
-  address varchar(255) DEFAULT NULL,
-  email varchar(255) DEFAULT NULL,
-  first_name varchar(255) DEFAULT NULL,
-  last_name varchar(255) DEFAULT NULL,
-  password varchar(255) DEFAULT NULL,
-  preferred_diet_type varchar(255) DEFAULT NULL,
-  username varchar(255) DEFAULT NULL,
-  PRIMARY KEY (id),
-  UNIQUE KEY UK_ob8kqyqqgmefl0aco34akdtpe (email),
-  UNIQUE KEY UK_sb8bbouer5wak8vyiiy4pf2bx (username)
-);
-
-
--- Table structure for table `user_nutrient_max_limits`
-
-DROP TABLE IF EXISTS user_nutrient_max_limits;
-CREATE TABLE user_nutrient_max_limits (
-  user_id int(11) NOT NULL,
-  nutrient_max_limit int(11) DEFAULT NULL,
-  nutrient_max_limits_key varchar(255) NOT NULL,
-  PRIMARY KEY (user_id, nutrient_max_limits_key)
-);
-
--- Table structure for table `user_nutrient_min_limits`
-
-DROP TABLE IF EXISTS user_nutrient_min_limits;
-CREATE TABLE user_nutrient_min_limits (
-  user_id int(11) NOT NULL,
-  nutrient_min_limit int(11) DEFAULT NULL,
-  nutrient_min_limits_key varchar(255) NOT NULL,
-  PRIMARY KEY (user_id, nutrient_min_limits_key)
-);
-
--- Table structure for table `user_roles`
-
-DROP TABLE IF EXISTS user_roles;
-CREATE TABLE user_roles (
-  user_id int(11) NOT NULL,
-  role_id int(11) NOT NULL,
-  PRIMARY KEY (user_id, role_id),
-  KEY FKrhfovtciq1l558cw6udg0h0d3 (role_id)
+DROP TABLE IF EXISTS nutrients;
+CREATE TABLE nutrients(
+    nutrient_id BIGINT NOT NULL,
+    nutrient_max_limit INTEGER CHECK ((nutrient_max_limit >= 1)
+    AND (nutrient_max_limit <= 10000)),
+    nutrient_min_limit INTEGER CHECK ((nutrient_min_limit >= 1)
+    AND (nutrient_min_limit <= 10000)),
+    nutrient_name VARCHAR(255)
 );
