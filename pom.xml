@@ -199,5 +199,6 @@
                 </executions>
             </plugin>
         </plugins>
+        <finalName>meal-optimizer-rest-api</finalName>
     </build>
 </project>
