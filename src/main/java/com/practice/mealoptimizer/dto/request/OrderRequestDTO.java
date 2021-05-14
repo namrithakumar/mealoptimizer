@@ -1,6 +1,10 @@
 package com.practice.mealoptimizer.dto.request;
 
 import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 import com.practice.mealoptimizer.domain.OptimizationType;
 
 import javax.validation.constraints.*;
@@ -23,6 +27,8 @@ public class OrderRequestDTO {
     @FutureOrPresent
     @JsonProperty("deliveryDate")
     @JsonFormat(pattern="MM/dd/yyyy")
+    @JsonDeserialize(using = LocalDateDeserializer.class)
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate dateOfDelivery;
 
     @NotNull

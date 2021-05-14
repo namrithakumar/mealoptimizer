@@ -28,6 +28,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/mealoptimizer/orders/guest/compute").permitAll()
                 .antMatchers("/mealoptimizer/menu/find").permitAll()
                 .antMatchers("/mealoptimizer/recipe/find").permitAll()
+                .antMatchers(HttpMethod.GET, "/app-info/home").permitAll()
+                .antMatchers(HttpMethod.GET,"/**").permitAll()
                 .anyRequest().authenticated())
                 .oauth2ResourceServer()
                 .jwt()
