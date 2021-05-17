@@ -7,5 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class MealOptimizerApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MealOptimizerApplication.class, args); }
+		SpringApplication.run(MealOptimizerApplication.class, args);
+	}
 }

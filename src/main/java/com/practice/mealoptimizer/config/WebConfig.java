@@ -30,22 +30,11 @@ public class WebConfig implements WebMvcConfigurer {
                         Resource requestedResource = location.createRelative(resourcePath);
 
                 if(requestedResource.exists() && requestedResource.isReadable()) {
-                    System.out.println("Resource exists : " + requestedResource.getURL());
                     return requestedResource;
                 }
                 else {
-                    System.out.println("Resource does not exist : " + requestedResource.getURL());
                     return new ClassPathResource("/static/index.html");
                 }}
                 });
     }
-
-    //Leaving as comment for future ref
-    /*@Override
-    public void addViewControllers(ViewControllerRegistry registry) {
-        //registry.addRedirectViewController("/", "index.html");
-        //"forward:/index.html"
-        //Not working - static/index.html
-        registry.addViewController("/").setViewName("index");
-    }*/
 }
