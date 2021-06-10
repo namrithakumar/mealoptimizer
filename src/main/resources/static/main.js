@@ -5275,7 +5275,7 @@ class UserRedirectComponent {
         });
         setTimeout(() => {
             this.router.navigateByUrl('/meal-planner');
-        }, 3000);
+        }, 1000);
     }
 }
 UserRedirectComponent.ɵfac = function UserRedirectComponent_Factory(t) { return new (t || UserRedirectComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_shared_services_response_handler_authentication_response_handler__WEBPACK_IMPORTED_MODULE_1__["AuthenticationResponseHandler"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"])); };
