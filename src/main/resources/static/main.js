@@ -104,6 +104,8 @@ function recipesReducer(state = defaultRecipes, action) {
             return Object.assign(Object.assign({}, state), { recipes: null, error: action.payload, requestStatus: src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_0__["HttpRequestStatus"].RESPONSE_RECEIVED });
         case _actions_recipes_actions__WEBPACK_IMPORTED_MODULE_1__["UPDATE_REQUEST_STATUS"]:
             return Object.assign(Object.assign({}, state), { requestStatus: action.payload });
+        case _actions_recipes_actions__WEBPACK_IMPORTED_MODULE_1__["CLEAR_RECIPES"]:
+            return defaultRecipes;
         default: return state;
     }
 }
@@ -565,10 +567,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShoppingListComponent", function() { return ShoppingListComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _store_shopping_list_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store/shopping-list.actions */ "cyko");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var _shopping_edit_shopping_edit_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./shopping-edit/shopping-edit.component */ "6Ael");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var src_app_shared_shopping_list_mode_enum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/shared/shopping-list-mode.enum */ "vyhQ");
+/* harmony import */ var _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../user-mgmt/store/actions/user-display-preferences.actions */ "dZCj");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
+/* harmony import */ var _shopping_edit_shopping_edit_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./shopping-edit/shopping-edit.component */ "6Ael");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ "ofXK");
+
 
 
 
@@ -600,10 +604,8 @@ function ShoppingListComponent_button_9_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", shoppingItem_r1.labels);
 } }
 class ShoppingListComponent {
-    constructor(store, router, route) {
+    constructor(store) {
         this.store = store;
-        this.router = router;
-        this.route = route;
     }
     ngOnInit() {
         this.store.select('shoppingList').subscribe((shoppingItems) => {
@@ -612,15 +614,11 @@ class ShoppingListComponent {
     }
     onEditItem(index) {
         this.store.dispatch(new _store_shopping_list_actions__WEBPACK_IMPORTED_MODULE_1__["StartEdit"](index));
-        this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { shoppinglistmode: 'update' },
-            queryParamsHandling: 'merge'
-        });
+        this.store.dispatch(new _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_3__["UpdateShoppingListMode"](src_app_shared_shopping_list_mode_enum__WEBPACK_IMPORTED_MODULE_2__["ShoppingListMode"].UPDATE));
     }
     ngOnDestroy() { }
 }
-ShoppingListComponent.ɵfac = function ShoppingListComponent_Factory(t) { return new (t || ShoppingListComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"])); };
+ShoppingListComponent.ɵfac = function ShoppingListComponent_Factory(t) { return new (t || ShoppingListComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_4__["Store"])); };
 ShoppingListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ShoppingListComponent, selectors: [["app-shopping-list"]], decls: 10, vars: 1, consts: [[1, "row", "mt-4", "ml-1"], [1, "col-md-11"], [1, "py-4"], [1, "row", "justify-content-start", "ml-5"], [1, "w-100"], [1, "list-group", "col-xl-5", "col-lg-7", "col-md-8", "col-sm-10"], ["class", "list-group-item", "style", "cursor: pointer", 3, "click", 4, "ngFor", "ngForOf"], [1, "list-group-item", 2, "cursor", "pointer", 3, "click"], ["class", "badge badge-secondary float-right", 4, "ngFor", "ngForOf"], [1, "badge", "badge-secondary", "float-right"]], template: function ShoppingListComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
@@ -642,7 +640,7 @@ ShoppingListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](9);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.shoppingItems);
-    } }, directives: [_shopping_edit_shopping_edit_component__WEBPACK_IMPORTED_MODULE_4__["ShoppingEditComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_5__["NgForOf"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21lYWwtcGxhbm5lci9zaG9wcGluZy1saXN0L3Nob3BwaW5nLWxpc3QuY29tcG9uZW50LmNzcyJ9 */"] });
+    } }, directives: [_shopping_edit_shopping_edit_component__WEBPACK_IMPORTED_MODULE_5__["ShoppingEditComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_6__["NgForOf"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21lYWwtcGxhbm5lci9zaG9wcGluZy1saXN0L3Nob3BwaW5nLWxpc3QuY29tcG9uZW50LmNzcyJ9 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ShoppingListComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -650,7 +648,7 @@ ShoppingListComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
                 templateUrl: './shopping-list.component.html',
                 styleUrls: ['./shopping-list.component.css']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_4__["Store"] }]; }, null); })();
 
 
 /***/ }),
@@ -668,7 +666,7 @@ __webpack_require__.r(__webpack_exports__);
 function initializeKeycloak(keycloak) {
     return () => keycloak.init({
         config: {
-            url: 'http://meal-optimizer-iam:8080/auth',
+            url: 'http://avocadoandeggsclub-iam.xyz:8080/auth',
             realm: 'mealplanner',
             clientId: 'meal-planner-app-client'
         },
@@ -692,9 +690,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _meal_planner_meal_optimizer_store_reducers_user_preferences_reducer__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../meal-planner/meal-optimizer/store/reducers/user-preferences.reducer */ "LaBC");
 /* harmony import */ var _meal_planner_meal_optimizer_store_reducers_menu_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../meal-planner/meal-optimizer/store/reducers/menu.reducer */ "awJM");
 /* harmony import */ var _user_mgmt_store_reducers_user_mgmt_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../user-mgmt/store/reducers/user-mgmt.reducer */ "jRjh");
-/* harmony import */ var _meal_planner_meal_optimizer_store_reducers_order_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../meal-planner/meal-optimizer/store/reducers/order.reducer */ "Go0q");
-/* harmony import */ var _meal_planner_recipes_store_reducers_recipes_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../meal-planner/recipes/store/reducers/recipes.reducer */ "/oiL");
-/* harmony import */ var _meal_planner_shopping_list_store_shopping_list_reducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../meal-planner/shopping-list/store/shopping-list.reducer */ "FUYM");
+/* harmony import */ var _user_mgmt_store_reducers_user_display_preferences_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../user-mgmt/store/reducers/user-display-preferences.reducer */ "fVwP");
+/* harmony import */ var _meal_planner_meal_optimizer_store_reducers_order_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../meal-planner/meal-optimizer/store/reducers/order.reducer */ "Go0q");
+/* harmony import */ var _meal_planner_recipes_store_reducers_recipes_reducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../meal-planner/recipes/store/reducers/recipes.reducer */ "/oiL");
+/* harmony import */ var _meal_planner_shopping_list_store_shopping_list_reducer__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../meal-planner/shopping-list/store/shopping-list.reducer */ "FUYM");
+
 
 
 
@@ -705,9 +705,10 @@ const appReducer = {
     userPreferences: _meal_planner_meal_optimizer_store_reducers_user_preferences_reducer__WEBPACK_IMPORTED_MODULE_0__["userPreferencesReducer"],
     menu: _meal_planner_meal_optimizer_store_reducers_menu_reducer__WEBPACK_IMPORTED_MODULE_1__["menuReducer"],
     authenticatedUser: _user_mgmt_store_reducers_user_mgmt_reducer__WEBPACK_IMPORTED_MODULE_2__["userMgmtReducer"],
-    optimizedPlans: _meal_planner_meal_optimizer_store_reducers_order_reducer__WEBPACK_IMPORTED_MODULE_3__["orderReducer"],
-    recipes: _meal_planner_recipes_store_reducers_recipes_reducer__WEBPACK_IMPORTED_MODULE_4__["recipesReducer"],
-    shoppingList: _meal_planner_shopping_list_store_shopping_list_reducer__WEBPACK_IMPORTED_MODULE_5__["shoppingListReducer"]
+    userDisplayPreferences: _user_mgmt_store_reducers_user_display_preferences_reducer__WEBPACK_IMPORTED_MODULE_3__["userDisplayPreferencesReducer"],
+    optimizedPlans: _meal_planner_meal_optimizer_store_reducers_order_reducer__WEBPACK_IMPORTED_MODULE_4__["orderReducer"],
+    recipes: _meal_planner_recipes_store_reducers_recipes_reducer__WEBPACK_IMPORTED_MODULE_5__["recipesReducer"],
+    shoppingList: _meal_planner_shopping_list_store_shopping_list_reducer__WEBPACK_IMPORTED_MODULE_6__["shoppingListReducer"]
 };
 
 
@@ -775,10 +776,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _shared_model_shopping_item_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../shared/model/shopping-item-model */ "iP5Z");
 /* harmony import */ var _store_shopping_list_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/shopping-list.actions */ "cyko");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../user-mgmt/store/actions/user-display-preferences.actions */ "dZCj");
+/* harmony import */ var src_app_shared_shopping_list_mode_enum__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/shared/shopping-list-mode.enum */ "vyhQ");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ "ofXK");
+
 
 
 
@@ -796,18 +799,16 @@ function ShoppingEditComponent_button_19_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
 class ShoppingEditComponent {
-    constructor(store, router, route) {
+    constructor(store) {
         this.store = store;
-        this.router = router;
-        this.route = route;
-        this.mode = 'Add';
+        this.mode = src_app_shared_shopping_list_mode_enum__WEBPACK_IMPORTED_MODULE_4__["ShoppingListMode"].ADD;
         this.editedItem = null;
         this.defaultLabel = 'Added by user';
     }
     ngOnInit() {
         // Get value of mode (create or update)
-        this.route.queryParams.subscribe((queryParams) => {
-            this.mode = queryParams['shoppinglistmode'];
+        this.store.select('userDisplayPreferences').subscribe((userDisplayPreferences) => {
+            this.mode = userDisplayPreferences.shoppingListMode;
         });
         this.subscription = this.store
             .select('shoppingList')
@@ -819,18 +820,7 @@ class ShoppingEditComponent {
                     amount: this.editedItem.amount,
                     measure: this.editedItem.measure
                 });
-                this.router.navigate([], {
-                    relativeTo: this.route,
-                    queryParams: { shoppinglistmode: 'update' },
-                    queryParamsHandling: 'merge'
-                });
-            }
-            else {
-                this.router.navigate([], {
-                    relativeTo: this.route,
-                    queryParams: { shoppinglistmode: 'add' },
-                    queryParamsHandling: 'merge'
-                });
+                this.store.dispatch(new _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_3__["UpdateShoppingListMode"](src_app_shared_shopping_list_mode_enum__WEBPACK_IMPORTED_MODULE_4__["ShoppingListMode"].UPDATE));
             }
         });
     }
@@ -852,22 +842,14 @@ class ShoppingEditComponent {
             newIngredient = new _shared_model_shopping_item_model__WEBPACK_IMPORTED_MODULE_1__["ShoppingItem"](value.name, value.amount, value.measure, [this.defaultLabel]);
             this.store.dispatch(new _store_shopping_list_actions__WEBPACK_IMPORTED_MODULE_2__["AddIngredient"](newIngredient));
         }
-        this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { shoppinglistmode: 'add' },
-            queryParamsHandling: 'merge'
-        });
-        this.mode = 'add';
+        this.store.dispatch(new _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_3__["UpdateShoppingListMode"](src_app_shared_shopping_list_mode_enum__WEBPACK_IMPORTED_MODULE_4__["ShoppingListMode"].ADD));
+        this.mode = src_app_shared_shopping_list_mode_enum__WEBPACK_IMPORTED_MODULE_4__["ShoppingListMode"].ADD;
         form.reset();
     }
     onClear() {
         this.slForm.reset();
         this.store.dispatch(new _store_shopping_list_actions__WEBPACK_IMPORTED_MODULE_2__["StopEdit"]());
-        this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { shoppinglistmode: 'add' },
-            queryParamsHandling: 'merge'
-        });
+        this.store.dispatch(new _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_3__["UpdateShoppingListMode"](src_app_shared_shopping_list_mode_enum__WEBPACK_IMPORTED_MODULE_4__["ShoppingListMode"].ADD));
     }
     onDelete() {
         this.store.dispatch(new _store_shopping_list_actions__WEBPACK_IMPORTED_MODULE_2__["DeleteIngredient"]());
@@ -878,7 +860,7 @@ class ShoppingEditComponent {
         this.store.dispatch(new _store_shopping_list_actions__WEBPACK_IMPORTED_MODULE_2__["StopEdit"]());
     }
 }
-ShoppingEditComponent.ɵfac = function ShoppingEditComponent_Factory(t) { return new (t || ShoppingEditComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"])); };
+ShoppingEditComponent.ɵfac = function ShoppingEditComponent_Factory(t) { return new (t || ShoppingEditComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_5__["Store"])); };
 ShoppingEditComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ShoppingEditComponent, selectors: [["app-shopping-edit"]], viewQuery: function ShoppingEditComponent_Query(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵviewQuery"](_c0, true);
     } if (rf & 2) {
@@ -930,7 +912,7 @@ ShoppingEditComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate"](_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpipeBind1"](18, 4, ctx.mode));
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.mode === "update");
-    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_5__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["NgForm"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["NgModel"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["RequiredValidator"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["NumberValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_5__["PatternValidator"], _angular_common__WEBPACK_IMPORTED_MODULE_6__["NgIf"]], pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_6__["TitleCasePipe"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21lYWwtcGxhbm5lci9zaG9wcGluZy1saXN0L3Nob3BwaW5nLWVkaXQvc2hvcHBpbmctZWRpdC5jb21wb25lbnQuY3NzIn0= */"] });
+    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_6__["ɵangular_packages_forms_forms_y"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgControlStatusGroup"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgForm"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NgModel"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["RequiredValidator"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["NumberValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["PatternValidator"], _angular_common__WEBPACK_IMPORTED_MODULE_7__["NgIf"]], pipes: [_angular_common__WEBPACK_IMPORTED_MODULE_7__["TitleCasePipe"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21lYWwtcGxhbm5lci9zaG9wcGluZy1saXN0L3Nob3BwaW5nLWVkaXQvc2hvcHBpbmctZWRpdC5jb21wb25lbnQuY3NzIn0= */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ShoppingEditComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -938,7 +920,7 @@ ShoppingEditComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
                 templateUrl: './shopping-edit.component.html',
                 styleUrls: ['./shopping-edit.component.css']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"] }]; }, { slForm: [{
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_5__["Store"] }]; }, { slForm: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"],
             args: ['f', { static: false }]
         }] }); })();
@@ -1153,16 +1135,16 @@ class HomeComponent {
     //Displayed if user has not logged in
     //If the user wants to login, display an intermediate auth-redirect page (this page in turn will redirect to keycloak authentication)
     goToLoginOrRegister() {
-        this.router.navigateByUrl('/meal-planner/meal-optimizer/user-redirect');
+        this.router.navigateByUrl('/meal-planner/user-redirect');
     }
     //Displayed if user has not logged in
     //If the user wants to continue as guest, redirect to meal-planner homepage. No intermediate auth-redirect page is required.
     continueAsGuest() {
-        this.router.navigate(['/meal-planner', { outlets: { mealoptimizer: ['meal-optimizer'] } }], { queryParams: { optimizermode: 'create' } });
+        this.router.navigate(['/meal-planner']);
     }
     //Displayed if user has logged in
     goToMealPlanner() {
-        this.router.navigate(['/meal-planner', { outlets: { mealoptimizer: ['meal-optimizer'] } }], { queryParams: { optimizermode: 'create' } });
+        this.router.navigate(['/meal-planner']);
     }
 }
 HomeComponent.ɵfac = function HomeComponent_Factory(t) { return new (t || HomeComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"])); };
@@ -1242,7 +1224,7 @@ class AuthGuardService extends keycloak_angular__WEBPACK_IMPORTED_MODULE_2__["Ke
             if (!this.authenticated) {
                 //NOTE: For future reference Request triggered from : window.location.origin + state.url);
                 yield this.keycloak.login({
-                    redirectUri: `${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}:80/#/meal-planner/meal-optimizer/user-redirect`
+                    redirectUri: `${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl}:${_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiPort}/#/meal-planner/user-redirect`
                 });
             }
             //Do not allow navigation if the user is offline
@@ -1279,6 +1261,7 @@ const environment = {
     production: false,
     hostUrl: window.location.protocol + '//' + window.location.host,
     apiUrl: window.location.protocol + '//' + window.location.host,
+    apiPort: 80,
     applicationName: 'mealoptimizer',
     envName: 'test'
 };
@@ -1532,6 +1515,8 @@ function shoppingListReducer(state = defaultShoppingList, action) {
             return Object.assign(Object.assign({}, state), { editedshoppingItemIndex: action.payload, editedshoppingItem: Object.assign({}, state.shoppingItems[action.payload]) });
         case _shopping_list_actions__WEBPACK_IMPORTED_MODULE_1__["STOP_EDIT"]:
             return Object.assign(Object.assign({}, state), { editedshoppingItem: null, editedshoppingItemIndex: -1 });
+        case _shopping_list_actions__WEBPACK_IMPORTED_MODULE_1__["CLEAR_SHOPPING_LIST"]:
+            return defaultShoppingList;
         default:
             return state;
     }
@@ -1715,6 +1700,25 @@ Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 
 /***/ }),
 
+/***/ "HDOF":
+/*!**************************************************!*\
+  !*** ./src/app/shared/optimization-mode.enum.ts ***!
+  \**************************************************/
+/*! exports provided: OptimizationMode */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OptimizationMode", function() { return OptimizationMode; });
+var OptimizationMode;
+(function (OptimizationMode) {
+    OptimizationMode["CREATE"] = "create";
+    OptimizationMode["UPDATE"] = "update";
+})(OptimizationMode || (OptimizationMode = {}));
+
+
+/***/ }),
+
 /***/ "HjpC":
 /*!*************************************************************************!*\
   !*** ./src/app/meal-planner/meal-optimizer/meal-optimizer.component.ts ***!
@@ -1726,20 +1730,10 @@ Object(tslib__WEBPACK_IMPORTED_MODULE_0__["__decorate"])([
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MealOptimizerComponent", function() { return MealOptimizerComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _store_actions_user_preferences_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store/actions/user-preferences.actions */ "2fHZ");
-/* harmony import */ var _store_actions_menu_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./store/actions/menu.actions */ "82aV");
-/* harmony import */ var _store_actions_order_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./store/actions/order.actions */ "T1QP");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
-/* harmony import */ var _user_diet_type_user_diet_type_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./user_diet_type/user_diet_type.component */ "w/rZ");
-/* harmony import */ var _delivery_date_selector_delivery_date_selector_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./delivery-date-selector/delivery-date-selector.component */ "tKtD");
-/* harmony import */ var _meal_selector_meal_selector_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./meal-selector/meal-selector.component */ "2nfZ");
-/* harmony import */ var _optimized_meal_plan_optimized_meal_plan_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./optimized-meal-plan/optimized-meal-plan.component */ "Vt1l");
-
-
-
-
-
+/* harmony import */ var _user_diet_type_user_diet_type_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./user_diet_type/user_diet_type.component */ "w/rZ");
+/* harmony import */ var _delivery_date_selector_delivery_date_selector_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./delivery-date-selector/delivery-date-selector.component */ "tKtD");
+/* harmony import */ var _meal_selector_meal_selector_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./meal-selector/meal-selector.component */ "2nfZ");
+/* harmony import */ var _optimized_meal_plan_optimized_meal_plan_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./optimized-meal-plan/optimized-meal-plan.component */ "Vt1l");
 
 
 
@@ -1748,30 +1742,12 @@ __webpack_require__.r(__webpack_exports__);
 
 //This component handles routing, link to optimizationService via controller
 class MealOptimizerComponent {
-    constructor(route, store) {
-        this.route = route;
-        this.store = store;
+    constructor() {
     }
-    ngOnInit() {
-        this.route.data.subscribe(data => {
-            this.dietTypes = data['userDietTypes'];
-        });
-    }
-    canDeactivate() {
-        if (confirm('You are navigating away from the page. Your inputs will be reset.')) {
-            [new _store_actions_user_preferences_actions__WEBPACK_IMPORTED_MODULE_1__["ClearUserPreferences"](),
-                new _store_actions_menu_actions__WEBPACK_IMPORTED_MODULE_2__["ClearMenu"](),
-                new _store_actions_order_actions__WEBPACK_IMPORTED_MODULE_3__["ClearOrder"]()].forEach((action) => {
-                this.store.dispatch(action);
-            });
-            return true;
-        }
-        else
-            return false;
-    }
+    ngOnInit() { }
 }
-MealOptimizerComponent.ɵfac = function MealOptimizerComponent_Factory(t) { return new (t || MealOptimizerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_5__["Store"])); };
-MealOptimizerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: MealOptimizerComponent, selectors: [["app-meal-optimizer"]], decls: 11, vars: 1, consts: [[1, "row", "custom-display", "mt-4", "ml-1"], [1, "custom-diet-type-width"], [3, "dietTypes"], [1, "custom-delivery-date-width"], [1, "row", "mt-4", "ml-1"], [1, "col-11"], [1, "col-11", "justify-content-start"]], template: function MealOptimizerComponent_Template(rf, ctx) { if (rf & 1) {
+MealOptimizerComponent.ɵfac = function MealOptimizerComponent_Factory(t) { return new (t || MealOptimizerComponent)(); };
+MealOptimizerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: MealOptimizerComponent, selectors: [["app-meal-optimizer"]], inputs: { dietTypes: "dietTypes" }, decls: 11, vars: 1, consts: [[1, "row", "custom-display", "mt-4", "ml-1"], [1, "custom-diet-type-width"], [3, "dietTypes"], [1, "custom-delivery-date-width"], [1, "row", "mt-4", "ml-1"], [1, "col-11"], [1, "col-11", "justify-content-start"]], template: function MealOptimizerComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "app-user-diet-type", 2);
@@ -1793,7 +1769,7 @@ MealOptimizerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵd
     } if (rf & 2) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("dietTypes", ctx.dietTypes);
-    } }, directives: [_user_diet_type_user_diet_type_component__WEBPACK_IMPORTED_MODULE_6__["UserDietTypeComponent"], _delivery_date_selector_delivery_date_selector_component__WEBPACK_IMPORTED_MODULE_7__["DeliveryDateSelectorComponent"], _meal_selector_meal_selector_component__WEBPACK_IMPORTED_MODULE_8__["MealSelectorComponent"], _optimized_meal_plan_optimized_meal_plan_component__WEBPACK_IMPORTED_MODULE_9__["OptimizedMealPlanComponent"]], styles: ["@media only screen and (min-width: 960px) {\r\n\t.custom-display[_ngcontent-%COMP%] {\r\n        display: flex;\r\n        flex-direction: row;\r\n        width: 100%;\r\n\t}\r\n        .custom-diet-type-width[_ngcontent-%COMP%] {\r\n          width: 40%;      \r\n        }\r\n        .custom-delivery-date-width[_ngcontent-%COMP%] {\r\n          width: 50%;      \r\n        }\r\n}\r\n\r\n@media only screen and (max-width: 959px) {\r\n\t.custom-display[_ngcontent-%COMP%] {\r\n        display: flex;\r\n        flex-direction: column;\r\n        width: 100%;\r\n\t}\r\n        .custom-diet-type-width[_ngcontent-%COMP%] {\r\n                width: 100%;    \r\n        }\r\n        .custom-delivery-date-width[_ngcontent-%COMP%] {\r\n                width: 90%;    \r\n              }\r\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbWVhbC1wbGFubmVyL21lYWwtb3B0aW1pemVyL21lYWwtb3B0aW1pemVyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Q0FDQztRQUNPLGFBQWE7UUFDYixtQkFBbUI7UUFDbkIsV0FBVztDQUNsQjtRQUNPO1VBQ0UsVUFBVTtRQUNaO1FBQ0E7VUFDRSxVQUFVO1FBQ1o7QUFDUjs7QUFFQTtDQUNDO1FBQ08sYUFBYTtRQUNiLHNCQUFzQjtRQUN0QixXQUFXO0NBQ2xCO1FBQ087Z0JBQ1EsV0FBVztRQUNuQjtRQUNBO2dCQUNRLFVBQVU7Y0FDWjtBQUNkIiwiZmlsZSI6InNyYy9hcHAvbWVhbC1wbGFubmVyL21lYWwtb3B0aW1pemVyL21lYWwtb3B0aW1pemVyLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJAbWVkaWEgb25seSBzY3JlZW4gYW5kIChtaW4td2lkdGg6IDk2MHB4KSB7XHJcblx0LmN1c3RvbS1kaXNwbGF5IHtcclxuICAgICAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XHJcbiAgICAgICAgd2lkdGg6IDEwMCU7XHJcblx0fVxyXG4gICAgICAgIC5jdXN0b20tZGlldC10eXBlLXdpZHRoIHtcclxuICAgICAgICAgIHdpZHRoOiA0MCU7ICAgICAgXHJcbiAgICAgICAgfVxyXG4gICAgICAgIC5jdXN0b20tZGVsaXZlcnktZGF0ZS13aWR0aCB7XHJcbiAgICAgICAgICB3aWR0aDogNTAlOyAgICAgIFxyXG4gICAgICAgIH1cclxufVxyXG5cclxuQG1lZGlhIG9ubHkgc2NyZWVuIGFuZCAobWF4LXdpZHRoOiA5NTlweCkge1xyXG5cdC5jdXN0b20tZGlzcGxheSB7XHJcbiAgICAgICAgZGlzcGxheTogZmxleDtcclxuICAgICAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG4gICAgICAgIHdpZHRoOiAxMDAlO1xyXG5cdH1cclxuICAgICAgICAuY3VzdG9tLWRpZXQtdHlwZS13aWR0aCB7XHJcbiAgICAgICAgICAgICAgICB3aWR0aDogMTAwJTsgICAgXHJcbiAgICAgICAgfVxyXG4gICAgICAgIC5jdXN0b20tZGVsaXZlcnktZGF0ZS13aWR0aCB7XHJcbiAgICAgICAgICAgICAgICB3aWR0aDogOTAlOyAgICBcclxuICAgICAgICAgICAgICB9XHJcbn0iXX0= */"] });
+    } }, directives: [_user_diet_type_user_diet_type_component__WEBPACK_IMPORTED_MODULE_1__["UserDietTypeComponent"], _delivery_date_selector_delivery_date_selector_component__WEBPACK_IMPORTED_MODULE_2__["DeliveryDateSelectorComponent"], _meal_selector_meal_selector_component__WEBPACK_IMPORTED_MODULE_3__["MealSelectorComponent"], _optimized_meal_plan_optimized_meal_plan_component__WEBPACK_IMPORTED_MODULE_4__["OptimizedMealPlanComponent"]], styles: ["@media only screen and (min-width: 960px) {\r\n\t.custom-display[_ngcontent-%COMP%] {\r\n        display: flex;\r\n        flex-direction: row;\r\n        width: 100%;\r\n\t}\r\n        .custom-diet-type-width[_ngcontent-%COMP%] {\r\n          width: 40%;      \r\n        }\r\n        .custom-delivery-date-width[_ngcontent-%COMP%] {\r\n          width: 50%;      \r\n        }\r\n}\r\n\r\n@media only screen and (max-width: 959px) {\r\n\t.custom-display[_ngcontent-%COMP%] {\r\n        display: flex;\r\n        flex-direction: column;\r\n        width: 100%;\r\n\t}\r\n        .custom-diet-type-width[_ngcontent-%COMP%] {\r\n                width: 100%;    \r\n        }\r\n        .custom-delivery-date-width[_ngcontent-%COMP%] {\r\n                width: 90%;    \r\n              }\r\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbWVhbC1wbGFubmVyL21lYWwtb3B0aW1pemVyL21lYWwtb3B0aW1pemVyLmNvbXBvbmVudC5jc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7Q0FDQztRQUNPLGFBQWE7UUFDYixtQkFBbUI7UUFDbkIsV0FBVztDQUNsQjtRQUNPO1VBQ0UsVUFBVTtRQUNaO1FBQ0E7VUFDRSxVQUFVO1FBQ1o7QUFDUjs7QUFFQTtDQUNDO1FBQ08sYUFBYTtRQUNiLHNCQUFzQjtRQUN0QixXQUFXO0NBQ2xCO1FBQ087Z0JBQ1EsV0FBVztRQUNuQjtRQUNBO2dCQUNRLFVBQVU7Y0FDWjtBQUNkIiwiZmlsZSI6InNyYy9hcHAvbWVhbC1wbGFubmVyL21lYWwtb3B0aW1pemVyL21lYWwtb3B0aW1pemVyLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJAbWVkaWEgb25seSBzY3JlZW4gYW5kIChtaW4td2lkdGg6IDk2MHB4KSB7XHJcblx0LmN1c3RvbS1kaXNwbGF5IHtcclxuICAgICAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgICAgIGZsZXgtZGlyZWN0aW9uOiByb3c7XHJcbiAgICAgICAgd2lkdGg6IDEwMCU7XHJcblx0fVxyXG4gICAgICAgIC5jdXN0b20tZGlldC10eXBlLXdpZHRoIHtcclxuICAgICAgICAgIHdpZHRoOiA0MCU7ICAgICAgXHJcbiAgICAgICAgfVxyXG4gICAgICAgIC5jdXN0b20tZGVsaXZlcnktZGF0ZS13aWR0aCB7XHJcbiAgICAgICAgICB3aWR0aDogNTAlOyAgICAgIFxyXG4gICAgICAgIH1cclxufVxyXG5cclxuQG1lZGlhIG9ubHkgc2NyZWVuIGFuZCAobWF4LXdpZHRoOiA5NTlweCkge1xyXG5cdC5jdXN0b20tZGlzcGxheSB7XHJcbiAgICAgICAgZGlzcGxheTogZmxleDtcclxuICAgICAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG4gICAgICAgIHdpZHRoOiAxMDAlO1xyXG5cdH1cclxuICAgICAgICAuY3VzdG9tLWRpZXQtdHlwZS13aWR0aCB7XHJcbiAgICAgICAgICAgICAgICB3aWR0aDogMTAwJTsgICAgXHJcbiAgICAgICAgfVxyXG4gICAgICAgIC5jdXN0b20tZGVsaXZlcnktZGF0ZS13aWR0aCB7XHJcbiAgICAgICAgICAgICAgICB3aWR0aDogOTAlOyAgICBcclxuICAgICAgICAgICAgICB9XHJcbn0iXX0= */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](MealOptimizerComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -1801,7 +1777,9 @@ MealOptimizerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵd
                 templateUrl: './meal-optimizer.component.html',
                 styleUrls: ['./meal-optimizer.component.css']
             }]
-    }], function () { return [{ type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_5__["Store"] }]; }, null); })();
+    }], function () { return []; }, { dietTypes: [{
+            type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
+        }] }); })();
 
 
 /***/ }),
@@ -1958,6 +1936,7 @@ class OrderService {
             username: user.username
         };
         //Set optional param id(orderId) if it is available. 'id' is available for update meal plan only, not for create meal plan.
+        //id is also unavailable for guest accounts since the meal plans are not saved in the DB for guests.
         if (id)
             this.orderRequest.id = id;
         return this.orderRequest;
@@ -2490,12 +2469,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var src_app_shared_model_shopping_item_model__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/shared/model/shopping-item-model */ "iP5Z");
 /* harmony import */ var _shopping_list_store_shopping_list_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../shopping-list/store/shopping-list.actions */ "cyko");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../user-mgmt/store/actions/user-display-preferences.actions */ "dZCj");
 /* harmony import */ var src_app_shared_services_recipe_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/shared/services/recipe.service */ "tseV");
 /* harmony import */ var src_app_shared_services_optimization_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/shared/services/optimization.service */ "fW7f");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
-/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
+/* harmony import */ var _angular_forms__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/forms */ "3Pt+");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @angular/common */ "ofXK");
+
 
 
 
@@ -2524,8 +2505,7 @@ function RecipeDetailComponent_tr_14_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate2"](": ", ingredient_r1.quantity.amount * ctx_r0.noOfPortions, " (", ingredient_r1.quantity.measure, ")");
 } }
 class RecipeDetailComponent {
-    constructor(route, recipeService, optimizationService, router, store) {
-        this.route = route;
+    constructor(recipeService, optimizationService, router, store) {
         this.recipeService = recipeService;
         this.optimizationService = optimizationService;
         this.router = router;
@@ -2540,29 +2520,30 @@ class RecipeDetailComponent {
             this.optimizationTypeSelected = userPreferences.optimizationTypeSelected;
         });
         /*
-         * When /meal-planner/recipes/recipeID is loaded, select the recipe based on the ID.
+         * Select the recipe based on the ID and name.
          */
-        this.route.params.subscribe((params) => {
-            this.id = +params['id'];
-            this.recipeSelected = this.recipeService.getRecipeById(this.id);
-            this.noOfPortions = this.optimizationService.getPortionCountByOptimizationTypeMealName(this.optimizationTypeSelected, this.recipeSelected.name);
+        this.store.select('userDisplayPreferences').subscribe((userDisplayPreferences) => {
+            if (userDisplayPreferences.recipeSelected != null) {
+                this.id = userDisplayPreferences.recipeSelected.id;
+                this.recipeSelected = this.recipeService.getRecipeById(this.id);
+                this.noOfPortions = this.optimizationService.getPortionCountByOptimizationTypeMealName(this.optimizationTypeSelected, this.recipeSelected.name);
+            }
         });
     }
     /*
-     * When 'Add to Shopping List' is clicked, add named router-outlet shoppinglist, and dispatch a ShoppingList action.
+     * When 'Add to Shopping List' is clicked, show shopping list section, and dispatch a ShoppingList action.
      */
     onAddToShoppingList() {
+        this.store.dispatch(new _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_3__["ShowShoppingList"]());
         this.shoppingItems = new Array();
         this.recipeSelected.ingredients.forEach((ingredient) => {
             this.shoppingItems.push(new src_app_shared_model_shopping_item_model__WEBPACK_IMPORTED_MODULE_1__["ShoppingItem"](ingredient.name, ingredient.quantity.amount * this.noOfPortions, ingredient.quantity.measure, (ingredient.labels === undefined) ? [this.recipeSelected.name] : ingredient.labels));
         });
         this.store.dispatch(new _shopping_list_store_shopping_list_actions__WEBPACK_IMPORTED_MODULE_2__["AddIngredients"](this.shoppingItems));
-        //id can either be taken from the current route or from this.id in this component.
-        this.router.navigate(['meal-planner', { outlets: { mealoptimizer: 'meal-optimizer', recipes: ['recipes', this.route.snapshot.params['id']], shoppinglist: 'shopping-list' } }], { queryParams: { shoppinglistmode: 'add' }, queryParamsHandling: 'merge' });
     }
     ngOnDestroy() { }
 }
-RecipeDetailComponent.ɵfac = function RecipeDetailComponent_Factory(t) { return new (t || RecipeDetailComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_recipe_service__WEBPACK_IMPORTED_MODULE_4__["RecipeService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_optimization_service__WEBPACK_IMPORTED_MODULE_5__["OptimizationService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_6__["Store"])); };
+RecipeDetailComponent.ɵfac = function RecipeDetailComponent_Factory(t) { return new (t || RecipeDetailComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_recipe_service__WEBPACK_IMPORTED_MODULE_4__["RecipeService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_optimization_service__WEBPACK_IMPORTED_MODULE_5__["OptimizationService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_7__["Store"])); };
 RecipeDetailComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: RecipeDetailComponent, selectors: [["app-recipe-detail"]], decls: 19, vars: 6, consts: [[1, "mt-md-0", "mt-sm-5"], [1, "img-responsive", 2, "max-height", "300px", 3, "src", "alt"], [3, "href"], ["for", "noOfPortions"], ["type", "number", "id", "noOfPortions", "min", "1", 1, "col-lg-2", "col-md-3", "col-sm-2", "ml-1", 3, "ngModel", "ngModelChange"], [4, "ngFor", "ngForOf"], ["type", "button", 1, "btn", "btn-dark", "my-2", 3, "click"], [2, "text-align", "right"]], template: function RecipeDetailComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "img", 1);
@@ -2607,7 +2588,7 @@ RecipeDetailComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngModel", ctx.noOfPortions);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](5);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngForOf", ctx.recipeSelected.ingredients);
-    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_7__["NumberValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_7__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_7__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_7__["NgModel"], _angular_common__WEBPACK_IMPORTED_MODULE_8__["NgForOf"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21lYWwtcGxhbm5lci9yZWNpcGVzL3JlY2lwZS1kZXRhaWwvcmVjaXBlLWRldGFpbC5jb21wb25lbnQuY3NzIn0= */"] });
+    } }, directives: [_angular_forms__WEBPACK_IMPORTED_MODULE_8__["NumberValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_8__["DefaultValueAccessor"], _angular_forms__WEBPACK_IMPORTED_MODULE_8__["NgControlStatus"], _angular_forms__WEBPACK_IMPORTED_MODULE_8__["NgModel"], _angular_common__WEBPACK_IMPORTED_MODULE_9__["NgForOf"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21lYWwtcGxhbm5lci9yZWNpcGVzL3JlY2lwZS1kZXRhaWwvcmVjaXBlLWRldGFpbC5jb21wb25lbnQuY3NzIn0= */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](RecipeDetailComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -2615,7 +2596,7 @@ RecipeDetailComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
                 templateUrl: './recipe-detail.component.html',
                 styleUrls: ['./recipe-detail.component.css']
             }]
-    }], function () { return [{ type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"] }, { type: src_app_shared_services_recipe_service__WEBPACK_IMPORTED_MODULE_4__["RecipeService"] }, { type: src_app_shared_services_optimization_service__WEBPACK_IMPORTED_MODULE_5__["OptimizationService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_3__["Router"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_6__["Store"] }]; }, null); })();
+    }], function () { return [{ type: src_app_shared_services_recipe_service__WEBPACK_IMPORTED_MODULE_4__["RecipeService"] }, { type: src_app_shared_services_optimization_service__WEBPACK_IMPORTED_MODULE_5__["OptimizationService"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_6__["Router"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_7__["Store"] }]; }, null); })();
 
 
 /***/ }),
@@ -2632,13 +2613,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "OptimizedMealPlanComponent", function() { return OptimizedMealPlanComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _meal_planner_recipes_store_actions_recipes_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../meal-planner/recipes/store/actions/recipes.actions */ "nDj3");
-/* harmony import */ var src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/shared/http-request-status.enum */ "zl8S");
-/* harmony import */ var src_app_shared_default_messages__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/shared/default-messages */ "q6cq");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
-/* harmony import */ var src_app_shared_services_optimization_service__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! src/app/shared/services/optimization.service */ "fW7f");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/common */ "ofXK");
-/* harmony import */ var _optimized_results_table_optimized_results_table_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./optimized-results-table/optimized-results-table.component */ "b5W3");
+/* harmony import */ var _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../user-mgmt/store/actions/user-display-preferences.actions */ "dZCj");
+/* harmony import */ var src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! src/app/shared/http-request-status.enum */ "zl8S");
+/* harmony import */ var src_app_shared_default_messages__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/shared/default-messages */ "q6cq");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
+/* harmony import */ var src_app_shared_services_optimization_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/shared/services/optimization.service */ "fW7f");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _optimized_results_table_optimized_results_table_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./optimized-results-table/optimized-results-table.component */ "b5W3");
+
 
 
 
@@ -2684,7 +2667,7 @@ class OptimizedMealPlanComponent {
         this.optimizationService = optimizationService;
         //We do not know if optimization is possible, set to true preemptively
         this.isOptimizationFeasible = true;
-        this.defaultText = src_app_shared_default_messages__WEBPACK_IMPORTED_MODULE_3__["DefaultMessages"].mealPlan.get(src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__["HttpRequestStatus"].NO_ACTION);
+        this.defaultText = src_app_shared_default_messages__WEBPACK_IMPORTED_MODULE_4__["DefaultMessages"].mealPlan.get(src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_3__["HttpRequestStatus"].NO_ACTION);
         this.responseReceived = false;
     }
     ngOnInit() {
@@ -2694,18 +2677,18 @@ class OptimizedMealPlanComponent {
         // Display optimized meal plan received from the backend.
         this.store.select('optimizedPlans').subscribe((optimizedMealPlans) => {
             switch (optimizedMealPlans.requestStatus) {
-                case src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__["HttpRequestStatus"].NO_ACTION:
+                case src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_3__["HttpRequestStatus"].NO_ACTION:
                     this.isOptimizationFeasible = true;
                     this.responseReceived = false;
-                    this.defaultText = src_app_shared_default_messages__WEBPACK_IMPORTED_MODULE_3__["DefaultMessages"].mealPlan.get(src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__["HttpRequestStatus"].NO_ACTION);
+                    this.defaultText = src_app_shared_default_messages__WEBPACK_IMPORTED_MODULE_4__["DefaultMessages"].mealPlan.get(src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_3__["HttpRequestStatus"].NO_ACTION);
                     break;
-                case src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__["HttpRequestStatus"].REQUEST_SENT:
+                case src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_3__["HttpRequestStatus"].REQUEST_SENT:
                     this.isOptimizationFeasible = true;
                     this.responseReceived = false;
-                    this.defaultText = src_app_shared_default_messages__WEBPACK_IMPORTED_MODULE_3__["DefaultMessages"].mealPlan.get(src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__["HttpRequestStatus"].REQUEST_SENT);
+                    this.defaultText = src_app_shared_default_messages__WEBPACK_IMPORTED_MODULE_4__["DefaultMessages"].mealPlan.get(src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_3__["HttpRequestStatus"].REQUEST_SENT);
                     break;
-                case src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__["HttpRequestStatus"].RESPONSE_RECEIVED: {
-                    this.defaultText = src_app_shared_default_messages__WEBPACK_IMPORTED_MODULE_3__["DefaultMessages"].mealPlan.get(src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__["HttpRequestStatus"].RESPONSE_RECEIVED);
+                case src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_3__["HttpRequestStatus"].RESPONSE_RECEIVED: {
+                    this.defaultText = src_app_shared_default_messages__WEBPACK_IMPORTED_MODULE_4__["DefaultMessages"].mealPlan.get(src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_3__["HttpRequestStatus"].RESPONSE_RECEIVED);
                     this.responseReceived = true;
                     //If there is an error, display error message.
                     if (optimizedMealPlans.error) {
@@ -2742,10 +2725,9 @@ class OptimizedMealPlanComponent {
             { outlets: { mealoptimizer: 'meal-optimizer', onlineorder: ['online-order'] } }], { queryParams: this.route.snapshot.queryParams });
     }
     getRecipeSelected() {
-        this.store.dispatch(new _meal_planner_recipes_store_actions_recipes_actions__WEBPACK_IMPORTED_MODULE_1__["UpdateRequestStatus"](src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__["HttpRequestStatus"].REQUEST_SENT));
+        this.store.dispatch(new _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_2__["ShowRecipes"]());
+        this.store.dispatch(new _meal_planner_recipes_store_actions_recipes_actions__WEBPACK_IMPORTED_MODULE_1__["UpdateRequestStatus"](src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_3__["HttpRequestStatus"].REQUEST_SENT));
         this.store.dispatch(new _meal_planner_recipes_store_actions_recipes_actions__WEBPACK_IMPORTED_MODULE_1__["FetchRecipesStart"](this.userPreferences.mealSelected));
-        this.router.navigate(['meal-planner',
-            { outlets: { mealoptimizer: 'meal-optimizer', recipes: ['recipes'] } }], { queryParams: this.route.snapshot.queryParams });
     }
     get allowUserToPlaceOrderOrGetRecipe() {
         if (this.userPreferences.optimizationTypeSelected &&
@@ -2758,7 +2740,7 @@ class OptimizedMealPlanComponent {
     }
     ngOnDestroy() { }
 }
-OptimizedMealPlanComponent.ɵfac = function OptimizedMealPlanComponent_Factory(t) { return new (t || OptimizedMealPlanComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_5__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_optimization_service__WEBPACK_IMPORTED_MODULE_6__["OptimizationService"])); };
+OptimizedMealPlanComponent.ɵfac = function OptimizedMealPlanComponent_Factory(t) { return new (t || OptimizedMealPlanComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_6__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_5__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_optimization_service__WEBPACK_IMPORTED_MODULE_7__["OptimizationService"])); };
 OptimizedMealPlanComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: OptimizedMealPlanComponent, selectors: [["app-optimized-meal-plan"]], decls: 11, vars: 8, consts: [["class", "row ml-4", 4, "ngIf"], [1, "row", "justify-content-start", "py-4"], [1, "w-80", "ml-4", 3, "costOptimizedPlan", "qualityOptimizedPlan", "isOptimizationFeasible", "defaultText"], [1, "col-12"], ["type", "button", "disabled", "", 1, "btn", "btn-dark", "m-2", 3, "hidden", "click"], ["type", "button", 1, "btn", "btn-dark", "m-2", 3, "hidden", "click"], [1, "row", "ml-4"]], template: function OptimizedMealPlanComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](0, OptimizedMealPlanComponent_div_0_Template, 2, 1, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, OptimizedMealPlanComponent_div_1_Template, 3, 0, "div", 0);
@@ -2787,7 +2769,7 @@ OptimizedMealPlanComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["�
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("hidden", !ctx.allowUserToPlaceOrderOrGetRecipe);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](2);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("hidden", !ctx.allowUserToPlaceOrderOrGetRecipe);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_7__["NgIf"], _optimized_results_table_optimized_results_table_component__WEBPACK_IMPORTED_MODULE_8__["OptimizedResultsTableComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterOutlet"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21lYWwtcGxhbm5lci9tZWFsLW9wdGltaXplci9vcHRpbWl6ZWQtbWVhbC1wbGFuL29wdGltaXplZC1tZWFsLXBsYW4uY29tcG9uZW50LmNzcyJ9 */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_8__["NgIf"], _optimized_results_table_optimized_results_table_component__WEBPACK_IMPORTED_MODULE_9__["OptimizedResultsTableComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_5__["RouterOutlet"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21lYWwtcGxhbm5lci9tZWFsLW9wdGltaXplci9vcHRpbWl6ZWQtbWVhbC1wbGFuL29wdGltaXplZC1tZWFsLXBsYW4uY29tcG9uZW50LmNzcyJ9 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](OptimizedMealPlanComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -2795,7 +2777,7 @@ OptimizedMealPlanComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["�
                 templateUrl: './optimized-meal-plan.component.html',
                 styleUrls: ['./optimized-meal-plan.component.css']
             }]
-    }], function () { return [{ type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_5__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"] }, { type: src_app_shared_services_optimization_service__WEBPACK_IMPORTED_MODULE_6__["OptimizationService"] }]; }, null); })();
+    }], function () { return [{ type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["Router"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_6__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_5__["ActivatedRoute"] }, { type: src_app_shared_services_optimization_service__WEBPACK_IMPORTED_MODULE_7__["OptimizationService"] }]; }, null); })();
 
 
 /***/ }),
@@ -3008,7 +2990,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const userMgmtRoutes = [
-    { path: 'meal-planner/meal-optimizer/user-redirect', canActivate: [_shared_services_auth_guard_service__WEBPACK_IMPORTED_MODULE_2__["AuthGuardService"]], component: _user_mgmt_user_redirect_user_redirect_component__WEBPACK_IMPORTED_MODULE_3__["UserRedirectComponent"]
+    { path: 'meal-planner/user-redirect', canActivate: [_shared_services_auth_guard_service__WEBPACK_IMPORTED_MODULE_2__["AuthGuardService"]], component: _user_mgmt_user_redirect_user_redirect_component__WEBPACK_IMPORTED_MODULE_3__["UserRedirectComponent"]
     }
 ];
 class UserMgmtRoutingModule {
@@ -3305,7 +3287,7 @@ UserMgmtModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInj
 /*!***************************************************************************!*\
   !*** ./src/app/meal-planner/shopping-list/store/shopping-list.actions.ts ***!
   \***************************************************************************/
-/*! exports provided: ADD_INGREDIENT, ADD_INGREDIENTS, UPDATE_INGREDIENT, DELETE_INGREDIENT, START_EDIT, STOP_EDIT, AddIngredient, AddIngredients, UpdateIngredient, DeleteIngredient, StartEdit, StopEdit */
+/*! exports provided: ADD_INGREDIENT, ADD_INGREDIENTS, UPDATE_INGREDIENT, DELETE_INGREDIENT, START_EDIT, STOP_EDIT, CLEAR_SHOPPING_LIST, AddIngredient, AddIngredients, UpdateIngredient, DeleteIngredient, StartEdit, StopEdit, ClearShoppingList */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -3316,18 +3298,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DELETE_INGREDIENT", function() { return DELETE_INGREDIENT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "START_EDIT", function() { return START_EDIT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "STOP_EDIT", function() { return STOP_EDIT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_SHOPPING_LIST", function() { return CLEAR_SHOPPING_LIST; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddIngredient", function() { return AddIngredient; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AddIngredients", function() { return AddIngredients; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UpdateIngredient", function() { return UpdateIngredient; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "DeleteIngredient", function() { return DeleteIngredient; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StartEdit", function() { return StartEdit; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "StopEdit", function() { return StopEdit; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClearShoppingList", function() { return ClearShoppingList; });
 const ADD_INGREDIENT = 'ADD_INGREDIENT';
 const ADD_INGREDIENTS = 'ADD_INGREDIENTS';
 const UPDATE_INGREDIENT = 'UPDATE_INGREDIENT';
 const DELETE_INGREDIENT = 'DELETE_INGREDIENT';
 const START_EDIT = 'START_EDIT';
 const STOP_EDIT = 'STOP_EDIT';
+const CLEAR_SHOPPING_LIST = 'CLEAR_SHOPPING_LIST';
 class AddIngredient {
     constructor(payload) {
         this.payload = payload;
@@ -3360,6 +3345,11 @@ class StartEdit {
 class StopEdit {
     constructor() {
         this.type = STOP_EDIT;
+    }
+}
+class ClearShoppingList {
+    constructor() {
+        this.type = CLEAR_SHOPPING_LIST;
     }
 }
 
@@ -3421,6 +3411,90 @@ ContactUsComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefin
                 styleUrls: ['./contact-us.component.css']
             }]
     }], function () { return []; }, null); })();
+
+
+/***/ }),
+
+/***/ "dZCj":
+/*!*****************************************************************************!*\
+  !*** ./src/app/user-mgmt/store/actions/user-display-preferences.actions.ts ***!
+  \*****************************************************************************/
+/*! exports provided: UPDATE_OPTIMIZATION_MODE, SHOW_RECIPES, HIDE_RECIPES, SHOW_RECIPE_DETAIL, SHOW_SHOPPING_LIST, HIDE_SHOPPING_LIST, UPDATE_SHOPPING_LIST_MODE, RESET_USER_DISPLAY_PREFERENCES, UpdateOptimizationMode, ShowRecipes, HideRecipes, ShowRecipeDetail, ShowShoppingList, HideShoppingList, UpdateShoppingListMode, ResetUserDisplayPreferences */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_OPTIMIZATION_MODE", function() { return UPDATE_OPTIMIZATION_MODE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SHOW_RECIPES", function() { return SHOW_RECIPES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HIDE_RECIPES", function() { return HIDE_RECIPES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SHOW_RECIPE_DETAIL", function() { return SHOW_RECIPE_DETAIL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SHOW_SHOPPING_LIST", function() { return SHOW_SHOPPING_LIST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HIDE_SHOPPING_LIST", function() { return HIDE_SHOPPING_LIST; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_SHOPPING_LIST_MODE", function() { return UPDATE_SHOPPING_LIST_MODE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RESET_USER_DISPLAY_PREFERENCES", function() { return RESET_USER_DISPLAY_PREFERENCES; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UpdateOptimizationMode", function() { return UpdateOptimizationMode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShowRecipes", function() { return ShowRecipes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HideRecipes", function() { return HideRecipes; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShowRecipeDetail", function() { return ShowRecipeDetail; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShowShoppingList", function() { return ShowShoppingList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HideShoppingList", function() { return HideShoppingList; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UpdateShoppingListMode", function() { return UpdateShoppingListMode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ResetUserDisplayPreferences", function() { return ResetUserDisplayPreferences; });
+/*
+ * This file deals with which sections of the meal planner must be displayed/hidden.
+ * Switching between modes is also covered.
+ */
+const UPDATE_OPTIMIZATION_MODE = '[User display prefs] UPDATE_OPTIMIZATION_MODE';
+const SHOW_RECIPES = '[User display prefs] SHOW_RECIPES';
+const HIDE_RECIPES = '[User display prefs] HIDE_RECIPES';
+const SHOW_RECIPE_DETAIL = '[User display prefs] SHOW_RECIPE_DETAIL';
+const SHOW_SHOPPING_LIST = '[User display prefs] SHOW_SHOPPING_LIST';
+const HIDE_SHOPPING_LIST = '[User display prefs] HIDE_SHOPPING_LIST';
+const UPDATE_SHOPPING_LIST_MODE = '[User display prefs] UPDATE_SHOPPING_LIST_MODE';
+const RESET_USER_DISPLAY_PREFERENCES = '[User display prefs] RESET_USER_DISPLAY_PREFERENCES';
+class UpdateOptimizationMode {
+    constructor(payload) {
+        this.payload = payload;
+        this.type = UPDATE_OPTIMIZATION_MODE;
+    }
+}
+class ShowRecipes {
+    constructor() {
+        this.type = SHOW_RECIPES;
+    }
+}
+class HideRecipes {
+    constructor() {
+        this.type = HIDE_RECIPES;
+    }
+}
+class ShowRecipeDetail {
+    constructor(payload) {
+        this.payload = payload;
+        this.type = SHOW_RECIPE_DETAIL;
+    }
+}
+class ShowShoppingList {
+    constructor() {
+        this.type = SHOW_SHOPPING_LIST;
+    }
+}
+class HideShoppingList {
+    constructor() {
+        this.type = HIDE_SHOPPING_LIST;
+    }
+}
+class UpdateShoppingListMode {
+    constructor(payload) {
+        this.payload = payload;
+        this.type = UPDATE_SHOPPING_LIST_MODE;
+    }
+}
+class ResetUserDisplayPreferences {
+    constructor() {
+        this.type = RESET_USER_DISPLAY_PREFERENCES;
+    }
+}
 
 
 /***/ }),
@@ -3528,11 +3602,6 @@ function HeaderComponent_ng_template_21_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "Guest");
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
-const _c0 = function () { return ["meal-optimizer"]; };
-const _c1 = function (a0) { return { "mealoptimizer": a0 }; };
-const _c2 = function (a0) { return { outlets: a0 }; };
-const _c3 = function (a1) { return ["/meal-planner", a1]; };
-const _c4 = function () { return { optimizermode: "create" }; };
 class HeaderComponent {
     constructor(store, router, keyCloakService) {
         this.store = store;
@@ -3552,11 +3621,11 @@ class HeaderComponent {
         //Clear User state
         this.store.dispatch(new src_app_user_mgmt_store_actions_user_mgmt_actions__WEBPACK_IMPORTED_MODULE_1__["Logout"]());
         //Logout of Keycloak
-        this.keyCloakService.logout(`${_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl}:80/`);
+        this.keyCloakService.logout(`${_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiUrl}:${_environments_environment__WEBPACK_IMPORTED_MODULE_2__["environment"].apiPort}/`);
     }
 }
 HeaderComponent.ɵfac = function HeaderComponent_Factory(t) { return new (t || HeaderComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](keycloak_angular__WEBPACK_IMPORTED_MODULE_5__["KeycloakService"])); };
-HeaderComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: HeaderComponent, selectors: [["app-header"]], decls: 23, vars: 13, consts: [[1, "navbar", "navbar-expand-lg", "navbar-light", "al-navbar", "fixed-top"], ["href", "#", 1, "navbar-brand"], ["type", "button", "data-toggle", "collapse", "data-target", "#primaryNav", "aria-controls", "primaryNav", "aria-expanded", "false", "aria-label", "Toggle navigation", 1, "navbar-toggler"], [1, "navbar-toggler-icon"], ["id", "primaryNav", 1, "collapse", "navbar-collapse"], [1, "navbar-nav", "ml-auto"], [1, "nav-item"], ["routerLink", "/app-info/home", 1, "nav-link"], ["routerLink", "/app-info/contact-us", 1, "nav-link"], [1, "nav-item", "active"], ["routerLink", "/meal-planner/meal-optimizer/user-redirect", 1, "nav-link", 3, "hidden"], [1, "nav-link", 3, "routerLink", "queryParams"], ["class", "nav-link", 3, "click", 4, "ngIf", "ngIfElse"], ["loggedOut", ""], [1, "nav-link", 3, "click"], ["routerLink", "/meal-planner/meal-optimizer/user-redirect", 1, "nav-link"]], template: function HeaderComponent_Template(rf, ctx) { if (rf & 1) {
+HeaderComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: HeaderComponent, selectors: [["app-header"]], decls: 23, vars: 3, consts: [[1, "navbar", "navbar-expand-lg", "navbar-light", "al-navbar", "fixed-top"], ["href", "#", 1, "navbar-brand"], ["type", "button", "data-toggle", "collapse", "data-target", "#primaryNav", "aria-controls", "primaryNav", "aria-expanded", "false", "aria-label", "Toggle navigation", 1, "navbar-toggler"], [1, "navbar-toggler-icon"], ["id", "primaryNav", 1, "collapse", "navbar-collapse"], [1, "navbar-nav", "ml-auto"], [1, "nav-item"], ["routerLink", "/app-info/home", 1, "nav-link"], ["routerLink", "/app-info/contact-us", 1, "nav-link"], [1, "nav-item", "active"], ["routerLink", "/meal-planner/user-redirect", 1, "nav-link", 3, "hidden"], ["routerLink", "/meal-planner", 1, "nav-link"], ["class", "nav-link", 3, "click", 4, "ngIf", "ngIfElse"], ["loggedOut", ""], [1, "nav-link", 3, "click"], ["routerLink", "/meal-planner/user-redirect", 1, "nav-link"]], template: function HeaderComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "nav", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "a", 1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](2, "MEAL OPTIMIZER");
@@ -3597,9 +3666,7 @@ HeaderComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
         const _r1 = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵreference"](22);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](14);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("hidden", ctx.authenticatedUser.loggedIn);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("routerLink", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](10, _c3, _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](8, _c2, _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction1"](6, _c1, _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction0"](5, _c0)))))("queryParams", _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵpureFunction0"](12, _c4));
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](3);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](6);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.authenticatedUser.loggedIn)("ngIfElse", _r1);
     } }, directives: [_angular_router__WEBPACK_IMPORTED_MODULE_4__["RouterLinkWithHref"], _angular_common__WEBPACK_IMPORTED_MODULE_6__["NgIf"]], styles: [".al-navbar[_ngcontent-%COMP%] {\r\n    border-bottom:1px solid #f0f0f0;\r\n    background:#fff;\r\n    box-shadow:0 0 3px #f0f0f0;\r\n}\r\n.al-navbar[_ngcontent-%COMP%]   .navbar-brand[_ngcontent-%COMP%] {\r\n    font-weight:600;\r\n}\r\n.al-navbar[_ngcontent-%COMP%]   .active[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\r\n    font-weight: bold;\r\n}\r\n.al-navbar[_ngcontent-%COMP%]   .dropdown-menu[_ngcontent-%COMP%] {\r\n    border-radius:0;\r\n    border-color:#f0f0f0;\r\n    box-shadow:0 0 2px #f0f0f0;\r\n}\r\n.al-navbar[_ngcontent-%COMP%]   .dropdown-menu[_ngcontent-%COMP%]   a[_ngcontent-%COMP%] {\r\n    color:#999;\r\n}\r\n.al-navbar[_ngcontent-%COMP%]   .dropdown-menu[_ngcontent-%COMP%]   a[_ngcontent-%COMP%]:hover {\r\n    color:#fff;\r\n    background:#D95D39;\r\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvaGVhZGVyL2hlYWRlci5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0lBQ0ksK0JBQStCO0lBQy9CLGVBQWU7SUFDZiwwQkFBMEI7QUFDOUI7QUFDQTtJQUNJLGVBQWU7QUFDbkI7QUFDQTtJQUNJLGlCQUFpQjtBQUNyQjtBQUNBO0lBQ0ksZUFBZTtJQUNmLG9CQUFvQjtJQUNwQiwwQkFBMEI7QUFDOUI7QUFDQTtJQUNJLFVBQVU7QUFDZDtBQUNBO0lBQ0ksVUFBVTtJQUNWLGtCQUFrQjtBQUN0QiIsImZpbGUiOiJzcmMvYXBwL2hlYWRlci9oZWFkZXIuY29tcG9uZW50LmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5hbC1uYXZiYXIge1xyXG4gICAgYm9yZGVyLWJvdHRvbToxcHggc29saWQgI2YwZjBmMDtcclxuICAgIGJhY2tncm91bmQ6I2ZmZjtcclxuICAgIGJveC1zaGFkb3c6MCAwIDNweCAjZjBmMGYwO1xyXG59XHJcbi5hbC1uYXZiYXIgLm5hdmJhci1icmFuZCB7XHJcbiAgICBmb250LXdlaWdodDo2MDA7XHJcbn1cclxuLmFsLW5hdmJhciAuYWN0aXZlIGEge1xyXG4gICAgZm9udC13ZWlnaHQ6IGJvbGQ7XHJcbn1cclxuLmFsLW5hdmJhciAuZHJvcGRvd24tbWVudSB7XHJcbiAgICBib3JkZXItcmFkaXVzOjA7XHJcbiAgICBib3JkZXItY29sb3I6I2YwZjBmMDtcclxuICAgIGJveC1zaGFkb3c6MCAwIDJweCAjZjBmMGYwO1xyXG59XHJcbi5hbC1uYXZiYXIgLmRyb3Bkb3duLW1lbnUgYSB7XHJcbiAgICBjb2xvcjojOTk5O1xyXG59XHJcbi5hbC1uYXZiYXIgLmRyb3Bkb3duLW1lbnUgYTpob3ZlciB7XHJcbiAgICBjb2xvcjojZmZmO1xyXG4gICAgYmFja2dyb3VuZDojRDk1RDM5O1xyXG59Il19 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](HeaderComponent, [{
@@ -3610,6 +3677,55 @@ HeaderComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineCo
                 styleUrls: ['./header.component.css']
             }]
     }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }, { type: keycloak_angular__WEBPACK_IMPORTED_MODULE_5__["KeycloakService"] }]; }, null); })();
+
+
+/***/ }),
+
+/***/ "fVwP":
+/*!******************************************************************************!*\
+  !*** ./src/app/user-mgmt/store/reducers/user-display-preferences.reducer.ts ***!
+  \******************************************************************************/
+/*! exports provided: userDisplayPreferencesReducer */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "userDisplayPreferencesReducer", function() { return userDisplayPreferencesReducer; });
+/* harmony import */ var _actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/user-display-preferences.actions */ "dZCj");
+/* harmony import */ var _shared_optimization_mode_enum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../shared/optimization-mode.enum */ "HDOF");
+/* harmony import */ var _shared_shopping_list_mode_enum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../shared/shopping-list-mode.enum */ "vyhQ");
+
+
+
+const defaultPrefs = {
+    optimizationMode: _shared_optimization_mode_enum__WEBPACK_IMPORTED_MODULE_1__["OptimizationMode"].CREATE,
+    showRecipes: false,
+    recipeSelected: null,
+    showShoppingList: false,
+    shoppingListMode: _shared_shopping_list_mode_enum__WEBPACK_IMPORTED_MODULE_2__["ShoppingListMode"].ADD
+};
+function userDisplayPreferencesReducer(state = defaultPrefs, action) {
+    switch (action.type) {
+        case _actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_0__["UPDATE_OPTIMIZATION_MODE"]:
+            return Object.assign(Object.assign({}, state), { optimizationMode: action.payload, recipeSelected: null });
+        case _actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_0__["SHOW_RECIPES"]:
+            return Object.assign(Object.assign({}, state), { showRecipes: true, recipeSelected: null });
+        case _actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_0__["HIDE_RECIPES"]:
+            return Object.assign(Object.assign({}, state), { showRecipes: false, recipeSelected: null });
+        case _actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_0__["SHOW_RECIPE_DETAIL"]:
+            return Object.assign(Object.assign({}, state), { showRecipes: true, recipeSelected: action.payload });
+        case _actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_0__["SHOW_SHOPPING_LIST"]:
+            return Object.assign(Object.assign({}, state), { showShoppingList: true });
+        case _actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_0__["HIDE_SHOPPING_LIST"]:
+            return Object.assign(Object.assign({}, state), { showShoppingList: false });
+        case _actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_0__["UPDATE_SHOPPING_LIST_MODE"]:
+            return Object.assign(Object.assign({}, state), { shoppingListMode: action.payload });
+        case _actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_0__["RESET_USER_DISPLAY_PREFERENCES"]:
+            return defaultPrefs;
+        default:
+            return state;
+    }
+}
 
 
 /***/ }),
@@ -3950,19 +4066,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MealPlannerRoutingModule", function() { return MealPlannerRoutingModule; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
 /* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var _meal_optimizer_meal_optimizer_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./meal-optimizer/meal-optimizer.component */ "HjpC");
-/* harmony import */ var _shared_services_can_exit_page_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/services/can-exit-page.service */ "vQm+");
-/* harmony import */ var _shared_services_user_diet_type_resolver_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../shared/services/user-diet-type-resolver.service */ "Iu6Z");
-/* harmony import */ var _recipes_recipes_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./recipes/recipes.component */ "l3Z1");
-/* harmony import */ var _recipes_recipe_detail_recipe_detail_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./recipes/recipe-detail/recipe-detail.component */ "UoxR");
-/* harmony import */ var _meal_optimizer_online_order_online_order_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./meal-optimizer/online-order/online-order.component */ "1GjV");
-/* harmony import */ var _meal_planner_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./meal-planner.component */ "nLIy");
-/* harmony import */ var _shopping_list_shopping_list_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./shopping-list/shopping-list.component */ "34V7");
-
-
-
-
-
+/* harmony import */ var _shared_services_can_exit_page_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../shared/services/can-exit-page.service */ "vQm+");
+/* harmony import */ var _shared_services_user_diet_type_resolver_service__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../shared/services/user-diet-type-resolver.service */ "Iu6Z");
+/* harmony import */ var _meal_planner_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./meal-planner.component */ "nLIy");
 
 
 
@@ -3971,14 +4077,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 const mealPlannerRoutes = [
-    { path: 'meal-planner', component: _meal_planner_component__WEBPACK_IMPORTED_MODULE_8__["MealPlannerComponent"], children: [
-            { path: 'meal-optimizer', outlet: 'mealoptimizer', canDeactivate: [_shared_services_can_exit_page_service__WEBPACK_IMPORTED_MODULE_3__["CanExitPageService"]], component: _meal_optimizer_meal_optimizer_component__WEBPACK_IMPORTED_MODULE_2__["MealOptimizerComponent"], resolve: { userDietTypes: _shared_services_user_diet_type_resolver_service__WEBPACK_IMPORTED_MODULE_4__["UseDietTypeResolver"] } },
-            { path: 'recipes', outlet: 'recipes', component: _recipes_recipes_component__WEBPACK_IMPORTED_MODULE_5__["RecipesComponent"], children: [
-                    { path: ':id', component: _recipes_recipe_detail_recipe_detail_component__WEBPACK_IMPORTED_MODULE_6__["RecipeDetailComponent"] }
-                ] },
-            { path: 'online-order', outlet: 'onlineorder', component: _meal_optimizer_online_order_online_order_component__WEBPACK_IMPORTED_MODULE_7__["OnlineOrderComponent"] },
-            { path: 'shopping-list', outlet: 'shoppinglist', component: _shopping_list_shopping_list_component__WEBPACK_IMPORTED_MODULE_9__["ShoppingListComponent"] }
-        ] }
+    { path: 'meal-planner', component: _meal_planner_component__WEBPACK_IMPORTED_MODULE_4__["MealPlannerComponent"], canDeactivate: [_shared_services_can_exit_page_service__WEBPACK_IMPORTED_MODULE_2__["CanExitPageService"]], resolve: { userDietTypes: _shared_services_user_diet_type_resolver_service__WEBPACK_IMPORTED_MODULE_3__["UseDietTypeResolver"] } }
 ];
 class MealPlannerRoutingModule {
 }
@@ -4166,12 +4265,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var src_app_shared_default_messages__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/shared/default-messages */ "q6cq");
 /* harmony import */ var src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/shared/http-request-status.enum */ "zl8S");
 /* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
-/* harmony import */ var src_app_shared_services_recipe_service__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! src/app/shared/services/recipe.service */ "tseV");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @angular/common */ "ofXK");
-/* harmony import */ var _recipe_list_recipe_list_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./recipe-list/recipe-list.component */ "yV0c");
-/* harmony import */ var _recipe_start_recipe_start_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./recipe-start/recipe-start.component */ "/QR6");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/router */ "tyNb");
-
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _recipe_list_recipe_list_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./recipe-list/recipe-list.component */ "yV0c");
+/* harmony import */ var _recipe_start_recipe_start_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./recipe-start/recipe-start.component */ "/QR6");
+/* harmony import */ var _recipe_detail_recipe_detail_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./recipe-detail/recipe-detail.component */ "UoxR");
 
 
 
@@ -4187,7 +4284,7 @@ function RecipesComponent_div_4_div_7_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementEnd"]();
 } }
 function RecipesComponent_div_4_ng_template_8_Template(rf, ctx) { if (rf & 1) {
-    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "router-outlet");
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-recipe-detail");
 } }
 function RecipesComponent_div_4_Template(rf, ctx) { if (rf & 1) {
     _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div");
@@ -4221,9 +4318,8 @@ function RecipesComponent_div_4_Template(rf, ctx) { if (rf & 1) {
  * RecipeStart is replaced with RecipeDetail for recipeID.
  */
 class RecipesComponent {
-    constructor(store, recipeService) {
+    constructor(store) {
         this.store = store;
-        this.recipeService = recipeService;
         this.defaultText = src_app_shared_default_messages__WEBPACK_IMPORTED_MODULE_1__["DefaultMessages"].recipe.get(src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__["HttpRequestStatus"].NO_ACTION);
         this.recipeSelected = false;
     }
@@ -4243,12 +4339,12 @@ class RecipesComponent {
                     break;
             }
         });
-        this.recipeService.recipeSelected.subscribe((recipeSelected) => {
-            this.recipeSelected = recipeSelected;
+        this.store.select('userDisplayPreferences').subscribe((userDisplayPreferences) => {
+            this.recipeSelected = (userDisplayPreferences.recipeSelected !== null) ? true : false;
         });
     }
 }
-RecipesComponent.ɵfac = function RecipesComponent_Factory(t) { return new (t || RecipesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_recipe_service__WEBPACK_IMPORTED_MODULE_4__["RecipeService"])); };
+RecipesComponent.ɵfac = function RecipesComponent_Factory(t) { return new (t || RecipesComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"])); };
 RecipesComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: RecipesComponent, selectors: [["app-recipes"]], decls: 5, vars: 2, consts: [[1, "row", "mt-4", "ml-1"], [1, "col-md-11"], [2, "text-align", "center"], [4, "ngIf"], [1, "row", "justify-content-start", "py-4"], [1, "row", "custom-layout", "justify-content-between", "ml-4"], [1, "col-xs-11", "col-md-4", "recipe-list-layout"], [3, "recipes"], [1, "col-xs-11", "col-md-7"], [4, "ngIf", "ngIfElse"], ["recipe_detail", ""]], template: function RecipesComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "div", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](1, "div", 1);
@@ -4263,7 +4359,7 @@ RecipesComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineC
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtextInterpolate1"](" ", ctx.defaultText, "");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.recipes);
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_5__["NgIf"], _recipe_list_recipe_list_component__WEBPACK_IMPORTED_MODULE_6__["RecipeListComponent"], _recipe_start_recipe_start_component__WEBPACK_IMPORTED_MODULE_7__["RecipeStartComponent"], _angular_router__WEBPACK_IMPORTED_MODULE_8__["RouterOutlet"]], styles: ["@media only screen and (min-width: 768px) {\r\n\t.custom-layout[_ngcontent-%COMP%] {\r\n        display: flex;\r\n        flex-direction: row;\r\n\t}\r\n}\r\n\r\n@media only screen and (max-width: 767px) {\r\n\t.custom-layout[_ngcontent-%COMP%] {\r\n        display: flex;\r\n        flex-direction: column;\r\n\t}\r\n}\r\n\r\n@media only screen and (min-width: 768px) {\r\n\t.recipe-list-layout[_ngcontent-%COMP%] {\r\n        display: flex;\r\n        flex-direction: row;\r\n\t}\r\n}\r\n\r\n@media only screen and (max-width: 767px) {\r\n\t.recipe-list-layout[_ngcontent-%COMP%] {\r\n        display: flex;\r\n        flex-direction: column;\r\n\t}\r\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbWVhbC1wbGFubmVyL3JlY2lwZXMvcmVjaXBlcy5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0NBQ0M7UUFDTyxhQUFhO1FBQ2IsbUJBQW1CO0NBQzFCO0FBQ0Q7O0FBRUE7Q0FDQztRQUNPLGFBQWE7UUFDYixzQkFBc0I7Q0FDN0I7QUFDRDs7QUFFQTtDQUNDO1FBQ08sYUFBYTtRQUNiLG1CQUFtQjtDQUMxQjtBQUNEOztBQUVBO0NBQ0M7UUFDTyxhQUFhO1FBQ2Isc0JBQXNCO0NBQzdCO0FBQ0QiLCJmaWxlIjoic3JjL2FwcC9tZWFsLXBsYW5uZXIvcmVjaXBlcy9yZWNpcGVzLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJAbWVkaWEgb25seSBzY3JlZW4gYW5kIChtaW4td2lkdGg6IDc2OHB4KSB7XHJcblx0LmN1c3RvbS1sYXlvdXQge1xyXG4gICAgICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICAgICAgZmxleC1kaXJlY3Rpb246IHJvdztcclxuXHR9XHJcbn1cclxuXHJcbkBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1heC13aWR0aDogNzY3cHgpIHtcclxuXHQuY3VzdG9tLWxheW91dCB7XHJcbiAgICAgICAgZGlzcGxheTogZmxleDtcclxuICAgICAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG5cdH1cclxufVxyXG5cclxuQG1lZGlhIG9ubHkgc2NyZWVuIGFuZCAobWluLXdpZHRoOiA3NjhweCkge1xyXG5cdC5yZWNpcGUtbGlzdC1sYXlvdXQge1xyXG4gICAgICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICAgICAgZmxleC1kaXJlY3Rpb246IHJvdztcclxuXHR9XHJcbn1cclxuXHJcbkBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1heC13aWR0aDogNzY3cHgpIHtcclxuXHQucmVjaXBlLWxpc3QtbGF5b3V0IHtcclxuICAgICAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XHJcblx0fVxyXG59Il19 */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_4__["NgIf"], _recipe_list_recipe_list_component__WEBPACK_IMPORTED_MODULE_5__["RecipeListComponent"], _recipe_start_recipe_start_component__WEBPACK_IMPORTED_MODULE_6__["RecipeStartComponent"], _recipe_detail_recipe_detail_component__WEBPACK_IMPORTED_MODULE_7__["RecipeDetailComponent"]], styles: ["@media only screen and (min-width: 768px) {\r\n\t.custom-layout[_ngcontent-%COMP%] {\r\n        display: flex;\r\n        flex-direction: row;\r\n\t}\r\n}\r\n\r\n@media only screen and (max-width: 767px) {\r\n\t.custom-layout[_ngcontent-%COMP%] {\r\n        display: flex;\r\n        flex-direction: column;\r\n\t}\r\n}\r\n\r\n@media only screen and (min-width: 768px) {\r\n\t.recipe-list-layout[_ngcontent-%COMP%] {\r\n        display: flex;\r\n        flex-direction: row;\r\n\t}\r\n}\r\n\r\n@media only screen and (max-width: 767px) {\r\n\t.recipe-list-layout[_ngcontent-%COMP%] {\r\n        display: flex;\r\n        flex-direction: column;\r\n\t}\r\n}\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbInNyYy9hcHAvbWVhbC1wbGFubmVyL3JlY2lwZXMvcmVjaXBlcy5jb21wb25lbnQuY3NzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBO0NBQ0M7UUFDTyxhQUFhO1FBQ2IsbUJBQW1CO0NBQzFCO0FBQ0Q7O0FBRUE7Q0FDQztRQUNPLGFBQWE7UUFDYixzQkFBc0I7Q0FDN0I7QUFDRDs7QUFFQTtDQUNDO1FBQ08sYUFBYTtRQUNiLG1CQUFtQjtDQUMxQjtBQUNEOztBQUVBO0NBQ0M7UUFDTyxhQUFhO1FBQ2Isc0JBQXNCO0NBQzdCO0FBQ0QiLCJmaWxlIjoic3JjL2FwcC9tZWFsLXBsYW5uZXIvcmVjaXBlcy9yZWNpcGVzLmNvbXBvbmVudC5jc3MiLCJzb3VyY2VzQ29udGVudCI6WyJAbWVkaWEgb25seSBzY3JlZW4gYW5kIChtaW4td2lkdGg6IDc2OHB4KSB7XHJcblx0LmN1c3RvbS1sYXlvdXQge1xyXG4gICAgICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICAgICAgZmxleC1kaXJlY3Rpb246IHJvdztcclxuXHR9XHJcbn1cclxuXHJcbkBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1heC13aWR0aDogNzY3cHgpIHtcclxuXHQuY3VzdG9tLWxheW91dCB7XHJcbiAgICAgICAgZGlzcGxheTogZmxleDtcclxuICAgICAgICBmbGV4LWRpcmVjdGlvbjogY29sdW1uO1xyXG5cdH1cclxufVxyXG5cclxuQG1lZGlhIG9ubHkgc2NyZWVuIGFuZCAobWluLXdpZHRoOiA3NjhweCkge1xyXG5cdC5yZWNpcGUtbGlzdC1sYXlvdXQge1xyXG4gICAgICAgIGRpc3BsYXk6IGZsZXg7XHJcbiAgICAgICAgZmxleC1kaXJlY3Rpb246IHJvdztcclxuXHR9XHJcbn1cclxuXHJcbkBtZWRpYSBvbmx5IHNjcmVlbiBhbmQgKG1heC13aWR0aDogNzY3cHgpIHtcclxuXHQucmVjaXBlLWxpc3QtbGF5b3V0IHtcclxuICAgICAgICBkaXNwbGF5OiBmbGV4O1xyXG4gICAgICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XHJcblx0fVxyXG59Il19 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](RecipesComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -4271,7 +4367,7 @@ RecipesComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineC
                 templateUrl: './recipes.component.html',
                 styleUrls: ['./recipes.component.css']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: src_app_shared_services_recipe_service__WEBPACK_IMPORTED_MODULE_4__["RecipeService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }]; }, null); })();
 
 
 /***/ }),
@@ -4338,7 +4434,7 @@ class Nutrient {
 /*!***********************************************************************!*\
   !*** ./src/app/meal-planner/recipes/store/actions/recipes.actions.ts ***!
   \***********************************************************************/
-/*! exports provided: FETCH_RECIPES_START, FETCH_RECIPES_SUCCESS, FETCH_RECIPES_FAIL, UPDATE_REQUEST_STATUS, FetchRecipesStart, FetchRecipesSuccess, FetchRecipesFail, UpdateRequestStatus */
+/*! exports provided: FETCH_RECIPES_START, FETCH_RECIPES_SUCCESS, FETCH_RECIPES_FAIL, UPDATE_REQUEST_STATUS, CLEAR_RECIPES, FetchRecipesStart, FetchRecipesSuccess, FetchRecipesFail, UpdateRequestStatus, ClearRecipes */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -4347,14 +4443,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_RECIPES_SUCCESS", function() { return FETCH_RECIPES_SUCCESS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FETCH_RECIPES_FAIL", function() { return FETCH_RECIPES_FAIL; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UPDATE_REQUEST_STATUS", function() { return UPDATE_REQUEST_STATUS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_RECIPES", function() { return CLEAR_RECIPES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FetchRecipesStart", function() { return FetchRecipesStart; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FetchRecipesSuccess", function() { return FetchRecipesSuccess; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "FetchRecipesFail", function() { return FetchRecipesFail; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UpdateRequestStatus", function() { return UpdateRequestStatus; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClearRecipes", function() { return ClearRecipes; });
 const FETCH_RECIPES_START = '[Recipes] FETCH_RECIPES_START';
 const FETCH_RECIPES_SUCCESS = '[Recipes] FETCH_RECIPES_SUCCESS';
 const FETCH_RECIPES_FAIL = '[Recipes] FETCH_RECIPES_FAIL';
 const UPDATE_REQUEST_STATUS = '[Recipes] UPDATE_REQUEST_STATUS';
+const CLEAR_RECIPES = '[Recipes] CLEAR_RECIPES';
 class FetchRecipesStart {
     constructor(payload) {
         this.payload = payload;
@@ -4379,6 +4478,11 @@ class UpdateRequestStatus {
         this.type = UPDATE_REQUEST_STATUS;
     }
 }
+class ClearRecipes {
+    constructor() {
+        this.type = CLEAR_RECIPES;
+    }
+}
 
 
 /***/ }),
@@ -4394,22 +4498,81 @@ class UpdateRequestStatus {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MealPlannerComponent", function() { return MealPlannerComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _meal_optimizer_store_actions_user_preferences_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./meal-optimizer/store/actions/user-preferences.actions */ "2fHZ");
+/* harmony import */ var _meal_optimizer_store_actions_menu_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./meal-optimizer/store/actions/menu.actions */ "82aV");
+/* harmony import */ var _meal_optimizer_store_actions_order_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./meal-optimizer/store/actions/order.actions */ "T1QP");
+/* harmony import */ var _recipes_store_actions_recipes_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./recipes/store/actions/recipes.actions */ "nDj3");
+/* harmony import */ var _shopping_list_store_shopping_list_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./shopping-list/store/shopping-list.actions */ "cyko");
+/* harmony import */ var _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../user-mgmt/store/actions/user-display-preferences.actions */ "dZCj");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/router */ "tyNb");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
+/* harmony import */ var _meal_optimizer_meal_optimizer_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./meal-optimizer/meal-optimizer.component */ "HjpC");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var _recipes_recipes_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./recipes/recipes.component */ "l3Z1");
+/* harmony import */ var _shopping_list_shopping_list_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./shopping-list/shopping-list.component */ "34V7");
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+function MealPlannerComponent_app_recipes_1_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-recipes");
+} }
+function MealPlannerComponent_app_shopping_list_2_Template(rf, ctx) { if (rf & 1) {
+    _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-shopping-list");
+} }
 class MealPlannerComponent {
-    constructor() { }
+    constructor(route, store) {
+        this.route = route;
+        this.store = store;
+    }
     ngOnInit() {
+        this.route.data.subscribe(data => {
+            this.dietTypes = data['userDietTypes'];
+        });
+        this.store.select('userDisplayPreferences').subscribe((userDisplayPreferences) => {
+            this.showRecipes = userDisplayPreferences.showRecipes;
+            this.showShoppingList = userDisplayPreferences.showShoppingList;
+        });
+    }
+    canDeactivate() {
+        if (confirm('You are navigating away from the page. Your inputs will be reset.')) {
+            [new _meal_optimizer_store_actions_user_preferences_actions__WEBPACK_IMPORTED_MODULE_1__["ClearUserPreferences"](),
+                new _meal_optimizer_store_actions_menu_actions__WEBPACK_IMPORTED_MODULE_2__["ClearMenu"](),
+                new _meal_optimizer_store_actions_order_actions__WEBPACK_IMPORTED_MODULE_3__["ClearOrder"](),
+                new _recipes_store_actions_recipes_actions__WEBPACK_IMPORTED_MODULE_4__["ClearRecipes"](),
+                new _shopping_list_store_shopping_list_actions__WEBPACK_IMPORTED_MODULE_5__["ClearShoppingList"](),
+                new _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_6__["ResetUserDisplayPreferences"]()
+            ].forEach((action) => {
+                this.store.dispatch(action);
+            });
+            return true;
+        }
+        else
+            return false;
     }
 }
-MealPlannerComponent.ɵfac = function MealPlannerComponent_Factory(t) { return new (t || MealPlannerComponent)(); };
-MealPlannerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: MealPlannerComponent, selectors: [["app-meal-planner"]], decls: 4, vars: 0, consts: [["name", "mealoptimizer"], ["name", "recipes"], ["name", "onlineorder"], ["name", "shoppinglist"]], template: function MealPlannerComponent_Template(rf, ctx) { if (rf & 1) {
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "router-outlet", 0);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](1, "router-outlet", 1);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](2, "router-outlet", 2);
-        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](3, "router-outlet", 3);
-    } }, directives: [_angular_router__WEBPACK_IMPORTED_MODULE_1__["RouterOutlet"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21lYWwtcGxhbm5lci9tZWFsLXBsYW5uZXIuY29tcG9uZW50LmNzcyJ9 */"] });
+MealPlannerComponent.ɵfac = function MealPlannerComponent_Factory(t) { return new (t || MealPlannerComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_7__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_8__["Store"])); };
+MealPlannerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: MealPlannerComponent, selectors: [["app-meal-planner"]], decls: 3, vars: 3, consts: [[3, "dietTypes"], [4, "ngIf"]], template: function MealPlannerComponent_Template(rf, ctx) { if (rf & 1) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelement"](0, "app-meal-optimizer", 0);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, MealPlannerComponent_app_recipes_1_Template, 1, 0, "app-recipes", 1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](2, MealPlannerComponent_app_shopping_list_2_Template, 1, 0, "app-shopping-list", 1);
+    } if (rf & 2) {
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("dietTypes", ctx.dietTypes);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.showRecipes);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
+        _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.showShoppingList);
+    } }, directives: [_meal_optimizer_meal_optimizer_component__WEBPACK_IMPORTED_MODULE_9__["MealOptimizerComponent"], _angular_common__WEBPACK_IMPORTED_MODULE_10__["NgIf"], _recipes_recipes_component__WEBPACK_IMPORTED_MODULE_11__["RecipesComponent"], _shopping_list_shopping_list_component__WEBPACK_IMPORTED_MODULE_12__["ShoppingListComponent"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21lYWwtcGxhbm5lci9tZWFsLXBsYW5uZXIuY29tcG9uZW50LmNzcyJ9 */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](MealPlannerComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -4417,7 +4580,7 @@ MealPlannerComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
                 templateUrl: './meal-planner.component.html',
                 styleUrls: ['./meal-planner.component.css']
             }]
-    }], function () { return []; }, null); })();
+    }], function () { return [{ type: _angular_router__WEBPACK_IMPORTED_MODULE_7__["ActivatedRoute"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_8__["Store"] }]; }, null); })();
 
 
 /***/ }),
@@ -4634,29 +4797,24 @@ MealOptionsComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdef
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RecipeItemComponent", function() { return RecipeItemComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var src_app_shared_services_recipe_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/shared/services/recipe.service */ "tseV");
+/* harmony import */ var _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../../user-mgmt/store/actions/user-display-preferences.actions */ "dZCj");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
 
 
 
 
 class RecipeItemComponent {
-    constructor(router, route, recipeService) {
-        this.router = router;
-        this.route = route;
-        this.recipeService = recipeService;
+    constructor(store) {
+        this.store = store;
     }
     ngOnInit() {
     }
     onItemSelect() {
-        this.recipeService.recipeSelected.next(true);
-        this.router.navigate(['meal-planner', { outlets: { mealoptimizer: 'meal-optimizer', recipes: ['recipes', this.indexOfRecipe] } }], { queryParams: this.route.snapshot.queryParams });
+        this.store.dispatch(new _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_1__["ShowRecipeDetail"]({ id: this.indexOfRecipe, name: this.recipe.name }));
     }
-    ngOnDestroy() {
-        this.recipeService.recipeSelected.complete();
-    }
+    ngOnDestroy() { }
 }
-RecipeItemComponent.ɵfac = function RecipeItemComponent_Factory(t) { return new (t || RecipeItemComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_recipe_service__WEBPACK_IMPORTED_MODULE_2__["RecipeService"])); };
+RecipeItemComponent.ɵfac = function RecipeItemComponent_Factory(t) { return new (t || RecipeItemComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"])); };
 RecipeItemComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: RecipeItemComponent, selectors: [["app-recipe-item"]], inputs: { recipe: "recipe", indexOfRecipe: "indexOfRecipe" }, decls: 10, vars: 5, consts: [[1, "list-group-item", "clearfix", "w-100", "h-100", 3, "click"], [1, "list-group-item-heading", "custom-font"], [1, "list-group-item-text", "custom-item-display"], [1, "custom-item-display"], [1, "img-responsive", 2, "max-height", "50px", 3, "src", "alt"], [3, "href"]], template: function RecipeItemComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "button", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵlistener"]("click", function RecipeItemComponent_Template_button_click_0_listener() { return ctx.onItemSelect(); });
@@ -4693,7 +4851,7 @@ RecipeItemComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefi
                 templateUrl: './recipe-item.component.html',
                 styleUrls: ['./recipe-item.component.css']
             }]
-    }], function () { return [{ type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_1__["ActivatedRoute"] }, { type: src_app_shared_services_recipe_service__WEBPACK_IMPORTED_MODULE_2__["RecipeService"] }]; }, { recipe: [{
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }]; }, { recipe: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
         }], indexOfRecipe: [{
             type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"]
@@ -5101,12 +5259,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class UserRedirectComponent {
-    constructor(authenticationResponseHandler, userService, store, router, route) {
+    constructor(authenticationResponseHandler, userService, store, router) {
         this.authenticationResponseHandler = authenticationResponseHandler;
         this.userService = userService;
         this.store = store;
         this.router = router;
-        this.route = route;
     }
     ngOnInit() {
         //This page is loaded only when user authentication on Keycloak is successful. Hence log the username + token
@@ -5117,11 +5274,11 @@ class UserRedirectComponent {
             this.authenticatedUser = authenticatedUser.user;
         });
         setTimeout(() => {
-            this.router.navigateByUrl('/meal-planner/(mealoptimizer:meal-optimizer)?optimizermode=create');
-        }, 1000);
+            this.router.navigateByUrl('/meal-planner');
+        }, 3000);
     }
 }
-UserRedirectComponent.ɵfac = function UserRedirectComponent_Factory(t) { return new (t || UserRedirectComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_shared_services_response_handler_authentication_response_handler__WEBPACK_IMPORTED_MODULE_1__["AuthenticationResponseHandler"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"])); };
+UserRedirectComponent.ɵfac = function UserRedirectComponent_Factory(t) { return new (t || UserRedirectComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_shared_services_response_handler_authentication_response_handler__WEBPACK_IMPORTED_MODULE_1__["AuthenticationResponseHandler"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"])); };
 UserRedirectComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: UserRedirectComponent, selectors: [["app-user-redirect"]], decls: 18, vars: 2, consts: [[1, "justify-content-start", "my-4", "ml-1"], [1, "mt-1", "ml-1", "border", "col-md-10", "col-xs-12"], [1, "m-3"], [1, "table", "table-borderless", "table-hover", "table-responsive", "mt-4"], [1, "font-weight-bold"]], template: function UserRedirectComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵelementStart"](0, "h4", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtext"](1, "Redirecting to meal planner ...");
@@ -5166,7 +5323,7 @@ UserRedirectComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵde
                 templateUrl: './user-redirect.component.html',
                 styleUrls: ['./user-redirect.component.css']
             }]
-    }], function () { return [{ type: _shared_services_response_handler_authentication_response_handler__WEBPACK_IMPORTED_MODULE_1__["AuthenticationResponseHandler"] }, { type: src_app_shared_services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"] }]; }, null); })();
+    }], function () { return [{ type: _shared_services_response_handler_authentication_response_handler__WEBPACK_IMPORTED_MODULE_1__["AuthenticationResponseHandler"] }, { type: src_app_shared_services_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"] }, { type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }]; }, null); })();
 
 
 /***/ }),
@@ -5259,12 +5416,16 @@ DeliveryDateSelectorComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ManageMealPlanComponent", function() { return ManageMealPlanComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var _store_actions_order_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../store/actions/order.actions */ "T1QP");
-/* harmony import */ var src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/shared/http-request-status.enum */ "zl8S");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
-/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "tyNb");
-/* harmony import */ var src_app_shared_services_order_service__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! src/app/shared/services/order.service */ "NuUg");
-/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/common */ "ofXK");
+/* harmony import */ var src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! src/app/shared/http-request-status.enum */ "zl8S");
+/* harmony import */ var src_app_shared_optimization_mode_enum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! src/app/shared/optimization-mode.enum */ "HDOF");
+/* harmony import */ var _store_actions_order_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../store/actions/order.actions */ "T1QP");
+/* harmony import */ var _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../../user-mgmt/store/actions/user-display-preferences.actions */ "dZCj");
+/* harmony import */ var _recipes_store_actions_recipes_actions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../../recipes/store/actions/recipes.actions */ "nDj3");
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
+/* harmony import */ var src_app_shared_services_order_service__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! src/app/shared/services/order.service */ "NuUg");
+/* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/common */ "ofXK");
+
+
 
 
 
@@ -5296,10 +5457,8 @@ function ManageMealPlanComponent_button_1_Template(rf, ctx) { if (rf & 1) {
  * Call backend by dispatching the action CREATE_ORDER_START
  */
 class ManageMealPlanComponent {
-    constructor(store, router, route, orderService) {
+    constructor(store, orderService) {
         this.store = store;
-        this.router = router;
-        this.route = route;
         this.orderService = orderService;
         /* Enable or disable the 'Get Meal Plan' button based 2 conditions. Enable button if:
          * User inputs are valid and
@@ -5310,8 +5469,8 @@ class ManageMealPlanComponent {
     }
     ngOnInit() {
         // Get value of mode (create or edit)
-        this.route.queryParams.subscribe((queryParams) => {
-            this.mode = queryParams['optimizermode'];
+        this.store.select('userDisplayPreferences').subscribe((userDisplayPreferences) => {
+            this.mode = userDisplayPreferences.optimizationMode;
         });
         this.store.select('userPreferences').subscribe((userPrefs) => {
             this.userPrefs = userPrefs;
@@ -5323,17 +5482,14 @@ class ManageMealPlanComponent {
         });
         this.store.select('optimizedPlans').subscribe((optimizedMealPlans) => {
             //Response received from backend. The user can choose to edit meals selected, so enable get meal plan.
-            if (optimizedMealPlans.requestStatus === src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__["HttpRequestStatus"].RESPONSE_RECEIVED) {
+            if (optimizedMealPlans.requestStatus === src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_1__["HttpRequestStatus"].RESPONSE_RECEIVED) {
                 this.disableGetOrUpdateMealPlan = false;
                 //Switch to 'update' mode if there is no error and optimization result state is DISTINCT OR OPTIMAL OR FEASIBLE
                 if (!optimizedMealPlans.error &&
                     (optimizedMealPlans.mealPlans &&
                         (optimizedMealPlans.mealPlans.optimizationState === "DISTINCT" || optimizedMealPlans.mealPlans.optimizationState === "OPTIMAL" || optimizedMealPlans.mealPlans.optimizationState === "FEASIBLE"))) {
                     this.savedMealPlans = optimizedMealPlans.mealPlans;
-                    this.router.navigate([], {
-                        relativeTo: this.route,
-                        queryParams: { optimizermode: 'update' }
-                    });
+                    this.store.dispatch(new _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_4__["UpdateOptimizationMode"](src_app_shared_optimization_mode_enum__WEBPACK_IMPORTED_MODULE_2__["OptimizationMode"].UPDATE));
                 }
                 else {
                     this.savedMealPlans = null;
@@ -5343,7 +5499,7 @@ class ManageMealPlanComponent {
     }
     onGetMealPlan() {
         //Clear existing meal plans
-        this.store.dispatch(new _store_actions_order_actions__WEBPACK_IMPORTED_MODULE_1__["ClearOrder"]());
+        this.store.dispatch(new _store_actions_order_actions__WEBPACK_IMPORTED_MODULE_3__["ClearOrder"]());
         if (this.orderService.verifyAllInputsAreReceived()) {
             //If all inputs are received, create the order
             let orderRequest = this.orderService.createOrderRequest(this.userPrefs.deliveryDate, this.userPrefs.mealSelected, this.authenticatedUser);
@@ -5357,8 +5513,11 @@ class ManageMealPlanComponent {
          * only if the order has been saved atleast once,
          * if the order has never been saved, the optimizer is in create mode.
          */
+        //Hide recipes section
+        this.store.dispatch(new _user_mgmt_store_actions_user_display_preferences_actions__WEBPACK_IMPORTED_MODULE_4__["HideRecipes"]());
+        this.store.dispatch(new _recipes_store_actions_recipes_actions__WEBPACK_IMPORTED_MODULE_5__["ClearRecipes"]());
         //Clear existing meal plans
-        this.store.dispatch(new _store_actions_order_actions__WEBPACK_IMPORTED_MODULE_1__["ClearOrder"]());
+        this.store.dispatch(new _store_actions_order_actions__WEBPACK_IMPORTED_MODULE_3__["ClearOrder"]());
         if (this.orderService.verifyAllInputsAreReceived()) {
             //If all inputs are received, create the order
             let orderRequest = this.orderService.createOrderRequest(this.userPrefs.deliveryDate, this.userPrefs.mealSelected, this.authenticatedUser, this.savedMealPlans.orderId);
@@ -5369,13 +5528,13 @@ class ManageMealPlanComponent {
     }
     fetchMealPlan(orderRequest) {
         //Call backend to get a meal plan
-        this.store.dispatch(new _store_actions_order_actions__WEBPACK_IMPORTED_MODULE_1__["UpdateRequestStatus"](src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_2__["HttpRequestStatus"].REQUEST_SENT));
-        this.store.dispatch(new _store_actions_order_actions__WEBPACK_IMPORTED_MODULE_1__["SaveOrderStart"](orderRequest));
+        this.store.dispatch(new _store_actions_order_actions__WEBPACK_IMPORTED_MODULE_3__["UpdateRequestStatus"](src_app_shared_http_request_status_enum__WEBPACK_IMPORTED_MODULE_1__["HttpRequestStatus"].REQUEST_SENT));
+        this.store.dispatch(new _store_actions_order_actions__WEBPACK_IMPORTED_MODULE_3__["SaveOrderStart"](orderRequest));
         this.disableGetOrUpdateMealPlan = true;
     }
     ngOnDestroy() { }
 }
-ManageMealPlanComponent.ɵfac = function ManageMealPlanComponent_Factory(t) { return new (t || ManageMealPlanComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_order_service__WEBPACK_IMPORTED_MODULE_5__["OrderService"])); };
+ManageMealPlanComponent.ɵfac = function ManageMealPlanComponent_Factory(t) { return new (t || ManageMealPlanComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_6__["Store"]), _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](src_app_shared_services_order_service__WEBPACK_IMPORTED_MODULE_7__["OrderService"])); };
 ManageMealPlanComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineComponent"]({ type: ManageMealPlanComponent, selectors: [["app-manage-meal-plan"]], decls: 2, vars: 2, consts: [["type", "button", "class", "btn btn-dark", 3, "disabled", "click", 4, "ngIf"], ["type", "button", "class", "btn btn-dark", 3, "click", 4, "ngIf"], ["type", "button", 1, "btn", "btn-dark", 3, "disabled", "click"], ["type", "button", 1, "btn", "btn-dark", 3, "click"]], template: function ManageMealPlanComponent_Template(rf, ctx) { if (rf & 1) {
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](0, ManageMealPlanComponent_button_0_Template, 2, 1, "button", 0);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵtemplate"](1, ManageMealPlanComponent_button_1_Template, 2, 0, "button", 1);
@@ -5383,7 +5542,7 @@ ManageMealPlanComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵ
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.mode === "create");
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵadvance"](1);
         _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵproperty"]("ngIf", ctx.mode === "update");
-    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_6__["NgIf"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21lYWwtcGxhbm5lci9tZWFsLW9wdGltaXplci9tZWFsLXNlbGVjdG9yL21hbmFnZS1tZWFsLXBsYW4vbWFuYWdlLW1lYWwtcGxhbi5jb21wb25lbnQuY3NzIn0= */"] });
+    } }, directives: [_angular_common__WEBPACK_IMPORTED_MODULE_8__["NgIf"]], styles: ["\n/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzcmMvYXBwL21lYWwtcGxhbm5lci9tZWFsLW9wdGltaXplci9tZWFsLXNlbGVjdG9yL21hbmFnZS1tZWFsLXBsYW4vbWFuYWdlLW1lYWwtcGxhbi5jb21wb25lbnQuY3NzIn0= */"] });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](ManageMealPlanComponent, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"],
         args: [{
@@ -5391,7 +5550,7 @@ ManageMealPlanComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵ
                 templateUrl: './manage-meal-plan.component.html',
                 styleUrls: ['./manage-meal-plan.component.css']
             }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_3__["Store"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"] }, { type: _angular_router__WEBPACK_IMPORTED_MODULE_4__["ActivatedRoute"] }, { type: src_app_shared_services_order_service__WEBPACK_IMPORTED_MODULE_5__["OrderService"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_6__["Store"] }, { type: src_app_shared_services_order_service__WEBPACK_IMPORTED_MODULE_7__["OrderService"] }]; }, null); })();
 
 
 /***/ }),
@@ -5407,16 +5566,13 @@ ManageMealPlanComponent.ɵcmp = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵ
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RecipeService", function() { return RecipeService; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "fXoL");
-/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "qCKp");
-/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
-
+/* harmony import */ var _ngrx_store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @ngrx/store */ "l7P3");
 
 
 
 class RecipeService {
     constructor(store) {
         this.store = store;
-        this.recipeSelected = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Subject"]();
         this.recipes = [];
         this.store.select('recipes').subscribe((recipes) => {
             this.recipes = recipes.recipes;
@@ -5429,12 +5585,12 @@ class RecipeService {
     }
     ngOnDestroy() { }
 }
-RecipeService.ɵfac = function RecipeService_Factory(t) { return new (t || RecipeService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"])); };
+RecipeService.ɵfac = function RecipeService_Factory(t) { return new (t || RecipeService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"])); };
 RecipeService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: RecipeService, factory: RecipeService.ɵfac, providedIn: 'root' });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](RecipeService, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
         args: [{ providedIn: 'root' }]
-    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_2__["Store"] }]; }, null); })();
+    }], function () { return [{ type: _ngrx_store__WEBPACK_IMPORTED_MODULE_1__["Store"] }]; }, null); })();
 
 
 /***/ }),
@@ -5549,6 +5705,25 @@ AppRoutingModule.ɵinj = _angular_core__WEBPACK_IMPORTED_MODULE_1__["ɵɵdefineI
                 exports: [_angular_router__WEBPACK_IMPORTED_MODULE_0__["RouterModule"]]
             }]
     }], null, null); })();
+
+
+/***/ }),
+
+/***/ "vyhQ":
+/*!***************************************************!*\
+  !*** ./src/app/shared/shopping-list-mode.enum.ts ***!
+  \***************************************************/
+/*! exports provided: ShoppingListMode */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ShoppingListMode", function() { return ShoppingListMode; });
+var ShoppingListMode;
+(function (ShoppingListMode) {
+    ShoppingListMode["ADD"] = "add";
+    ShoppingListMode["UPDATE"] = "update";
+})(ShoppingListMode || (ShoppingListMode = {}));
 
 
 /***/ }),
