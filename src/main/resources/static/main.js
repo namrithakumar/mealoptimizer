@@ -666,7 +666,7 @@ __webpack_require__.r(__webpack_exports__);
 function initializeKeycloak(keycloak) {
     return () => keycloak.init({
         config: {
-            url: 'http://avocadoandeggsclub-iam.xyz:8080/auth',
+            url: 'http://www.myclaypot-iam.xyz:8080/auth',
             realm: 'mealplanner',
             clientId: 'meal-planner-app-client'
         },
