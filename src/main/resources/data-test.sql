@@ -512,4 +512,4 @@ INSERT INTO nutrients VALUES
 (3, 500, 105, 'carbs'),
 (4, 200, 20, 'protein'),
 (5, 80, 5, 'fat'),
-(6, 2000, 2, 'calories');
+(6, 2400, 2000, 'calories');
