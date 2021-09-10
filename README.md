@@ -35,7 +35,7 @@ The short answer:
 
 **Front End:**  Angular 10, Bootstrap 5, JQuery, HTML, CSS, TypeScript
 
-**Backend:** SpringBoot, Spring MVC, Spring JPA, OAuth, Microservices, Spring Cloud
+**Backend:** SpringBoot, Spring MVC, Spring JPA, OAuth, Microservices, Spring Cloud, OAuth
 
 **DB:** SQL
 
