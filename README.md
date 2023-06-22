@@ -11,7 +11,7 @@ QUALITY OPTIMIZED PLAN - Tells you the healthiest way to eat your meal of choice
 
 ## Demo
 
-http://www.myclaypot.com/
+http://www.myclaypot.ca/
 
   
 ## The Business Value
